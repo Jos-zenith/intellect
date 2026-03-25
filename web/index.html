@@ -10,145 +10,375 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <header class="header">
-      <h1>Academic TeamSpace</h1>
-      <p>Velocity Synchronization Engine for weekly teaching and mock exams</p>
-    </header>
+    <!-- Sticky Navigation -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="navbar-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">Academic TeamSpace</span>
+        </div>
+        <ul class="navbar-links">
+          <li><a href="#section-stepper">Mon/Tue/Wed</a></li>
+          <li><a href="#section-requirements">Requirements</a></li>
+          <li><a href="#section-agents">Agents</a></li>
+          <li><a href="#section-governance">Governance</a></li>
+        </ul>
+        <div class="navbar-status">
+          <span class="live-dot"></span>
+          <span class="live-text">Live</span>
+        </div>
+      </div>
+    </nav>
 
-    <main class="grid">
-      <section class="panel panel-wide">
-        <h2>0) Agile RAG Orchestrator (Monday-Tuesday-Wednesday)</h2>
-        <div class="orchestrator-grid">
-          <div class="subpanel">
-            <h3>Monday: Teach (Ingestion)</h3>
-            <label for="orchWeek">Week tag</label>
-            <input id="orchWeek" type="text" placeholder="2026-W12" />
-
-            <label for="mondaySourceLabel">Source label</label>
-            <input id="mondaySourceLabel" type="text" placeholder="monday-lecture" />
-
-            <label for="mondayTranscript">Transcript text</label>
-            <textarea id="mondayTranscript" placeholder="Paste Monday lecture transcript here..."></textarea>
-
-            <button id="btnMondayTranscript">Ingest Transcript</button>
-
-            <label for="mondayAudio">Or upload lecture audio</label>
-            <input id="mondayAudio" type="file" accept="audio/*" />
-            <button id="btnMondayAudio" class="secondary">Ingest Audio via Whisper</button>
-            <div id="mondayStatus" class="status"></div>
+    <!-- Section 1: Hero -->
+    <section class="section-hero" id="section-hero">
+      <div class="hero-container">
+        <h1 class="hero-headline">The Study-to-Grade Mystery, Solved</h1>
+        <p class="hero-subtitle">3 disconnect cards (Teacher / Study / Grader) + one bold solution line</p>
+        
+        <div class="hero-cards">
+          <div class="hero-card hero-card-teacher">
+            <div class="card-icon">👨‍🏫</div>
+            <h3>Teacher's World</h3>
+            <p>Parse notes. Define scope.</p>
           </div>
-
-          <div class="subpanel">
-            <h3>Tuesday: Update (Alignment)</h3>
-            <label for="tuesdayWeek">Week tag</label>
-            <input id="tuesdayWeek" type="text" placeholder="2026-W12" />
-
-            <label for="tuesdayTopics">Max syllabus topics</label>
-            <input id="tuesdayTopics" type="number" value="12" min="3" max="30" />
-
-            <label for="syllabusText">Official syllabus text</label>
-            <textarea id="syllabusText" placeholder="Paste syllabus or unit outline..."></textarea>
-
-            <button id="btnTuesdayAlign">Run Syllabus Sentinel</button>
-            <div id="tuesdayStatus" class="status"></div>
+          <div class="hero-divider">✕</div>
+          <div class="hero-card hero-card-study">
+            <div class="card-icon">📚</div>
+            <h3>Study World</h3>
+            <p>Aligned learning. Weighted topics.</p>
           </div>
-
-          <div class="subpanel">
-            <h3>Wednesday: Exam (Execution)</h3>
-            <label for="wednesdayWeek">Week tag</label>
-            <input id="wednesdayWeek" type="text" placeholder="2026-W12" />
-
-            <label for="wednesdayCount">Question count</label>
-            <input id="wednesdayCount" type="number" value="10" min="3" max="25" />
-
-            <button id="btnWednesdayExecute">Run Rubric Referee</button>
-            <div id="wednesdayStatus" class="status"></div>
-          </div>
-
-          <div class="subpanel">
-            <h3>Master Router (6 Specialized Agents)</h3>
-            <label for="routerWeek">Week tag (optional)</label>
-            <input id="routerWeek" type="text" placeholder="2026-W12" />
-
-            <label for="routerMarks">Marks CSV</label>
-            <input id="routerMarks" type="text" placeholder="72,65,81" />
-
-            <label for="routerFeedback">Feedback</label>
-            <textarea id="routerFeedback" placeholder="Faculty feedback notes..."></textarea>
-
-            <label for="routerHabits">Study habits</label>
-            <textarea id="routerHabits" placeholder="Student study pattern..."></textarea>
-
-            <label for="routerAttendance">Attendance ratio (0-1, optional)</label>
-            <input id="routerAttendance" type="number" min="0" max="1" step="0.01" placeholder="0.85" />
-
-            <label for="routerPrepDays">Preparation window days (optional)</label>
-            <input id="routerPrepDays" type="number" min="0" max="60" placeholder="3" />
-
-            <label for="routerGoal">Goal</label>
-            <input id="routerGoal" type="text" value="Improve Wednesday exam outcomes" />
-
-            <button id="btnRouter">Route Student Profile</button>
-            <div id="routerStatus" class="status"></div>
-          </div>
-
-          <div class="subpanel">
-            <h3>Knowledge Versions</h3>
-            <label for="versionsWeek">Week tag (optional)</label>
-            <input id="versionsWeek" type="text" placeholder="2026-W12" />
-
-            <label for="versionsLimit">Limit</label>
-            <input id="versionsLimit" type="number" min="1" max="100" value="20" />
-
-            <button id="btnVersions" class="secondary">Refresh Revisions</button>
-            <div id="versionsStatus" class="status"></div>
+          <div class="hero-divider">✕</div>
+          <div class="hero-card hero-card-grader">
+            <div class="card-icon">✍️</div>
+            <h3>Grader's World</h3>
+            <p>Fair rubric. Mapped feedback.</p>
           </div>
         </div>
-      </section>
 
-      <section class="panel">
-        <h2>1) Staff Note Upload (LlamaParse OCR)</h2>
-        <label for="pdf">PDF file</label>
-        <input id="pdf" type="file" accept="application/pdf" />
+        <div class="hero-solution">
+          <strong>→ AI connects all three in one system. On one screen. In real time.</strong>
+        </div>
+      </div>
+    </section>
 
-        <label for="ingestWeek">Week tag (optional, e.g. 2026-W12)</label>
-        <input id="ingestWeek" type="text" placeholder="2026-W12" />
+    <!-- Section 2: Mon/Tue/Wed Stepper (Most Important Demo) -->
+    <section class="section-stepper" id="section-stepper">
+      <div class="stepper-container">
+        <h2>The Weekly Cycle: Monday → Tuesday → Wednesday</h2>
+        
+        <div class="stepper-flow">
+          <!-- Monday Panel -->
+          <div class="stepper-panel stepper-monday">
+            <div class="stepper-header">
+              <span class="stepper-day">MON</span>
+              <span class="stepper-label">Ingest</span>
+            </div>
+            <div class="stepper-content">
+              <p class="stepper-action">Paste transcript or upload PDF + week tag</p>
+              
+              <div class="stepper-inputs">
+                <div class="input-group">
+                  <label>Week tag</label>
+                  <input id="mondayWeekTag" type="text" placeholder="2026-W12" />
+                </div>
+                
+                <div class="input-group">
+                  <label>Source label</label>
+                  <input id="mondaySourceLabel" type="text" placeholder="monday-lecture" />
+                </div>
 
-        <button id="btnIngest">Upload & Re-Index Now</button>
-        <div id="ingestStatus" class="status"></div>
-      </section>
+                <div class="input-group">
+                  <label>Transcript or paste text</label>
+                  <textarea id="mondayTranscript" placeholder="Paste lecture transcript..." rows="6"></textarea>
+                </div>
 
-      <section class="panel">
-        <h2>2) Persona Chat (Head Agent Routing)</h2>
-        <label for="chatWeek">Week tag filter (optional)</label>
-        <input id="chatWeek" type="text" placeholder="2026-W12" />
+                <button id="btnMondayTranscript" class="btn btn-primary">Ingest</button>
+              </div>
 
-        <label for="question">Question</label>
-        <textarea id="question" placeholder="Ask about software testing notes..."></textarea>
+              <div id="mondayResult" class="stepper-result"></div>
+              <div id="mondayStatus" class="status-message"></div>
+            </div>
 
-        <button id="btnAsk">Ask Grounded Question</button>
-        <div id="chatStatus" class="status"></div>
-        <div id="citations" class="lineage"></div>
-      </section>
+            <div class="stepper-arrow">→</div>
+          </div>
 
-      <section class="panel">
-        <h2>3) Wednesday Mock Exam (AQPGS)</h2>
-        <label for="examWeek">Week tag</label>
-        <input id="examWeek" type="text" placeholder="2026-W12" />
+          <!-- Tuesday Panel -->
+          <div class="stepper-panel stepper-tuesday">
+            <div class="stepper-header">
+              <span class="stepper-day">TUE</span>
+              <span class="stepper-label">Align</span>
+            </div>
+            <div class="stepper-content">
+              <p class="stepper-action">Run "Sentinel" → Get topic weight chips</p>
 
-        <label for="examCount">Question count</label>
-        <input id="examCount" type="number" value="10" min="3" max="25" />
+              <div class="stepper-inputs">
+                <div class="input-group">
+                  <label>Week tag</label>
+                  <input id="tuesdayWeekTag" type="text" placeholder="2026-W12" />
+                </div>
 
-        <button id="btnExam" class="secondary">Generate Mock Exam</button>
-        <div id="examStatus" class="status"></div>
-      </section>
+                <div class="input-group">
+                  <label>Syllabus text</label>
+                  <textarea id="tuesdaySyllabusText" placeholder="Paste unit outline..." rows="6"></textarea>
+                </div>
 
-      <section class="panel">
-        <h2>4) Governance & Auditability</h2>
-        <button id="btnAudit">Refresh Audit Trail</button>
-        <div id="auditStatus" class="status"></div>
-      </section>
-    </main>
+                <div class="input-group">
+                  <label>Max topics</label>
+                  <input id="tuesdayMaxTopics" type="number" value="12" min="3" max="30" />
+                </div>
+
+                <button id="btnTuesdayAlign" class="btn btn-primary">Run Sentinel</button>
+              </div>
+
+              <div id="tuesdayResult" class="stepper-result"></div>
+              <div id="tuesdayStatus" class="status-message"></div>
+            </div>
+
+            <div class="stepper-arrow">→</div>
+          </div>
+
+          <!-- Wednesday Panel -->
+          <div class="stepper-panel stepper-wednesday">
+            <div class="stepper-header">
+              <span class="stepper-day">WED</span>
+              <span class="stepper-label">Generate</span>
+            </div>
+            <div class="stepper-content">
+              <p class="stepper-action">Generate exam Q cards with lineage tags</p>
+
+              <div class="stepper-inputs">
+                <div class="input-group">
+                  <label>Week tag</label>
+                  <input id="wednesdayWeekTag" type="text" placeholder="2026-W12" />
+                </div>
+
+                <div class="input-group">
+                  <label>Question count</label>
+                  <input id="wednesdayCount" type="number" value="10" min="3" max="25" />
+                </div>
+
+                <button id="btnWednesdayGenerate" class="btn btn-primary">Generate</button>
+              </div>
+
+              <div id="wednesdayResult" class="stepper-result"></div>
+              <div id="wednesdayStatus" class="status-message"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Four Requirement Cards (2×2 grid, Card 04 full-width split) -->
+    <section class="section-requirements" id="section-requirements">
+      <div class="requirements-container">
+        <h2>4 Requirement Cards</h2>
+
+        <!-- Card 01: Logic Continuity -->
+        <div class="requirement-card requirement-card-01">
+          <div class="card-number">01</div>
+          <div class="card-badge badge-ekg">EKG</div>
+          <div class="card-quote">"Ensure Monday teaching updates are immediately reflected in Tuesday learning."</div>
+          <div class="card-form">
+            <div class="input-group">
+              <label>PDF or transcript (Monday)</label>
+              <input id="req01WeekTag" type="text" placeholder="2026-W12" />
+              <input id="req01SourceLabel" type="text" placeholder="lecture-notes" />
+              <textarea id="req01Text" placeholder="Paste or upload..." rows="4"></textarea>
+            </div>
+            <button id="btnReq01" class="btn btn-secondary">Index & Verify</button>
+          </div>
+          <div id="req01Result" class="card-result"></div>
+          <div class="card-outcome card-outcome-success">✓ Logic Continuity Verified</div>
+        </div>
+
+        <!-- Card 02: Rubric GPS -->
+        <div class="requirement-card requirement-card-02">
+          <div class="card-number">02</div>
+          <div class="card-badge badge-moh">EG+MOH</div>
+          <div class="card-quote">"Move from opaque grades to explainable, rule-aligned feedback."</div>
+          <div class="card-form">
+            <div class="input-group">
+              <label>Student ID</label>
+              <input id="req02StudentId" type="text" placeholder="22EC101" />
+              <label>Week tag</label>
+              <input id="req02WeekTag" type="text" placeholder="2026-W12" />
+              <label>Question</label>
+              <textarea id="req02Question" placeholder="Exam question..." rows="3"></textarea>
+              <label>Student answer</label>
+              <textarea id="req02Answer" placeholder="Draft answer..." rows="3"></textarea>
+            </div>
+            <button id="btnReq02" class="btn btn-secondary">Run Rubric GPS</button>
+          </div>
+          <div id="req02Result" class="card-result"></div>
+          <div class="card-outcome card-outcome-success">✓ Rubric Rigor Applied</div>
+        </div>
+
+        <!-- Card 03: Knowledge Depth -->
+        <div class="requirement-card requirement-card-03">
+          <div class="card-number">03</div>
+          <div class="card-badge badge-ede">EKG</div>
+          <div class="card-quote">"Generate bloom-level questions from vector source retrieval."</div>
+          <div class="card-form">
+            <div class="input-group">
+              <label>Week tag</label>
+              <input id="req03WeekTag" type="text" placeholder="2026-W12" />
+              <label>Question count</label>
+              <input id="req03Count" type="number" value="5" min="1" max="20" />
+            </div>
+            <button id="btnReq03" class="btn btn-secondary">Generate Paper</button>
+          </div>
+          <div id="req03Result" class="card-result"></div>
+          <div class="card-outcome card-outcome-success">✓ Knowledge Depth Assessed</div>
+        </div>
+
+        <!-- Card 04: Router + Loss-Run (Full Width, Split Layout) -->
+        <div class="requirement-card requirement-card-04">
+          <div class="card-number">04</div>
+          <div class="card-badge badge-ede">EDE+EG</div>
+          <div class="card-quote">"Route student profiles to specialized agents with deterministic loss-run verdicts."</div>
+
+          <div class="card-content-split">
+            <!-- Left: Student Profile Form -->
+            <div class="card-split-left">
+              <h4>Student Profile Form</h4>
+              <div class="input-group">
+                <label>Student ID</label>
+                <input id="req04StudentId" type="text" placeholder="22EC101" />
+              </div>
+              <div class="input-group">
+                <label>Marks (CSV)</label>
+                <input id="req04Marks" type="text" placeholder="72,65,81" />
+              </div>
+              <div class="input-group">
+                <label>Feedback notes</label>
+                <textarea id="req04Feedback" placeholder="Faculty feedback..." rows="3"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Study habits</label>
+                <textarea id="req04Habits" placeholder="Observed patterns..." rows="3"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Attendance (0-1)</label>
+                <input id="req04Attendance" type="number" min="0" max="1" step="0.01" placeholder="0.85" />
+              </div>
+              <div class="input-group">
+                <label>Days until exam</label>
+                <input id="req04DaysUntilExam" type="number" min="0" max="60" placeholder="2" />
+              </div>
+              <button id="btnReq04" class="btn btn-secondary">Route Profile</button>
+            </div>
+
+            <!-- Right: Agent Card + Loss-Run Output -->
+            <div class="card-split-right">
+              <div id="req04Result" class="card-result-full"></div>
+            </div>
+          </div>
+
+          <div class="card-outcome card-outcome-success">✓ Student Routed & Loss-Run Scored</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Six Agent Cards (3×2 grid) -->
+    <section class="section-agents" id="section-agents">
+      <div class="agents-container">
+        <h2>6 Specialized Agents</h2>
+        
+        <div class="agents-grid">
+          <div class="agent-card agent-a">
+            <div class="agent-badge">A</div>
+            <h3 class="agent-name">Top Scorer</h3>
+            <span class="agent-tag">Chain-of-T</span>
+            <p class="agent-strategy">Multi-step reasoning for strong performers.</p>
+          </div>
+
+          <div class="agent-card agent-b">
+            <div class="agent-badge">B</div>
+            <h3 class="agent-name">Rubric Gap</h3>
+            <span class="agent-tag">Loss-run</span>
+            <p class="agent-strategy">Close specific mark-deduction gaps.</p>
+          </div>
+
+          <div class="agent-card agent-c">
+            <div class="agent-badge">C</div>
+            <h3 class="agent-name">Rote Learner</h3>
+            <span class="agent-tag">Variation-T</span>
+            <p class="agent-strategy">Build recall span and transfer patterns.</p>
+          </div>
+
+          <div class="agent-card agent-d">
+            <div class="agent-badge">D</div>
+            <h3 class="agent-name">Weak Basics</h3>
+            <span class="agent-tag">Socratic Loop</span>
+            <p class="agent-strategy">Foundation reinforcement through dialogue.</p>
+          </div>
+
+          <div class="agent-card agent-e">
+            <div class="agent-badge">E</div>
+            <h3 class="agent-name">Inconsistent</h3>
+            <span class="agent-tag">Drift Detect</span>
+            <p class="agent-strategy">Pattern recognition and volatility control.</p>
+          </div>
+
+          <div class="agent-card agent-f">
+            <div class="agent-badge">F</div>
+            <h3 class="agent-name">Last-Minute</h3>
+            <span class="agent-tag">80/20 Filter</span>
+            <p class="agent-strategy">High-impact topics under time pressure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Governance (Audit Timeline + Knowledge Versions) -->
+    <section class="section-governance" id="section-governance">
+      <div class="governance-container">
+        <h2>Governance & Audit Trail</h2>
+
+        <div class="governance-content">
+          <!-- Left Column: Audit Timeline -->
+          <div class="governance-column governance-audit">
+            <div class="governance-header">
+              <h3>Audit Events</h3>
+              <button id="btnRefreshAudit" class="btn btn-tertiary">Refresh</button>
+            </div>
+            <div id="auditTimeline" class="audit-timeline">
+              <p class="placeholder">Loading audit events...</p>
+            </div>
+          </div>
+
+          <!-- Right Column: Knowledge Versions -->
+          <div class="governance-column governance-versions">
+            <div class="governance-header">
+              <h3>Knowledge Revisions</h3>
+              <button id="btnRefreshVersions" class="btn btn-tertiary">Refresh</button>
+            </div>
+            <div id="versionsTimeline" class="versions-timeline">
+              <p class="placeholder">Loading knowledge versions...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <strong>Academic TeamSpace</strong>
+        </div>
+        <div class="footer-tagline">Built on Purple Fabric Architecture</div>
+        <div class="footer-stack">
+          <span class="stack-pill">EKG</span>
+          <span class="stack-pill">EDE</span>
+          <span class="stack-pill">EG</span>
+          <span class="stack-pill">MOH</span>
+        </div>
+      </div>
+    </footer>
+
+
 
     <script src="/static/app.js"></script>
   </body>

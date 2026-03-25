@@ -147,12 +147,12 @@ function renderAgentCardWithLossRun(container, data) {
         </h4>
         
         <div style="margin-bottom: 12px;">
-          <strong style="color: #18864b; display: block; margin-bottom: 6px;">✓ Criteria Met</strong>
+          <strong style="color: var(--success); display: block; margin-bottom: 6px;">✓ Criteria Met</strong>
           ${metCriteria.map(c => `<div style="margin: 3px 0;">• ${escapeHtml(String(c))}</div>`).join("") || "<div style='color: #999;'>None identified</div>"}
         </div>
         
         <div style="margin-bottom: 12px;">
-          <strong style="color: #d93636; display: block; margin-bottom: 6px;">✕ Gaps</strong>
+          <strong style="color: var(--danger); display: block; margin-bottom: 6px;">✕ Gaps</strong>
           ${missedCriteria.map(c => `<div style="margin: 3px 0;">• ${escapeHtml(String(c))} (−2 pts)</div>`).join("") || "<div style='color: #999;'>None identified</div>"}
         </div>
         
@@ -241,7 +241,6 @@ function renderVersionsTimeline(container, versions) {
   
   container.innerHTML = cards;
 }
-
 
 // ========== Event Listeners - Monday ==========
 document.getElementById("btnMondayTranscript")?.addEventListener("click", async () => {
@@ -503,4 +502,3 @@ window.addEventListener("load", () => {
       .catch(() => {});
   }
 });
-

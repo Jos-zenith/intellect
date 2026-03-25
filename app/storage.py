@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 from typing import Any, Iterable, cast
 
 import chromadb
@@ -22,12 +23,35 @@ def get_collection() -> Collection:
     return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
+def _baseline_emphasis_weight(text: str) -> float:
+    content = text.strip()
+    lowered = content.lower()
+
+    boost = 1.0
+    if len(content) > 220:
+        boost += 0.08
+
+    signal_terms = ["important", "must", "exam", "key", "note", "remember", "rubric"]
+    for term in signal_terms:
+        if term in lowered:
+            boost += 0.12
+
+    return min(round(boost, 2), 2.0)
+
+
+def _extract_outcome_tags(text: str) -> tuple[list[str], list[str]]:
+    co_tags = sorted(set(re.findall(r"\bCO\d+\b", text, flags=re.IGNORECASE)))
+    po_tags = sorted(set(re.findall(r"\bPO\d+\b", text, flags=re.IGNORECASE)))
+    return [t.upper() for t in co_tags], [t.upper() for t in po_tags]
+
+
 def upsert_paragraphs(
     paragraphs: Iterable[ParsedParagraph],
     week_tag: str,
     date_stamp: str | None = None,
     source_type: str = "lecture",
     knowledge_revision: int | None = None,
+    uploaded_at: str | None = None,
 ) -> int:
     items = list(paragraphs)
     if not items:
@@ -43,10 +67,14 @@ def upsert_paragraphs(
             "source_file": i.source_file,
             "page": i.page,
             "paragraph_id": i.paragraph_id,
+            "paragraph_index": i.paragraph_index,
             "date_stamp": date_stamp or "",
+            "uploaded_at": uploaded_at or "",
             "source_type": source_type,
-            "emphasis_weight": 1.0,
+            "emphasis_weight": _baseline_emphasis_weight(i.text),
             "knowledge_revision": knowledge_revision or 0,
+            "co_tags_csv": "|".join(_extract_outcome_tags(i.text)[0]),
+            "po_tags_csv": "|".join(_extract_outcome_tags(i.text)[1]),
         }
         for i in items
     ]
@@ -56,11 +84,17 @@ def upsert_paragraphs(
     return len(items)
 
 
-def query_context(question: str, week_tag: str | None, top_k: int) -> dict:
+def query_context(question: str, week_tag: str | None, top_k: int, source_type: str | None = None) -> dict:
     vector = embed_texts([question])[0]
     collection = get_collection()
 
-    where = cast(Any, {"week_tag": week_tag} if week_tag else None)
+    where_payload: dict[str, Any] = {}
+    if week_tag:
+        where_payload["week_tag"] = week_tag
+    if source_type:
+        where_payload["source_type"] = source_type
+
+    where = cast(Any, where_payload if where_payload else None)
     result = collection.query(
         query_embeddings=[vector],
         n_results=max(top_k * 3, top_k),

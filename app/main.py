@@ -7,13 +7,19 @@ from fastapi.staticfiles import StaticFiles
 from app.audit import recent_events
 from app.config import settings
 from app.models import (
+    AtRiskRequest,
+    AtRiskResponse,
     ChatRequest,
     ChatResponse,
     ExamRequest,
     ExamResponse,
+    IngestTextRequest,
+    IngestTextResponse,
     IngestResponse,
     MondayIngestRequest,
     MondayIngestResponse,
+    RubricGpsRequest,
+    RubricGpsResponse,
     RouterRequest,
     RouterResponse,
     TuesdayAlignmentRequest,
@@ -24,12 +30,14 @@ from app.services.agile_rag_service import (
     get_knowledge_versions,
     monday_ingest_audio,
     monday_ingest_transcript,
+    predict_at_risk_students,
     route_student_profile,
+    run_rubric_gps,
     tuesday_align,
     wednesday_execute,
 )
 from app.services.exam_service import generate_exam
-from app.services.ingestion_service import ingest_pdf
+from app.services.ingestion_service import ingest_pdf, ingest_text
 from app.services.qa_service import answer_question
 
 app = FastAPI(title="Academic TeamSpace", version="0.1.0")
@@ -67,6 +75,11 @@ async def ingest(file: UploadFile = File(...), week_tag: str | None = Form(None)
     return ingest_pdf(safe_name, payload, week_tag=week_tag)
 
 
+@app.post("/api/ingest/text", response_model=IngestTextResponse)
+def ingest_raw_text(request: IngestTextRequest) -> IngestTextResponse:
+    return ingest_text(request)
+
+
 @app.post("/api/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
     return answer_question(request)
@@ -97,6 +110,16 @@ def orchestrator_wednesday_execute(request: WednesdayExecutionRequest) -> ExamRe
 @app.post("/api/orchestrator/router", response_model=RouterResponse)
 def orchestrator_router(request: RouterRequest) -> RouterResponse:
     return route_student_profile(request)
+
+
+@app.post("/api/rubric/gps", response_model=RubricGpsResponse)
+def rubric_gps(request: RubricGpsRequest) -> RubricGpsResponse:
+    return run_rubric_gps(request)
+
+
+@app.post("/api/analytics/at-risk", response_model=AtRiskResponse)
+def at_risk(request: AtRiskRequest) -> AtRiskResponse:
+    return predict_at_risk_students(request)
 
 
 @app.get("/api/orchestrator/versions")

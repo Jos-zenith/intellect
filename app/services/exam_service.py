@@ -8,6 +8,12 @@ from app.models import ExamRequest, ExamResponse, ExamQuestion
 from app.storage import query_context
 
 
+def _parse_csv_tags(raw: str | None) -> list[str]:
+    if not raw:
+        return []
+    return [token for token in str(raw).split("|") if token]
+
+
 def generate_exam(request: ExamRequest) -> ExamResponse:
     query = "Generate a complete revision map for this week."
     result = query_context(query, request.week_tag, max(settings.top_k * 2, request.num_questions))
@@ -53,6 +59,14 @@ def generate_exam(request: ExamRequest) -> ExamResponse:
     questions = []
     for item in qitems:
         lineage = item.get("source_lineage") or lineage_pool[:2]
+        co_tags: list[str] = []
+        po_tags: list[str] = []
+        for meta in metadatas:
+            para_id = str(meta.get("paragraph_id", ""))
+            if any(para_id in line for line in lineage):
+                co_tags.extend(_parse_csv_tags(str(meta.get("co_tags_csv", ""))))
+                po_tags.extend(_parse_csv_tags(str(meta.get("po_tags_csv", ""))))
+
         questions.append(
             ExamQuestion(
                 question=item.get("question", ""),
@@ -60,6 +74,8 @@ def generate_exam(request: ExamRequest) -> ExamResponse:
                 difficulty=item.get("difficulty", "medium"),
                 bloom_level=item.get("bloom_level", "understand"),
                 source_lineage=lineage,
+                co_tags=sorted(set(co_tags)),
+                po_tags=sorted(set(po_tags)),
             )
         )
 

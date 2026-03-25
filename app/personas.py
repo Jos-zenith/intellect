@@ -88,27 +88,29 @@ def route_success_agent(profile: dict) -> tuple[str, str]:
 
     feedback = str(profile.get("feedback") or "").lower()
     habits = str(profile.get("study_habits") or "").lower()
-    prep_days = profile.get("preparation_window_days")
+    prep_days = profile.get("days_until_exam")
+    if prep_days is None:
+        prep_days = profile.get("preparation_window_days")
 
     if prep_days is not None and int(prep_days) <= 2:
-        return "agent_f", "rule-based-preparation-window"
+        return "agent_f", "override-urgency-exam-in-2-days"
 
-    if avg >= 85 and "careless" not in feedback and "rubric" not in feedback:
-        return "agent_a", "rule-based-high-performer"
+    if avg >= 85 and "rubric" not in feedback and "presentation" not in feedback and "steps missing" not in feedback:
+        return "agent_a", "rule-high-score-no-rubric-flags"
 
     if "rubric" in feedback or "steps missing" in feedback or "presentation" in feedback:
-        return "agent_b", "rule-based-rubric-signal"
+        return "agent_b", "rule-rubric-or-presentation-signal"
 
-    if "memor" in habits or "rote" in habits or "formula" in habits:
-        return "agent_c", "rule-based-rote-learning"
+    if "memorise" in habits or "memorize" in habits or "rote" in habits or "formula" in habits:
+        return "agent_c", "rule-rote-or-formula-pattern"
 
-    if avg < 45 or "basic" in feedback or "fundamental" in feedback:
-        return "agent_d", "rule-based-foundation-gap"
+    if avg < 45 or "basic" in feedback:
+        return "agent_d", "rule-low-score-or-basic-feedback"
 
-    if "inconsistent" in feedback or "irregular" in habits or "miss" in habits:
-        return "agent_e", "rule-based-consistency-drift"
+    if "inconsistent" in feedback or "inconsistent" in habits or "irregular" in habits:
+        return "agent_e", "rule-inconsistency-pattern"
 
     if avg < 60:
-        return "agent_d", "rule-based-score-threshold"
+        return "agent_d", "rule-support-foundation-by-score"
 
-    return "agent_e", "rule-based-default"
+    return "agent_e", "rule-default-calibration"

@@ -11,6 +11,7 @@ class ParsedParagraph:
     paragraph_id: str
     source_file: str
     page: int
+    paragraph_index: int
     text: str
 
 
@@ -47,6 +48,7 @@ def parse_pdf_to_paragraphs(pdf_path: Path) -> tuple[int, list[ParsedParagraph]]
                     paragraph_id=paragraph_id,
                     source_file=pdf_path.name,
                     page=page_num,
+                    paragraph_index=pidx,
                     text=para,
                 )
             )
