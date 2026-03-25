@@ -1,0 +1,19 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Local environment secrets
+.env
+
+# Local runtime/state data
+data/audit.db
+data/chroma/
+data/uploads/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
