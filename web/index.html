@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic TeamSpace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Lora:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Academic TeamSpace</h1>
+      <p>Velocity Synchronization Engine for weekly teaching and mock exams</p>
+    </header>
+
+    <main class="grid">
+      <section class="panel panel-wide">
+        <h2>0) Agile RAG Orchestrator (Monday-Tuesday-Wednesday)</h2>
+        <div class="orchestrator-grid">
+          <div class="subpanel">
+            <h3>Monday: Teach (Ingestion)</h3>
+            <label for="orchWeek">Week tag</label>
+            <input id="orchWeek" type="text" placeholder="2026-W12" />
+
+            <label for="mondaySourceLabel">Source label</label>
+            <input id="mondaySourceLabel" type="text" placeholder="monday-lecture" />
+
+            <label for="mondayTranscript">Transcript text</label>
+            <textarea id="mondayTranscript" placeholder="Paste Monday lecture transcript here..."></textarea>
+
+            <button id="btnMondayTranscript">Ingest Transcript</button>
+
+            <label for="mondayAudio">Or upload lecture audio</label>
+            <input id="mondayAudio" type="file" accept="audio/*" />
+            <button id="btnMondayAudio" class="secondary">Ingest Audio via Whisper</button>
+            <div id="mondayStatus" class="status"></div>
+          </div>
+
+          <div class="subpanel">
+            <h3>Tuesday: Update (Alignment)</h3>
+            <label for="tuesdayWeek">Week tag</label>
+            <input id="tuesdayWeek" type="text" placeholder="2026-W12" />
+
+            <label for="tuesdayTopics">Max syllabus topics</label>
+            <input id="tuesdayTopics" type="number" value="12" min="3" max="30" />
+
+            <label for="syllabusText">Official syllabus text</label>
+            <textarea id="syllabusText" placeholder="Paste syllabus or unit outline..."></textarea>
+
+            <button id="btnTuesdayAlign">Run Syllabus Sentinel</button>
+            <div id="tuesdayStatus" class="status"></div>
+          </div>
+
+          <div class="subpanel">
+            <h3>Wednesday: Exam (Execution)</h3>
+            <label for="wednesdayWeek">Week tag</label>
+            <input id="wednesdayWeek" type="text" placeholder="2026-W12" />
+
+            <label for="wednesdayCount">Question count</label>
+            <input id="wednesdayCount" type="number" value="10" min="3" max="25" />
+
+            <button id="btnWednesdayExecute">Run Rubric Referee</button>
+            <div id="wednesdayStatus" class="status"></div>
+          </div>
+
+          <div class="subpanel">
+            <h3>Master Router (6 Specialized Agents)</h3>
+            <label for="routerWeek">Week tag (optional)</label>
+            <input id="routerWeek" type="text" placeholder="2026-W12" />
+
+            <label for="routerMarks">Marks CSV</label>
+            <input id="routerMarks" type="text" placeholder="72,65,81" />
+
+            <label for="routerFeedback">Feedback</label>
+            <textarea id="routerFeedback" placeholder="Faculty feedback notes..."></textarea>
+
+            <label for="routerHabits">Study habits</label>
+            <textarea id="routerHabits" placeholder="Student study pattern..."></textarea>
+
+            <label for="routerAttendance">Attendance ratio (0-1, optional)</label>
+            <input id="routerAttendance" type="number" min="0" max="1" step="0.01" placeholder="0.85" />
+
+            <label for="routerPrepDays">Preparation window days (optional)</label>
+            <input id="routerPrepDays" type="number" min="0" max="60" placeholder="3" />
+
+            <label for="routerGoal">Goal</label>
+            <input id="routerGoal" type="text" value="Improve Wednesday exam outcomes" />
+
+            <button id="btnRouter">Route Student Profile</button>
+            <div id="routerStatus" class="status"></div>
+          </div>
+
+          <div class="subpanel">
+            <h3>Knowledge Versions</h3>
+            <label for="versionsWeek">Week tag (optional)</label>
+            <input id="versionsWeek" type="text" placeholder="2026-W12" />
+
+            <label for="versionsLimit">Limit</label>
+            <input id="versionsLimit" type="number" min="1" max="100" value="20" />
+
+            <button id="btnVersions" class="secondary">Refresh Revisions</button>
+            <div id="versionsStatus" class="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>1) Staff Note Upload (LlamaParse OCR)</h2>
+        <label for="pdf">PDF file</label>
+        <input id="pdf" type="file" accept="application/pdf" />
+
+        <label for="ingestWeek">Week tag (optional, e.g. 2026-W12)</label>
+        <input id="ingestWeek" type="text" placeholder="2026-W12" />
+
+        <button id="btnIngest">Upload & Re-Index Now</button>
+        <div id="ingestStatus" class="status"></div>
+      </section>
+
+      <section class="panel">
+        <h2>2) Persona Chat (Head Agent Routing)</h2>
+        <label for="chatWeek">Week tag filter (optional)</label>
+        <input id="chatWeek" type="text" placeholder="2026-W12" />
+
+        <label for="question">Question</label>
+        <textarea id="question" placeholder="Ask about software testing notes..."></textarea>
+
+        <button id="btnAsk">Ask Grounded Question</button>
+        <div id="chatStatus" class="status"></div>
+        <div id="citations" class="lineage"></div>
+      </section>
+
+      <section class="panel">
+        <h2>3) Wednesday Mock Exam (AQPGS)</h2>
+        <label for="examWeek">Week tag</label>
+        <input id="examWeek" type="text" placeholder="2026-W12" />
+
+        <label for="examCount">Question count</label>
+        <input id="examCount" type="number" value="10" min="3" max="25" />
+
+        <button id="btnExam" class="secondary">Generate Mock Exam</button>
+        <div id="examStatus" class="status"></div>
+      </section>
+
+      <section class="panel">
+        <h2>4) Governance & Auditability</h2>
+        <button id="btnAudit">Refresh Audit Trail</button>
+        <div id="auditStatus" class="status"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

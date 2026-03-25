@@ -1,0 +1,171 @@
+:root {
+  --sand: #f4efe7;
+  --ink: #1a1f2b;
+  --teal: #0f766e;
+  --coral: #d94841;
+  --gold: #c78a2c;
+  --card: #fffdf8;
+  --line: #d7d0c4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Lora", Georgia, serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 10% 20%, #fffdf8 0%, var(--sand) 45%, #e9e1d5 100%);
+}
+
+.header {
+  padding: 28px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  animation: slideDown 0.55s ease;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.header p {
+  margin: 8px 0 0;
+  color: #495163;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  padding: 20px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(36, 37, 40, 0.06);
+  animation: fadeUp 0.5s ease;
+}
+
+.panel-wide {
+  grid-column: 1 / -1;
+}
+
+.orchestrator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.subpanel {
+  border: 1px solid #e7dfd1;
+  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(180deg, #fffefb 0%, #fbf7ef 100%);
+}
+
+.subpanel h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+}
+
+label {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 0.9rem;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #cfc7b8;
+  padding: 10px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 700;
+  border: none;
+  color: #fff;
+  background: linear-gradient(90deg, var(--teal), #118f84);
+}
+
+button.secondary {
+  background: linear-gradient(90deg, var(--coral), #e06a55);
+}
+
+.status {
+  white-space: pre-wrap;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px dashed var(--line);
+  background: #fffcf5;
+  font-size: 0.9rem;
+}
+
+.lineage {
+  font-size: 0.85rem;
+  color: #515a6d;
+  padding-left: 16px;
+}
+
+.audit-item {
+  border-top: 1px solid #ebe3d5;
+  padding: 8px 0;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .orchestrator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
