@@ -5,10 +5,21 @@ from collections import Counter
 from typing import Any
 
 from app.audit import log_event, recent_events
+from app.alignment_engine import (
+    analyze_past_papers,
+    build_alignment_report,
+    compare_taught_vs_syllabus,
+    compute_emphasis_weights,
+    extract_taught_topic_stats,
+    parse_syllabus_text,
+)
+from app.agent_prompts import AGENT_PROMPTS
 from app.config import settings
+from app.knowledge_snapshot import store_knowledge_snapshot
 from app.knowledge_versioning import create_knowledge_revision, list_knowledge_revisions
 from app.llm import complete_text, transcribe_audio
 from app.models import (
+    ExamRequest,
     ExamQuestion,
     ExamResponse,
     MondayIngestRequest,
@@ -26,8 +37,11 @@ from app.models import (
     WednesdayExecutionRequest,
 )
 from app.parser import ParsedParagraph
-from app.personas import ACADEMIC_SUCCESS_AGENTS, route_success_agent
-from app.storage import apply_keyword_emphasis, query_context, upsert_paragraphs
+from app.personas import ACADEMIC_SUCCESS_AGENTS
+from app.services.exam_service import generate_exam
+from app.rubric_engine import evaluate_rubric, fallback_criteria_from_text, load_rubric_criteria
+from app.routing_policy import evaluate_routing_policy
+from app.storage import apply_keyword_emphasis, query_context, trigger_immediate_reindex, upsert_paragraphs
 from app.storage import get_week_chunks
 
 
@@ -169,6 +183,14 @@ def monday_ingest_transcript(request: MondayIngestRequest) -> MondayIngestRespon
         date_stamp=date_stamp,
         uploaded_at=datetime.utcnow().isoformat(),
         source_type="monday_transcript",
+        source_label=request.source_label,
+        knowledge_revision=pre_revision,
+    )
+
+    reindex_status = trigger_immediate_reindex(
+        week_tag=week_tag,
+        reason="monday.transcript",
+        source_label=request.source_label,
         knowledge_revision=pre_revision,
     )
 
@@ -190,6 +212,14 @@ def monday_ingest_transcript(request: MondayIngestRequest) -> MondayIngestRespon
             "knowledge_revision": revision,
             "paragraphs_indexed": indexed,
         },
+    )
+    log_event("reindex.triggered", reindex_status)
+    store_knowledge_snapshot(
+        week_tag=week_tag,
+        revision_id=revision,
+        stage="monday.ingestion.completed",
+        source_label=request.source_label,
+        extra={"paragraphs_indexed": indexed, "date_stamp": date_stamp},
     )
 
     return MondayIngestResponse(
@@ -290,43 +320,112 @@ def _compute_drift(
     syllabus_topics: list[str],
     past_paper_topics: list[str],
 ) -> tuple[list[str], list[str], float, list[str]]:
-    taught_set = {t.lower() for t in taught_topics}
-    syllabus_set = {s.lower() for s in syllabus_topics}
-    past_set = {p.lower() for p in past_paper_topics}
+    def _signature(topic: str) -> set[str]:
+        return set(re.findall(r"[a-z0-9]{3,}", topic.lower()))
 
-    taught_not_in_syllabus = sorted(list(taught_set - syllabus_set))[:12]
-    syllabus_not_covered = sorted(list(syllabus_set - taught_set))[:12]
-    past_priority = sorted(list((syllabus_set & past_set) - taught_set))[:12]
+    def _best_overlap(topic: str, candidates: list[str]) -> float:
+        base = _signature(topic)
+        if not base:
+            return 0.0
+        best = 0.0
+        for candidate in candidates:
+            other = _signature(candidate)
+            if not other:
+                continue
+            inter = len(base & other)
+            union = len(base | other)
+            if union == 0:
+                continue
+            best = max(best, inter / union)
+        return best
 
-    denominator = max(len(syllabus_set), 1)
+    taught_not_in_syllabus = [
+        topic.lower()
+        for topic in taught_topics
+        if _best_overlap(topic, syllabus_topics) < 0.45
+    ][:12]
+
+    syllabus_not_covered = [
+        topic.lower()
+        for topic in syllabus_topics
+        if _best_overlap(topic, taught_topics) < 0.45
+    ][:12]
+
+    past_priority = [
+        topic.lower()
+        for topic in past_paper_topics
+        if _best_overlap(topic, syllabus_topics) >= 0.45 and _best_overlap(topic, taught_topics) < 0.45
+    ][:12]
+
+    denominator = max(len(syllabus_topics), 1)
     drift_score = round(min(1.0, len(syllabus_not_covered) / denominator), 3)
     return taught_not_in_syllabus, syllabus_not_covered, drift_score, past_priority
 
 
 def tuesday_align(request: TuesdayAlignmentRequest) -> TuesdayAlignmentResponse:
-    topics = _extract_syllabus_topics(request.syllabus_text, request.max_topics)
-    past_paper_topics = _tokenize_topics(request.past_paper_text, request.max_topics)
-    taught_topics = _extract_taught_topics_from_chunks(request.week_tag, request.max_topics)
+    syllabus_payload = parse_syllabus_text(request.syllabus_text, request.max_topics)
+    topics = syllabus_payload["topics"]
+    learning_outcomes = syllabus_payload["learning_outcomes"]
 
-    taught_not_in_syllabus, syllabus_not_covered, drift_score, past_priority = _compute_drift(
-        taught_topics=taught_topics,
+    taught_topic_stats = extract_taught_topic_stats(request.week_tag, request.max_topics)
+    past_paper_stats = analyze_past_papers(request.past_paper_text, request.max_topics)
+
+    comparison = compare_taught_vs_syllabus(
+        taught_topic_stats=taught_topic_stats,
         syllabus_topics=topics,
-        past_paper_topics=past_paper_topics,
+    )
+    taught_not_in_syllabus = list(comparison["over_emphasized_topics"])
+    syllabus_not_covered = list(comparison["missed_topics"])
+    drift_score = float(comparison["drift_score_percentage"])
+
+    keyword_weights, priority_boost_topics = compute_emphasis_weights(
+        taught_topic_stats=taught_topic_stats,
+        syllabus_topics=topics,
+        past_paper_topics=past_paper_stats,
     )
 
-    weighted_topics = list(dict.fromkeys(topics + past_priority))
-    keyword_weights = _compute_topic_weights(weighted_topics, request.week_tag)
+    alignment_report = build_alignment_report(
+        week_tag=request.week_tag,
+        syllabus_topics=topics,
+        learning_outcomes=learning_outcomes,
+        taught_topic_stats=taught_topic_stats,
+        past_paper_topics=past_paper_stats,
+        comparison=comparison,
+        keyword_weights=keyword_weights,
+        priority_boost_topics=priority_boost_topics,
+    )
+
+    before_snapshot_id = store_knowledge_snapshot(
+        week_tag=request.week_tag,
+        revision_id=None,
+        stage="tuesday.alignment.before",
+        source_label="tuesday-alignment",
+        extra={"alignment_report": alignment_report},
+    )
+
+    log_event(
+        "orchestrator.tuesday.started",
+        {
+            "week_tag": request.week_tag,
+            "topics_analyzed": topics,
+            "learning_outcomes": learning_outcomes,
+            "before_snapshot_id": before_snapshot_id,
+            "drift_score_percentage": drift_score,
+        },
+    )
 
     revision = create_knowledge_revision(
         week_tag=request.week_tag,
         stage="tuesday.alignment",
         summary={
             "topics": topics,
-            "past_paper_topics": past_paper_topics,
+            "past_paper_topics": [row["topic"] for row in past_paper_stats],
+            "learning_outcomes": learning_outcomes,
             "keyword_weights": keyword_weights,
             "taught_not_in_syllabus": taught_not_in_syllabus,
             "syllabus_not_covered": syllabus_not_covered,
             "drift_score": drift_score,
+            "priority_topic_boosts": priority_boost_topics,
         },
     )
 
@@ -334,6 +433,21 @@ def tuesday_align(request: TuesdayAlignmentRequest) -> TuesdayAlignmentResponse:
         week_tag=request.week_tag,
         keyword_weights=keyword_weights,
         knowledge_revision=revision,
+    )
+
+    after_snapshot_id = store_knowledge_snapshot(
+        week_tag=request.week_tag,
+        revision_id=revision,
+        stage="tuesday.alignment.completed",
+        source_label="tuesday-alignment",
+        extra={
+            "chunks_updated": chunks_updated,
+            "drift_score": drift_score,
+            "topics_analyzed": topics,
+            "syllabus_not_covered": syllabus_not_covered,
+            "alignment_report": alignment_report,
+            "before_snapshot_id": before_snapshot_id,
+        },
     )
 
     log_event(
@@ -346,6 +460,10 @@ def tuesday_align(request: TuesdayAlignmentRequest) -> TuesdayAlignmentResponse:
             "taught_not_in_syllabus": taught_not_in_syllabus,
             "syllabus_not_covered": syllabus_not_covered,
             "drift_score": drift_score,
+            "priority_topic_boosts": priority_boost_topics,
+            "before_snapshot_id": before_snapshot_id,
+            "after_snapshot_id": after_snapshot_id,
+            "alignment_report": alignment_report,
         },
     )
 
@@ -355,82 +473,35 @@ def tuesday_align(request: TuesdayAlignmentRequest) -> TuesdayAlignmentResponse:
         topics_analyzed=topics,
         keyword_weights=keyword_weights,
         chunks_updated=chunks_updated,
+        learning_outcomes=learning_outcomes,
+        alignment_report=alignment_report,
+        priority_topic_boosts=priority_boost_topics,
+        before_snapshot_id=before_snapshot_id,
+        after_snapshot_id=after_snapshot_id,
         taught_not_in_syllabus=taught_not_in_syllabus,
         syllabus_not_covered=syllabus_not_covered,
-        past_paper_priority_topics=past_priority,
+        past_paper_priority_topics=[row["topic"] for row in past_paper_stats],
         drift_score=drift_score,
     )
 
 
 def wednesday_execute(request: WednesdayExecutionRequest) -> ExamResponse:
-    query = "Generate weighted practice questions from Monday lecture and Tuesday alignment."
-    result = query_context(query, request.week_tag, max(settings.top_k * 2, request.num_questions))
+    exam = generate_exam(ExamRequest(week_tag=request.week_tag, num_questions=request.num_questions))
 
-    documents = result.get("documents", [[]])[0]
-    metadatas = result.get("metadatas", [[]])[0]
-    context_lines = []
-    lineage_pool = []
-
-    for doc, meta in zip(documents, metadatas):
-        if float(meta.get("emphasis_weight", 1.0)) < 1.0:
-            continue
-        lineage = f"{meta.get('source_file', 'unknown')}#p{meta.get('page', 0)}:{meta.get('paragraph_id', 'unknown')}"
-        lineage_pool.append(lineage)
-        context_lines.append(f"[{lineage}]\\n{doc}")
-
-    if not context_lines:
+    if not exam.questions:
         log_event("orchestrator.wednesday.failed.no_context", {"week_tag": request.week_tag})
-        return ExamResponse(week_tag=request.week_tag, generated_at=datetime.utcnow(), questions=[])
-
-    system_prompt = (
-        "You are the Rubric Referee. Create exam-ready questions grounded only in provided context. "
-        "Prioritize topics with higher emphasis and align with likely marking scheme expectations. "
-        "Return strict JSON with key 'questions'."
-    )
-
-    user_prompt = (
-        f"Week: {request.week_tag}\\n"
-        f"Count: {request.num_questions}\\n\\n"
-        "Context:\\n"
-        f"{'\\n\\n'.join(context_lines)}\\n\\n"
-        "JSON schema: {\"questions\": [{\"question\": str, \"answer_key\": str, \"difficulty\": str, \"bloom_level\": str, \"source_lineage\": [str]}]}"
-    )
-
-    raw = complete_text(system_prompt, user_prompt, temperature=0.2)
-
-    try:
-        parsed = json.loads(raw)
-        qitems = parsed.get("questions", [])
-    except json.JSONDecodeError:
-        qitems = []
-
-    questions: list[ExamQuestion] = []
-    for item in qitems:
-        lineage = item.get("source_lineage") or lineage_pool[:2]
-        co_tags: list[str] = []
-        po_tags: list[str] = []
-        for meta in metadatas:
-            para_id = str(meta.get("paragraph_id", ""))
-            if any(para_id in line for line in lineage):
-                co_tags.extend(_parse_csv_tags(str(meta.get("co_tags_csv", ""))))
-                po_tags.extend(_parse_csv_tags(str(meta.get("po_tags_csv", ""))))
-
-        questions.append(
-            ExamQuestion(
-                question=item.get("question", ""),
-                answer_key=item.get("answer_key", ""),
-                difficulty=item.get("difficulty", "medium"),
-                bloom_level=item.get("bloom_level", "understand"),
-                source_lineage=lineage,
-                co_tags=sorted(set(co_tags)),
-                po_tags=sorted(set(po_tags)),
-            )
-        )
+        return exam
 
     revision = create_knowledge_revision(
         week_tag=request.week_tag,
         stage="wednesday.execution",
-        summary={"requested": request.num_questions, "generated": len(questions)},
+        summary={
+            "requested": request.num_questions,
+            "generated": len(exam.questions),
+            "marks_distribution": exam.marks_distribution,
+            "bloom_distribution": exam.bloom_distribution,
+            "quality_checks": exam.quality_checks,
+        },
     )
 
     log_event(
@@ -438,13 +509,15 @@ def wednesday_execute(request: WednesdayExecutionRequest) -> ExamResponse:
         {
             "week_tag": request.week_tag,
             "knowledge_revision": revision,
-            "generated": len(questions),
-            "aligned_chunks_used": len(context_lines),
-            "used_chunk_lineage": lineage_pool[:12],
+            "generated": len(exam.questions),
+            "marks_distribution": exam.marks_distribution,
+            "bloom_distribution": exam.bloom_distribution,
+            "quality_checks": exam.quality_checks,
+            "used_chunk_lineage": [q.source_lineage[0] for q in exam.questions if q.source_lineage][:12],
         },
     )
 
-    return ExamResponse(week_tag=request.week_tag, generated_at=datetime.utcnow(), questions=questions)
+    return exam
 
 
 def _llm_route_assist(profile: dict[str, Any]) -> tuple[str, str]:
@@ -467,13 +540,15 @@ def _llm_route_assist(profile: dict[str, Any]) -> tuple[str, str]:
 
 def _build_agent_specific_plan(agent_id: str, goal: str, week_tag: str | None) -> tuple[str, dict | None]:
     context = ""
+    prompt_meta = AGENT_PROMPTS.get(agent_id, {})
+    persona_system = str(prompt_meta.get("system_prompt", ""))
     if week_tag:
         result = query_context(question=goal, week_tag=week_tag, top_k=4)
         documents = result.get("documents", [[]])[0]
         context = "\n\n".join(documents)
 
     if agent_id == "agent_b":
-        system_prompt = (
+        system_prompt = persona_system or (
             "Produce a strict JSON loss run for rubric alignment. "
             "Schema: {\"loss_run\": {\"rubric_criteria\": [str], \"gaps\": [str], \"fixes\": [str]}}"
         )
@@ -496,7 +571,7 @@ def _build_agent_specific_plan(agent_id: str, goal: str, week_tag: str | None) -
         return action_plan, loss_run
 
     if agent_id == "agent_a":
-        system_prompt = (
+        system_prompt = persona_system or (
             "Produce strict JSON for a top performer score-optimization coaching plan. "
             "Schema: {\"sub_components\": [str], \"edge_case_checks\": [str], \"perfect_answer_gap\": [str]}"
         )
@@ -514,7 +589,7 @@ def _build_agent_specific_plan(agent_id: str, goal: str, week_tag: str | None) -
         return action_plan, payload
 
     if agent_id == "agent_c":
-        system_prompt = (
+        system_prompt = persona_system or (
             "Produce strict JSON transfer tasks using variation theory. "
             "Schema: {\"constant_concept\": str, \"context_shifts\": [str], \"transfer_tasks\": [str]}"
         )
@@ -532,7 +607,7 @@ def _build_agent_specific_plan(agent_id: str, goal: str, week_tag: str | None) -
         return action_plan, payload
 
     if agent_id == "agent_d":
-        system_prompt = (
+        system_prompt = persona_system or (
             "Produce strict JSON for a socratic foundation rebuild plan. "
             "Schema: {\"foundation_layers\": [str], \"why_questions\": [str], \"advance_rule\": str}"
         )
@@ -594,9 +669,10 @@ def _build_agent_specific_plan(agent_id: str, goal: str, week_tag: str | None) -
 
 def route_student_profile(request: RouterRequest) -> RouterResponse:
     profile_dict = request.profile.model_dump()
-    agent_id, routed_by = route_success_agent(profile_dict)
+    decision = evaluate_routing_policy(profile_dict)
+    agent_id, routed_by = decision.agent_id, decision.routed_by
 
-    if routed_by == "rule-default-calibration":
+    if routed_by == "policy-scorecard" and max(decision.scorecard.values()) <= 1.0:
         llm_agent, llm_reason = _llm_route_assist(profile_dict)
         agent_id = llm_agent
         routed_by = f"llm-assisted:{llm_reason}"
@@ -620,6 +696,10 @@ def route_student_profile(request: RouterRequest) -> RouterResponse:
         "attendance_ratio": request.profile.attendance_ratio,
         "days_until_exam": request.profile.days_until_exam,
         "preparation_window_days": request.profile.preparation_window_days,
+        "urgency_override": decision.urgency_override,
+        "policy_scorecard": decision.scorecard,
+        "decision_trace": decision.decision_trace,
+        "prompt_persona": AGENT_PROMPTS.get(agent_id, {}).get("persona", ""),
         "rule_path": routed_by,
     }
 
@@ -675,8 +755,26 @@ def run_rubric_gps(request: RubricGpsRequest) -> RubricGpsResponse:
         ]
 
     rubric_text = "\n".join(rubric_snippets)
-    criteria = _extract_rubric_criteria(rubric_text)
-    met, missed, deductions, rewrite_priority = _build_rubric_scores(criteria, request.draft_answer)
+    fallback_lines = _extract_rubric_criteria(rubric_text)
+    rubric_key = request.unit_tag or f"week-{request.week_tag}"
+    db_criteria = load_rubric_criteria(week_tag=request.week_tag, rubric_key=rubric_key)
+    criteria = db_criteria or fallback_criteria_from_text(fallback_lines)
+
+    evaluation = evaluate_rubric(
+        student_id=request.student_id,
+        week_tag=request.week_tag,
+        rubric_key=rubric_key,
+        question=request.question,
+        draft_answer=request.draft_answer,
+        criteria=criteria,
+        rubric_source_lineage=rubric_lineage,
+    )
+
+    met = [RubricCriterionScore(**row) for row in evaluation["met_criteria"]]
+    missed = [RubricCriterionScore(**row) for row in evaluation["missed_criteria"]]
+    deductions = evaluation["deductions"]
+    rewrite_priority_ranked = evaluation["rewrite_priority_ranked"]
+    rewrite_priority = [str(row.get("recommendation", "")) for row in rewrite_priority_ranked[:6] if str(row.get("recommendation", "")).strip()]
 
     response = RubricGpsResponse(
         student_id=request.student_id,
@@ -687,6 +785,13 @@ def run_rubric_gps(request: RubricGpsRequest) -> RubricGpsResponse:
         missed_criteria=missed,
         deductions=deductions,
         rewrite_priority=rewrite_priority,
+        structured_loss_run=evaluation["structured_loss_run"],
+        predicted_score=float(evaluation["predicted_score"]),
+        max_score=float(evaluation["max_score"]),
+        forecast_percentage=float(evaluation["forecast_percentage"]),
+        explainable_feedback=list(evaluation["explainable_feedback"]),
+        rewrite_priority_ranked=list(rewrite_priority_ranked),
+        rubric_lineage_tracking=list(evaluation["rubric_lineage_tracking"]),
     )
 
     log_event(
@@ -699,6 +804,15 @@ def run_rubric_gps(request: RubricGpsRequest) -> RubricGpsResponse:
             "met_count": len(met),
             "missed_count": len(missed),
             "deductions": deductions,
+            "predicted_score": evaluation["predicted_score"],
+            "max_score": evaluation["max_score"],
+            "forecast_percentage": evaluation["forecast_percentage"],
+            "rubric_key": rubric_key,
+            "institutional_rules_applied": [
+                row.get("institution_rule_id")
+                for row in evaluation["rubric_lineage_tracking"]
+                if row.get("institution_rule_id")
+            ],
         },
     )
 

@@ -18,9 +18,31 @@ def _client() -> Any:
     return cast(Any, chromadb.PersistentClient(path=settings.chroma_path))
 
 
-def get_collection() -> Collection:
+def _slug(value: str) -> str:
+    cleaned = re.sub(r"[^a-zA-Z0-9_-]+", "_", value.strip().lower())
+    cleaned = re.sub(r"_+", "_", cleaned).strip("_")
+    return cleaned or "default"
+
+
+def _collection_name(week_tag: str | None = None) -> str:
+    prefix = _slug(settings.chroma_collection_prefix or COLLECTION_NAME)
+    namespace = _slug(settings.chroma_namespace)
+
+    if settings.chroma_isolate_by_week and week_tag:
+        return f"{prefix}__{namespace}__{_slug(week_tag)}"
+
+    return f"{prefix}__{namespace}"
+
+
+def get_collection(week_tag: str | None = None) -> Collection:
     client = _client()
-    return client.get_or_create_collection(name=COLLECTION_NAME)
+    return client.get_or_create_collection(name=_collection_name(week_tag=week_tag))
+
+
+def ensure_collection(week_tag: str | None = None) -> str:
+    name = _collection_name(week_tag=week_tag)
+    get_collection(week_tag=week_tag)
+    return name
 
 
 def _baseline_emphasis_weight(text: str) -> float:
@@ -50,6 +72,7 @@ def upsert_paragraphs(
     week_tag: str,
     date_stamp: str | None = None,
     source_type: str = "lecture",
+    source_label: str | None = None,
     knowledge_revision: int | None = None,
     uploaded_at: str | None = None,
 ) -> int:
@@ -71,6 +94,7 @@ def upsert_paragraphs(
             "date_stamp": date_stamp or "",
             "uploaded_at": uploaded_at or "",
             "source_type": source_type,
+            "source_label": source_label or "",
             "emphasis_weight": _baseline_emphasis_weight(i.text),
             "knowledge_revision": knowledge_revision or 0,
             "co_tags_csv": "|".join(_extract_outcome_tags(i.text)[0]),
@@ -79,17 +103,17 @@ def upsert_paragraphs(
         for i in items
     ]
 
-    collection = get_collection()
+    collection = get_collection(week_tag=week_tag)
     collection.upsert(ids=ids, embeddings=cast(Any, vectors), documents=texts, metadatas=cast(Any, metadatas))
     return len(items)
 
 
 def query_context(question: str, week_tag: str | None, top_k: int, source_type: str | None = None) -> dict:
     vector = embed_texts([question])[0]
-    collection = get_collection()
+    collection = get_collection(week_tag=week_tag)
 
     where_payload: dict[str, Any] = {}
-    if week_tag:
+    if week_tag and not settings.chroma_isolate_by_week:
         where_payload["week_tag"] = week_tag
     if source_type:
         where_payload["source_type"] = source_type
@@ -130,11 +154,12 @@ def query_context(question: str, week_tag: str | None, top_k: int, source_type: 
 
 
 def get_week_chunks(week_tag: str) -> dict[str, Any]:
-    collection = get_collection()
+    collection = get_collection(week_tag=week_tag)
+    where: dict[str, Any] | None = None if settings.chroma_isolate_by_week else {"week_tag": week_tag}
     return cast(
         dict[str, Any],
         collection.get(
-        where={"week_tag": week_tag},
+        where=where,
         include=["documents", "metadatas", "embeddings"],
         ),
     )
@@ -167,7 +192,7 @@ def apply_keyword_emphasis(week_tag: str, keyword_weights: dict[str, float], kno
         if boost > 1.0:
             updated_count += 1
 
-    collection = get_collection()
+    collection = get_collection(week_tag=week_tag)
     collection.upsert(
         ids=ids,
         embeddings=cast(Any, embeddings),
@@ -175,3 +200,20 @@ def apply_keyword_emphasis(week_tag: str, keyword_weights: dict[str, float], kno
         metadatas=cast(Any, out_metadatas),
     )
     return updated_count
+
+
+def trigger_immediate_reindex(
+    week_tag: str,
+    reason: str,
+    source_label: str | None = None,
+    knowledge_revision: int | None = None,
+) -> dict[str, Any]:
+    records = get_week_chunks(week_tag)
+    ids = records.get("ids", []) or []
+    return {
+        "week_tag": week_tag,
+        "reason": reason,
+        "source_label": source_label or "",
+        "knowledge_revision": knowledge_revision,
+        "indexed_chunks": len(ids),
+    }

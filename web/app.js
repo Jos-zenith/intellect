@@ -30,6 +30,64 @@ function parseCsvNumbers(raw) {
     .filter((v) => !Number.isNaN(v));
 }
 
+const uiState = {
+  activeStep: 0,
+  auditEvents: [],
+  versions: [],
+};
+
+function updateStepperUI() {
+  const panels = Array.from(document.querySelectorAll(".stepper-panel"));
+  const fill = document.getElementById("stepperProgressFill");
+  const progress = document.querySelector(".stepper-progress");
+  if (!panels.length) return;
+
+  const index = Math.max(0, Math.min(uiState.activeStep, panels.length - 1));
+  uiState.activeStep = index;
+
+  panels.forEach((panel, i) => {
+    panel.classList.toggle("is-active", i === index);
+  });
+
+  const pct = ((index + 1) / panels.length) * 100;
+  if (fill) fill.style.width = `${pct}%`;
+  if (progress) progress.setAttribute("aria-valuenow", String(Math.round(pct)));
+}
+
+function bindStepperControls() {
+  const prev = document.getElementById("btnStepperPrev");
+  const next = document.getElementById("btnStepperNext");
+  const panels = Array.from(document.querySelectorAll(".stepper-panel"));
+
+  prev?.addEventListener("click", () => {
+    uiState.activeStep -= 1;
+    updateStepperUI();
+  });
+
+  next?.addEventListener("click", () => {
+    uiState.activeStep += 1;
+    updateStepperUI();
+  });
+
+  panels.forEach((panel) => {
+    panel.addEventListener("click", () => {
+      const idx = Number(panel.getAttribute("data-step") || "0");
+      uiState.activeStep = idx;
+      updateStepperUI();
+    });
+    panel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        uiState.activeStep += 1;
+        updateStepperUI();
+      }
+      if (event.key === "ArrowLeft") {
+        uiState.activeStep -= 1;
+        updateStepperUI();
+      }
+    });
+  });
+}
+
 // ========== Structured Renderers ==========
 
 // Render Topic Weight Chips (Tuesday result)
@@ -240,6 +298,84 @@ function renderVersionsTimeline(container, versions) {
     .join("");
   
   container.innerHTML = cards;
+}
+
+function applyAuditFilters() {
+  const container = document.getElementById("auditTimeline");
+  const search = document.getElementById("auditSearch")?.value.trim().toLowerCase() || "";
+  const type = document.getElementById("auditFilterType")?.value || "all";
+
+  const filtered = uiState.auditEvents.filter((event) => {
+    const et = String(event.event_type || "").toLowerCase();
+    const payload = JSON.stringify(event.payload || {}).toLowerCase();
+    const byType = type === "all" || et.includes(type);
+    const bySearch = !search || et.includes(search) || payload.includes(search);
+    return byType && bySearch;
+  });
+
+  renderAuditTimeline(container, filtered);
+}
+
+function applyVersionFilters() {
+  const container = document.getElementById("versionsTimeline");
+  const search = document.getElementById("versionSearch")?.value.trim().toLowerCase() || "";
+
+  const filtered = uiState.versions.filter((version) => {
+    const stage = String(version.stage || "").toLowerCase();
+    const week = String(version.week_tag || "").toLowerCase();
+    return !search || stage.includes(search) || week.includes(search);
+  });
+
+  renderVersionsTimeline(container, filtered);
+}
+
+function renderVersionDiff() {
+  const out = document.getElementById("versionDiffOutput");
+  const from = Number(document.getElementById("diffFromRevision")?.value || "0");
+  const to = Number(document.getElementById("diffToRevision")?.value || "0");
+  if (!out) return;
+
+  if (!from || !to || from === to) {
+    out.textContent = "Select two different revision IDs to compare.";
+    return;
+  }
+
+  const fromVersion = uiState.versions.find((v) => Number(v.revision_id) === from);
+  const toVersion = uiState.versions.find((v) => Number(v.revision_id) === to);
+  if (!fromVersion || !toVersion) {
+    out.textContent = "One or both revisions were not found in the current list.";
+    return;
+  }
+
+  const fromSummary = fromVersion.summary || {};
+  const toSummary = toVersion.summary || {};
+  const keys = Array.from(new Set([...Object.keys(fromSummary), ...Object.keys(toSummary)])).sort();
+
+  const lines = [
+    `Comparing revision ${from} -> ${to}`,
+    ""
+  ];
+
+  keys.forEach((key) => {
+    const left = JSON.stringify(fromSummary[key]);
+    const right = JSON.stringify(toSummary[key]);
+    if (left !== right) {
+      lines.push(`- ${key}: ${left}`);
+      lines.push(`+ ${key}: ${right}`);
+    }
+  });
+
+  if (lines.length === 2) {
+    lines.push("No summary-level differences detected.");
+  }
+  out.textContent = lines.join("\n");
+}
+
+function bindGovernanceTools() {
+  document.getElementById("auditSearch")?.addEventListener("input", applyAuditFilters);
+  document.getElementById("auditFilterType")?.addEventListener("change", applyAuditFilters);
+  document.getElementById("versionSearch")?.addEventListener("input", applyVersionFilters);
+  document.getElementById("btnShowDiff")?.addEventListener("click", renderVersionDiff);
 }
 
 
@@ -464,7 +600,8 @@ document.getElementById("btnRefreshAudit")?.addEventListener("click", async () =
   const data = await safeJson(res);
   
   if (res.ok) {
-    renderAuditTimeline(container, data);
+    uiState.auditEvents = Array.isArray(data) ? data : [];
+    applyAuditFilters();
   } else {
     container.innerHTML = "<p class='error'>Failed to load audit events.</p>";
   }
@@ -478,7 +615,8 @@ document.getElementById("btnRefreshVersions")?.addEventListener("click", async (
   const data = await safeJson(res);
   
   if (res.ok && Array.isArray(data)) {
-    renderVersionsTimeline(container, data);
+    uiState.versions = data;
+    applyVersionFilters();
   } else {
     container.innerHTML = "<p class='error'>Failed to load versions.</p>";
   }
@@ -486,20 +624,30 @@ document.getElementById("btnRefreshVersions")?.addEventListener("click", async (
 
 // Auto-load governance on page load
 window.addEventListener("load", () => {
+  bindStepperControls();
+  bindGovernanceTools();
+  updateStepperUI();
+
   const auditContainer = document.getElementById("auditTimeline");
   const versionsContainer = document.getElementById("versionsTimeline");
   
   if (auditContainer) {
     fetch("/api/audit/recent?limit=10")
       .then(res => safeJson(res))
-      .then(data => renderAuditTimeline(auditContainer, data))
+      .then(data => {
+        uiState.auditEvents = Array.isArray(data) ? data : [];
+        applyAuditFilters();
+      })
       .catch(() => {});
   }
   
   if (versionsContainer) {
     fetch("/api/orchestrator/versions?limit=10")
       .then(res => safeJson(res))
-      .then(data => renderVersionsTimeline(versionsContainer, Array.isArray(data) ? data : []))
+      .then(data => {
+        uiState.versions = Array.isArray(data) ? data : [];
+        applyVersionFilters();
+      })
       .catch(() => {});
   }
 });

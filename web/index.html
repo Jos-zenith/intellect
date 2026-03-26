@@ -31,9 +31,9 @@
     </nav>
 
     <!-- Section 1: Hero -->
-    <section class="section-hero" id="section-hero">
+    <section class="section-hero" id="section-hero" aria-labelledby="hero-title">
       <div class="hero-container">
-        <h1 class="hero-headline">The Study-to-Grade Mystery, Solved</h1>
+        <h1 id="hero-title" class="hero-headline">The Study-to-Grade Mystery, Solved</h1>
         <p class="hero-subtitle">3 disconnect cards (Teacher / Study / Grader) + one bold solution line</p>
         
         <div class="hero-cards">
@@ -63,13 +63,20 @@
     </section>
 
     <!-- Section 2: Mon/Tue/Wed Stepper (Most Important Demo) -->
-    <section class="section-stepper" id="section-stepper">
+    <section class="section-stepper" id="section-stepper" aria-labelledby="stepper-title">
       <div class="stepper-container">
-        <h2>The Weekly Cycle: Monday → Tuesday → Wednesday</h2>
+        <h2 id="stepper-title">The Weekly Cycle: Monday → Tuesday → Wednesday</h2>
+        <div class="stepper-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Weekly cycle progress">
+          <div id="stepperProgressFill" class="stepper-progress-fill"></div>
+        </div>
+        <div class="stepper-nav" aria-label="Stepper controls">
+          <button id="btnStepperPrev" class="btn btn-tertiary" type="button" aria-label="Go to previous day">Previous</button>
+          <button id="btnStepperNext" class="btn btn-tertiary" type="button" aria-label="Go to next day">Next</button>
+        </div>
         
-        <div class="stepper-flow">
+        <div class="stepper-flow" role="tablist" aria-label="Monday Tuesday Wednesday stepper">
           <!-- Monday Panel -->
-          <div class="stepper-panel stepper-monday">
+          <div class="stepper-panel stepper-monday" data-step="0" tabindex="0" role="tabpanel" aria-label="Monday ingest panel">
             <div class="stepper-header">
               <span class="stepper-day">MON</span>
               <span class="stepper-label">Ingest</span>
@@ -97,14 +104,14 @@
               </div>
 
               <div id="mondayResult" class="stepper-result"></div>
-              <div id="mondayStatus" class="status-message"></div>
+              <div id="mondayStatus" class="status-message" aria-live="polite"></div>
             </div>
 
             <div class="stepper-arrow">→</div>
           </div>
 
           <!-- Tuesday Panel -->
-          <div class="stepper-panel stepper-tuesday">
+          <div class="stepper-panel stepper-tuesday" data-step="1" tabindex="0" role="tabpanel" aria-label="Tuesday align panel">
             <div class="stepper-header">
               <span class="stepper-day">TUE</span>
               <span class="stepper-label">Align</span>
@@ -132,14 +139,14 @@
               </div>
 
               <div id="tuesdayResult" class="stepper-result"></div>
-              <div id="tuesdayStatus" class="status-message"></div>
+              <div id="tuesdayStatus" class="status-message" aria-live="polite"></div>
             </div>
 
             <div class="stepper-arrow">→</div>
           </div>
 
           <!-- Wednesday Panel -->
-          <div class="stepper-panel stepper-wednesday">
+          <div class="stepper-panel stepper-wednesday" data-step="2" tabindex="0" role="tabpanel" aria-label="Wednesday generate panel">
             <div class="stepper-header">
               <span class="stepper-day">WED</span>
               <span class="stepper-label">Generate</span>
@@ -162,7 +169,7 @@
               </div>
 
               <div id="wednesdayResult" class="stepper-result"></div>
-              <div id="wednesdayStatus" class="status-message"></div>
+              <div id="wednesdayStatus" class="status-message" aria-live="polite"></div>
             </div>
           </div>
         </div>
@@ -170,9 +177,9 @@
     </section>
 
     <!-- Section 3: Four Requirement Cards (2×2 grid, Card 04 full-width split) -->
-    <section class="section-requirements" id="section-requirements">
+    <section class="section-requirements" id="section-requirements" aria-labelledby="requirements-title">
       <div class="requirements-container">
-        <h2>4 Requirement Cards</h2>
+        <h2 id="requirements-title">4 Requirement Cards</h2>
 
         <!-- Card 01: Logic Continuity -->
         <div class="requirement-card requirement-card-01">
@@ -281,9 +288,9 @@
     </section>
 
     <!-- Section 4: Six Agent Cards (3×2 grid) -->
-    <section class="section-agents" id="section-agents">
+    <section class="section-agents" id="section-agents" aria-labelledby="agents-title">
       <div class="agents-container">
-        <h2>6 Specialized Agents</h2>
+        <h2 id="agents-title">6 Specialized Agents</h2>
         
         <div class="agents-grid">
           <div class="agent-card agent-a">
@@ -332,9 +339,9 @@
     </section>
 
     <!-- Section 5: Governance (Audit Timeline + Knowledge Versions) -->
-    <section class="section-governance" id="section-governance">
+    <section class="section-governance" id="section-governance" aria-labelledby="governance-title">
       <div class="governance-container">
-        <h2>Governance & Audit Trail</h2>
+        <h2 id="governance-title">Governance & Audit Trail</h2>
 
         <div class="governance-content">
           <!-- Left Column: Audit Timeline -->
@@ -342,6 +349,17 @@
             <div class="governance-header">
               <h3>Audit Events</h3>
               <button id="btnRefreshAudit" class="btn btn-tertiary">Refresh</button>
+            </div>
+            <div class="governance-tools">
+              <input id="auditSearch" type="search" placeholder="Search events or payload" aria-label="Search audit timeline" />
+              <select id="auditFilterType" aria-label="Filter audit by type">
+                <option value="all">All types</option>
+                <option value="ingest">Ingest</option>
+                <option value="orchestrator">Orchestrator</option>
+                <option value="faculty">Faculty</option>
+                <option value="exam">Exam</option>
+                <option value="chat">Chat</option>
+              </select>
             </div>
             <div id="auditTimeline" class="audit-timeline">
               <p class="placeholder">Loading audit events...</p>
@@ -354,8 +372,20 @@
               <h3>Knowledge Revisions</h3>
               <button id="btnRefreshVersions" class="btn btn-tertiary">Refresh</button>
             </div>
+            <div class="governance-tools">
+              <input id="versionSearch" type="search" placeholder="Search stage or week tag" aria-label="Search knowledge revisions" />
+            </div>
             <div id="versionsTimeline" class="versions-timeline">
               <p class="placeholder">Loading knowledge versions...</p>
+            </div>
+            <div class="diff-browser" aria-live="polite">
+              <h4>Revision Diff Viewer</h4>
+              <div class="diff-controls">
+                <input id="diffFromRevision" type="number" min="1" placeholder="From revision ID" aria-label="Diff from revision" />
+                <input id="diffToRevision" type="number" min="1" placeholder="To revision ID" aria-label="Diff to revision" />
+                <button id="btnShowDiff" class="btn btn-tertiary" type="button">Show Diff</button>
+              </div>
+              <pre id="versionDiffOutput" class="diff-output">Select two revision IDs to compare.</pre>
             </div>
           </div>
         </div>

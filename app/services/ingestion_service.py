@@ -3,10 +3,11 @@ from pathlib import Path
 import re
 from app.audit import log_event
 from app.config import settings
+from app.knowledge_snapshot import store_knowledge_snapshot
 from app.knowledge_versioning import create_knowledge_revision
 from app.models import IngestResponse, IngestTextRequest, IngestTextResponse
 from app.parser import ParsedParagraph, parse_pdf_to_paragraphs
-from app.storage import upsert_paragraphs
+from app.storage import trigger_immediate_reindex, upsert_paragraphs
 
 
 def _split_text_to_paragraphs(text: str, source_file: str) -> list[ParsedParagraph]:
@@ -48,6 +49,14 @@ def ingest_pdf(file_name: str, file_bytes: bytes, week_tag: str | None = None) -
         date_stamp=now.date().isoformat(),
         uploaded_at=now.isoformat(),
         source_type="lecture",
+        source_label=file_name,
+        knowledge_revision=pre_revision,
+    )
+
+    reindex_status = trigger_immediate_reindex(
+        week_tag=week,
+        reason="upload.pdf",
+        source_label=file_name,
         knowledge_revision=pre_revision,
     )
 
@@ -66,6 +75,14 @@ def ingest_pdf(file_name: str, file_bytes: bytes, week_tag: str | None = None) -
             "paragraphs_indexed": indexed,
             "knowledge_revision": revision,
         },
+    )
+    log_event("reindex.triggered", reindex_status)
+    store_knowledge_snapshot(
+        week_tag=week,
+        revision_id=revision,
+        stage="ingest.pdf.completed",
+        source_label=file_name,
+        extra={"pages_parsed": pages_parsed, "paragraphs_indexed": indexed},
     )
 
     return IngestResponse(
@@ -98,6 +115,14 @@ def ingest_text(request: IngestTextRequest) -> IngestTextResponse:
         date_stamp=date_stamp,
         uploaded_at=now.isoformat(),
         source_type=request.source_type,
+        source_label=request.source_label,
+        knowledge_revision=pre_revision,
+    )
+
+    reindex_status = trigger_immediate_reindex(
+        week_tag=week,
+        reason="upload.text",
+        source_label=request.source_label,
         knowledge_revision=pre_revision,
     )
 
@@ -116,6 +141,14 @@ def ingest_text(request: IngestTextRequest) -> IngestTextResponse:
             "source_type": request.source_type,
             "knowledge_revision": revision,
         },
+    )
+    log_event("reindex.triggered", reindex_status)
+    store_knowledge_snapshot(
+        week_tag=week,
+        revision_id=revision,
+        stage="ingest.text.completed",
+        source_label=request.source_label,
+        extra={"paragraphs_indexed": indexed, "source_type": request.source_type},
     )
 
     return IngestTextResponse(

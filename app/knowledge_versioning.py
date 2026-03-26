@@ -1,80 +1,64 @@
 import json
-import sqlite3
 from datetime import datetime
-from pathlib import Path
 
-from app.config import settings
-
-
-def _get_conn() -> sqlite3.Connection:
-    Path(settings.audit_db_path).parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(settings.audit_db_path)
-    conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS knowledge_versions (
-            revision_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            week_tag TEXT NOT NULL,
-            stage TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            summary_json TEXT NOT NULL
-        )
-        """
-    )
-    conn.commit()
-    return conn
+from app.db import fetch_all, json_value, normalize_iso8601
 
 
 def create_knowledge_revision(week_tag: str, stage: str, summary: dict) -> int:
-    conn = _get_conn()
-    try:
-        cursor = conn.execute(
-            "INSERT INTO knowledge_versions(week_tag, stage, created_at, summary_json) VALUES (?, ?, ?, ?)",
-            (week_tag, stage, datetime.utcnow().isoformat(), json.dumps(summary, ensure_ascii=True)),
-        )
-        conn.commit()
-        if cursor.lastrowid is None:
-            raise RuntimeError("Failed to create knowledge revision")
-        return int(cursor.lastrowid)
-    finally:
-        conn.close()
+    created_at = datetime.utcnow().isoformat()
+    rows = fetch_all(
+        """
+        INSERT INTO knowledge_versions(week_tag, stage, created_at, summary_json)
+        VALUES (%s, %s, %s, %s::jsonb)
+        RETURNING revision_id
+        """,
+        (week_tag, stage, created_at, json_value(summary)),
+    )
+    if not rows:
+        raise RuntimeError("Failed to create knowledge revision")
+    return int(rows[0]["revision_id"])
 
 
 def list_knowledge_revisions(week_tag: str | None = None, limit: int = 50) -> list[dict]:
-    conn = _get_conn()
-    try:
-        if week_tag:
-            rows = conn.execute(
-                """
-                SELECT revision_id, week_tag, stage, created_at, summary_json
-                FROM knowledge_versions
-                WHERE week_tag = ?
-                ORDER BY revision_id DESC
-                LIMIT ?
-                """,
-                (week_tag, limit),
-            ).fetchall()
-        else:
-            rows = conn.execute(
-                """
-                SELECT revision_id, week_tag, stage, created_at, summary_json
-                FROM knowledge_versions
-                ORDER BY revision_id DESC
-                LIMIT ?
-                """,
-                (limit,),
-            ).fetchall()
-    finally:
-        conn.close()
+    if week_tag:
+        rows = fetch_all(
+            """
+            SELECT revision_id, week_tag, stage, created_at, summary_json
+            FROM knowledge_versions
+            WHERE week_tag = %s
+            ORDER BY revision_id DESC
+            LIMIT %s
+            """,
+            (week_tag, max(1, limit)),
+        )
+    else:
+        rows = fetch_all(
+            """
+            SELECT revision_id, week_tag, stage, created_at, summary_json
+            FROM knowledge_versions
+            ORDER BY revision_id DESC
+            LIMIT %s
+            """,
+            (max(1, limit),),
+        )
 
     revisions: list[dict] = []
     for row in rows:
+        raw_summary = row.get("summary_json")
+        if isinstance(raw_summary, str):
+            summary = json.loads(raw_summary)
+        elif isinstance(raw_summary, dict):
+            summary = raw_summary
+        else:
+            summary = {}
+
         revisions.append(
             {
-                "revision_id": row[0],
-                "week_tag": row[1],
-                "stage": row[2],
-                "created_at": row[3],
-                "summary": json.loads(row[4]),
+                "revision_id": int(row.get("revision_id", 0)),
+                "week_tag": str(row.get("week_tag", "")),
+                "stage": str(row.get("stage", "")),
+                "created_at": normalize_iso8601(str(row.get("created_at", ""))),
+                "summary": summary,
             }
         )
     return revisions

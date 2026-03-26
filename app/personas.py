@@ -1,3 +1,6 @@
+from app.routing_policy import evaluate_routing_policy
+
+
 PERSONAS = {
     "qa_strategist": {
         "name": "QA Strategist",
@@ -33,7 +36,7 @@ ACADEMIC_SUCCESS_AGENTS = {
         "strategy": "Use Chain-of-Thought style decomposition to surface subtle high-weightage gaps.",
     },
     "agent_b": {
-        "name": "Agent B (Concept Clear)",
+        "name": "Agent B (Rubric Gap)",
         "focus": "Rubric Issues",
         "strategy": "Output a structured JSON loss run against the marking scheme.",
     },
@@ -83,34 +86,5 @@ def route_persona(question: str) -> tuple[str, str]:
 
 
 def route_success_agent(profile: dict) -> tuple[str, str]:
-    marks = [float(m) for m in (profile.get("marks") or []) if isinstance(m, (int, float))]
-    avg = sum(marks) / len(marks) if marks else 0.0
-
-    feedback = str(profile.get("feedback") or "").lower()
-    habits = str(profile.get("study_habits") or "").lower()
-    prep_days = profile.get("days_until_exam")
-    if prep_days is None:
-        prep_days = profile.get("preparation_window_days")
-
-    if prep_days is not None and int(prep_days) <= 2:
-        return "agent_f", "override-urgency-exam-in-2-days"
-
-    if avg >= 85 and "rubric" not in feedback and "presentation" not in feedback and "steps missing" not in feedback:
-        return "agent_a", "rule-high-score-no-rubric-flags"
-
-    if "rubric" in feedback or "steps missing" in feedback or "presentation" in feedback:
-        return "agent_b", "rule-rubric-or-presentation-signal"
-
-    if "memorise" in habits or "memorize" in habits or "rote" in habits or "formula" in habits:
-        return "agent_c", "rule-rote-or-formula-pattern"
-
-    if avg < 45 or "basic" in feedback:
-        return "agent_d", "rule-low-score-or-basic-feedback"
-
-    if "inconsistent" in feedback or "inconsistent" in habits or "irregular" in habits:
-        return "agent_e", "rule-inconsistency-pattern"
-
-    if avg < 60:
-        return "agent_d", "rule-support-foundation-by-score"
-
-    return "agent_e", "rule-default-calibration"
+    decision = evaluate_routing_policy(profile)
+    return decision.agent_id, decision.routed_by
