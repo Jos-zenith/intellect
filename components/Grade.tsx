@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { parseRubricText, rubricTextProblem } from "@/lib/rubricText";
 import type { CalibrationStats, Draft, Pyq, Rubric } from "@/lib/types";
+import { AnswerSheet, marks, MarksBox } from "./AnswerSheet";
 import { Handwriting, type HandwritingMeta } from "./Handwriting";
 import { Button, CiteList, ErrorNote, Label, Panel, postJson, ProvenanceNote, Skeleton, type Provenance } from "./ui";
 
@@ -154,8 +155,9 @@ export function Grade({
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <div className="flex flex-col gap-4">
+    <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+      {/* Stays in view while the report scrolls, so neither column runs out into blank space. */}
+      <div className="flex flex-col gap-4 lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
         <Panel>
           <Label>Question</Label>
           <select
@@ -175,7 +177,7 @@ export function Grade({
             ))}
           </select>
           {pyq ? (
-            <p className="mt-3 text-sm leading-relaxed">
+            <p className="mt-3 line-clamp-3 text-sm leading-relaxed" title={pyq.question}>
               {pyq.question} <span className="text-muted">({pyq.marks} marks)</span>
             </p>
           ) : (
@@ -224,35 +226,37 @@ export function Grade({
               )}
             </div>
           )}
-        </Panel>
-
-        <Panel>
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <Label>Your draft</Label>
-            {samples.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {samples.map((d) => (
+          <div className="mb-2 mt-5 border-t border-line pt-4">
+            <Label>Your answer</Label>
+          </div>
+          {samples.length > 0 && (
+            <p className="mb-3 text-xs text-muted">
+              Try{" "}
+              {samples.map((d, i) => (
+                <span key={d.id}>
+                  {i > 0 && (i === samples.length - 1 ? " or " : ", ")}
                   <button
-                    key={d.id}
                     onClick={() => {
                       setDraft(d.text);
                       setHandwriting(null);
                     }}
-                    className="rounded-full border border-line px-2.5 py-0.5 text-xs hover:border-accent hover:text-accent"
+                    className="text-accent underline decoration-dotted underline-offset-2 hover:decoration-solid"
                   >
                     {d.student}
                   </button>
-                ))}
-              </div>
-            )}
+                </span>
+              ))}
+            </p>
+          )}
+          <div className="paper rounded-sm">
+            <textarea
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              rows={8}
+              placeholder="Write your answer here. Describe diagrams in brackets with their labels, e.g. [Wireframe: header with search, 3 menu cards, 'Order' button]"
+              className="ruled block w-full resize-y rounded-sm bg-transparent pb-8 pl-16 pr-4 font-hand text-[16.5px] text-paper-ink outline-none placeholder:text-paper-ink/40"
+            />
           </div>
-          <textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            rows={14}
-            placeholder="Type or paste your answer. Describe diagrams and wireframes in brackets with their labels, e.g. [Wireframe: header with search, 3 menu cards, 'Order' button…]"
-            className="w-full rounded-lg border border-line bg-panel px-3 py-2 font-mono text-[13px] leading-relaxed outline-none focus:border-accent"
-          />
           <Handwriting
             questionId={pyq?.id}
             questionText={pyq ? undefined : customText}
@@ -264,58 +268,49 @@ export function Grade({
           />
           <div className="mt-3 flex items-center gap-3">
             <Button onClick={() => grade()} disabled={busy || !draft.trim() || (!pyq && !customText.trim()) || Boolean(pasteProblem) || Boolean(pasted && !rubricText.trim())}>
-              {busy ? "Grading…" : "Predict my marks"}
+              {busy ? "Marking…" : "Mark my answer"}
             </Button>
             <span className="text-xs text-muted">Marked criterion by criterion against the rubric, answer key and what was stressed in class</span>
           </div>
         </Panel>
 
-        {history.length > 1 && (
-          <Panel>
-            <Label>Progress on this question</Label>
-            <div className="flex flex-wrap items-center gap-2 text-sm">
-              {history.map((a, i) => (
-                <span key={i} className="flex items-center gap-2">
-                  {i > 0 && <span className="text-muted">→</span>}
-                  <span className="rounded-lg border border-line px-2.5 py-1">
-                    <span className="text-muted">{a.label}:</span>{" "}
-                    <span className="font-semibold tabular-nums">
-                      {a.result.score}/{a.result.outOf}
-                    </span>
-                  </span>
-                </span>
-              ))}
-            </div>
-          </Panel>
-        )}
       </div>
 
       <div className="flex flex-col gap-4">
         {busy && (
-          <Panel>
-            <p className="mb-4 text-sm text-muted">Marking each criterion against the answer key and the lesson log…</p>
-            <Skeleton lines={8} />
-          </Panel>
+          <div className="paper rounded-sm p-6">
+            <p className="red-pen mb-5 text-lg">Marking each criterion against the answer key and the lesson log…</p>
+            <Skeleton lines={18} />
+          </div>
         )}
         {error && <ErrorNote message={error} />}
-        {latest && !busy && <GradeReport result={latest} onRunLive={() => grade(true)} />}
+        {latest && !busy && <GradeReport result={latest} draft={history.at(-1)?.draft} previous={history.at(-2)} onRunLive={() => grade(true)} />}
         {!latest && !busy && !error && (
-          <Panel className="text-sm text-muted">
-            <p className="font-medium text-ink">See where you would lose marks before you hand it in.</p>
-            <p className="mt-2">
-              Try Aarav&apos;s first attempt, then his rewrite after reading the feedback. You get a mark for every rubric criterion, the exact line that lost
-              it, the rule it broke, and the class where the professor warned about it. Try &ldquo;Wrong answer pasted&rdquo; to see what happens to an
-              answer to a different question.
-            </p>
-          </Panel>
+          <MarkingScheme
+            rubric={pyq ? rubrics.find((r) => r.id === pyq.rubricId) : customRubric === PASTE ? undefined : rubrics.find((r) => r.id === customRubric)}
+            pasted={pasted && !pasteProblem ? pasted.criteria : undefined}
+            marks={pyq?.marks}
+            examinerNote={pyq?.examinerNote}
+          />
         )}
       </div>
     </div>
   );
 }
 
-export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunLive?: () => void }) {
-  const tone = result.percent >= 70 ? "text-good" : result.percent >= 50 ? "text-warn" : "text-bad";
+export function GradeReport({
+  result,
+  draft,
+  previous,
+  onRunLive,
+}: {
+  result: GradeResult;
+  /** The graded text; shown marked up in red pen when given. */
+  draft?: string;
+  /** The attempt before this one on the same question, for a before/after marks box. */
+  previous?: Attempt;
+  onRunLive?: () => void;
+}) {
   const offTopic = result.relevance?.verdict === "off-topic";
   return (
     <>
@@ -331,9 +326,9 @@ export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunL
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <Label>Predicted marks</Label>
-            <p className={`text-5xl font-semibold tabular-nums ${tone}`}>
-              {result.score}
-              <span className="text-2xl text-muted">/{result.outOf}</span>
+            <p className="pen-circle red-pen inline-flex h-20 w-28 flex-col items-center justify-center">
+              <span className="text-4xl font-bold leading-none">{marks(result.score)}</span>
+              <span className="text-sm leading-none">out of {result.outOf}</span>
             </p>
             <p className="mt-1 text-sm text-muted">
               {result.range.low === result.range.high ? (
@@ -342,7 +337,7 @@ export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunL
                 <>
                   Likely range{" "}
                   <span className="font-medium text-ink tabular-nums">
-                    {result.range.low}–{result.range.high}
+                    {marks(result.range.low)}–{marks(result.range.high)}
                   </span>
                 </>
               )}
@@ -371,6 +366,22 @@ export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunL
         </div>
       </Panel>
 
+      {draft && <AnswerSheet draft={draft} result={result} />}
+
+      {previous && (
+        <div className="paper rounded-sm p-5">
+          <p className="mb-2 font-serif text-lg font-semibold">
+            Since your last attempt: <span className="text-red-pen">{marks(previous.result.score)} → {marks(result.score)}</span>
+          </p>
+          <MarksBox
+            columns={[
+              { label: previous.label.length > 12 ? "Before" : previous.label, result: previous.result },
+              { label: "Now", result },
+            ]}
+          />
+        </div>
+      )}
+
       <Panel>
         <Label>Where the marks went</Label>
         <div className="divide-y divide-line">
@@ -384,12 +395,13 @@ export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunL
                     style={{ width: `${(c.awarded / c.max) * 100}%` }}
                   />
                 </div>
-                <span className="w-16 text-right font-mono text-sm tabular-nums" title={c.low !== c.high ? `A fair examiner could give ${c.low}-${c.high}` : undefined}>
-                  {c.low !== c.high && <span className="text-xs text-muted">~</span>}
-                  {c.awarded}/{c.max}
+                <span className="w-24 text-right text-sm tabular-nums" title={c.low !== c.high ? `A fair examiner could give ${c.low}-${c.high}` : undefined}>
+                  {c.low !== c.high && <span className="text-xs text-muted">about </span>}
+                  <span className="red-pen text-base">{marks(c.awarded)}</span>
+                  <span className="text-muted">/{c.max}</span>
                 </span>
               </div>
-              {c.evidence && <p className="mt-2 border-l-2 border-line pl-3 font-mono text-xs text-muted">&ldquo;{c.evidence}&rdquo;</p>}
+              {c.evidence && <p className="mt-2 border-l-2 border-line pl-3 font-hand text-[15px] text-muted">&ldquo;{c.evidence}&rdquo;</p>}
               {c.issue && (
                 <p className="mt-2 text-sm">
                   <span className="font-medium text-bad">Lost: </span>
@@ -522,5 +534,76 @@ function HowMarked({ result }: { result: GradeResult }) {
         </li>
       </ol>
     </details>
+  );
+}
+
+/** Before anything is marked: exactly how this question will be marked, so the column is useful, not empty. */
+function MarkingScheme({
+  rubric,
+  pasted,
+  marks: questionMarks,
+  examinerNote,
+}: {
+  rubric?: Rubric;
+  pasted?: { name: string; max: number; descriptor: string }[];
+  marks?: number;
+  examinerNote?: string;
+}) {
+  const criteria = rubric?.criteria ?? pasted ?? [];
+  const total = criteria.reduce((s, c) => s + c.max, 0);
+  return (
+    <div className="paper rounded-sm p-6">
+      <p className="font-serif text-xl font-bold">How this answer will be marked</p>
+      <p className="mt-1 text-sm text-paper-ink/70">
+        {rubric?.source ?? (pasted ? "Your pasted rubric." : "Paste a rubric or pick one to see the scheme.")}
+        {questionMarks && total && questionMarks !== total ? ` Scaled from ${total} to ${questionMarks} marks.` : ""}
+      </p>
+      {criteria.length > 0 && (
+        <table className="mt-4 w-full border-collapse text-sm">
+          <thead>
+            <tr className="border-b-2 border-paper-ink/70 text-left">
+              <th className="py-1.5 pr-3 font-serif font-semibold">Criterion</th>
+              <th className="py-1.5 pr-3 font-serif font-semibold">What earns the marks</th>
+              <th className="w-12 py-1.5 text-center font-serif font-semibold">Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            {criteria.map((c) => (
+              <tr key={c.name} className="border-b border-line align-top">
+                <td className="py-2 pr-3 font-medium">{c.name}</td>
+                <td className="py-2 pr-3 text-paper-ink/75">{c.descriptor}</td>
+                <td className="red-pen py-1.5 text-center text-lg">{marks(c.max)}</td>
+              </tr>
+            ))}
+            <tr className="border-t-2 border-paper-ink/70">
+              <td className="py-2 font-serif font-semibold" colSpan={2}>
+                Total
+              </td>
+              <td className="red-pen py-1.5 text-center text-lg font-bold">{marks(total)}</td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+      {rubric && rubric.deductions.length > 0 && (
+        <div className="mt-5">
+          <p className="font-serif font-semibold">Deductions</p>
+          <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-paper-ink/75">
+            {rubric.deductions.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {examinerNote && (
+        <div className="mt-5 border-l-4 border-red-pen pl-4">
+          <p className="font-serif font-semibold">What the examiner wrote last year</p>
+          <p className="red-pen mt-1 text-[16px] leading-relaxed">{examinerNote}</p>
+        </div>
+      )}
+      <p className="mt-5 text-sm text-paper-ink/70">
+        Every criterion is marked on its own, with a quote from your answer as evidence. Lines that lose marks get underlined in red, with the reason and the
+        class where it was taught.
+      </p>
+    </div>
   );
 }

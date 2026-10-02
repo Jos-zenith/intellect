@@ -99,7 +99,7 @@ export interface Note {
 export interface Draft {
   id: string;
   name: string;
-  /** Display label, e.g. "Aarav (after feedback)". */
+  /** Display label, e.g. "Keerthana (after feedback)". */
   student: string;
   /** Set when this draft is a rewrite of an earlier submission. */
   resubmissionOf?: string;

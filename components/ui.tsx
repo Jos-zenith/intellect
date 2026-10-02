@@ -86,7 +86,7 @@ export function Cite({ id }: { id: string }) {
   return (
     <button
       onClick={() => open(id)}
-      className="mx-0.5 inline-flex items-center rounded border border-accent/30 bg-accent-soft px-1.5 py-px align-baseline font-mono text-[11px] text-accent hover:border-accent"
+      className="mx-0.5 inline-flex items-center border-b border-dotted border-accent/60 align-baseline font-mono text-[11px] text-accent hover:border-solid hover:border-accent"
       title={`Open ${id}`}
     >
       {id}
@@ -206,15 +206,15 @@ export function Thinking({ label }: { label: string }) {
 }
 
 export function ErrorNote({ message }: { message: string }) {
-  return <p className="rounded-lg border border-bad/30 bg-bad-soft px-4 py-3 text-sm text-bad">{message}</p>;
+  return <p className="rounded-md border-l-4 border-bad bg-bad-soft px-4 py-3 text-sm text-bad">{message}</p>;
 }
 
 export function Panel({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-xl border border-line bg-panel p-5 ${className}`}>{children}</section>;
+  return <section className={`rounded-md border border-line bg-panel p-5 ${className}`}>{children}</section>;
 }
 
 export function Label({ children }: { children: ReactNode }) {
-  return <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted">{children}</p>;
+  return <p className="mb-2 font-serif text-[15px] font-semibold text-ink">{children}</p>;
 }
 
 export function Button({
@@ -232,14 +232,14 @@ export function Button({
 }) {
   const style =
     variant === "primary"
-      ? "bg-accent text-white hover:opacity-90 dark:text-[#131210]"
-      : "border border-line bg-panel text-ink hover:bg-sunken";
+      ? "bg-accent text-white shadow-sm hover:opacity-90 dark:text-[#15171b]"
+      : "border border-ink/25 bg-transparent text-ink hover:border-ink/50 hover:bg-sunken";
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-lg px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${style}`}
+      className={`rounded-md px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${style}`}
     >
       {children}
     </button>

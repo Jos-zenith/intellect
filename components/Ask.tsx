@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Course } from "@/lib/types";
-import { ErrorNote, RichText, Thinking } from "./ui";
+import type { Course, Lesson, Pyq, Rubric } from "@/lib/types";
+import { Cite, ErrorNote, RichText, Skeleton, Thinking } from "./ui";
 
 interface ToolStep {
   name: string;
@@ -43,7 +43,7 @@ function describeStep(step: ToolStep) {
   return `${TOOL_LABEL[step.name] ?? step.name}${bits.length ? `: ${bits.join(", ")}` : ""}`;
 }
 
-export function Ask({ course }: { course: Course }) {
+export function Ask({ course, pyqs, rubrics }: { course: Course; pyqs: Pyq[]; rubrics: Rubric[] }) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -106,38 +106,64 @@ export function Ask({ course }: { course: Course }) {
     }
   }
 
+  const form = (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        send(input);
+      }}
+      className={`flex gap-2 rounded-md border border-line bg-panel p-2 shadow-sm ${turns.length ? "sticky bottom-4" : ""}`}
+    >
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="e.g. Which 10-mark questions repeat most in IA2?"
+        className="min-w-0 flex-1 bg-transparent px-3 py-2 outline-none placeholder:text-muted"
+      />
+      <button
+        type="submit"
+        disabled={busy || !input.trim()}
+        className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:text-[#15171b]"
+      >
+        {busy ? "…" : "Ask"}
+      </button>
+    </form>
+  );
+
   return (
     <div className="flex flex-col gap-4">
       {turns.length === 0 && (
-        <div className="rounded-xl border border-line bg-panel p-6">
-          <p className="text-lg font-semibold">
-            Ask anything about {course.code} {course.title}, and get answers grounded in what was actually taught.
-          </p>
-          <p className="mt-1 text-sm text-muted">
-            Every answer is built from the syllabus, {course.faculty}&apos;s lesson log, past papers with examiner notes, and the college rubrics. Click any
-            citation to see the source.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {suggestions(course).map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                className="rounded-full border border-line px-3 py-1.5 text-left text-sm hover:border-accent hover:text-accent"
-              >
-                {s}
-              </button>
-            ))}
+        <>
+          <div>
+            <h1 className="max-w-4xl font-serif text-[2rem] font-bold leading-tight tracking-tight">Ask the course, not the internet.</h1>
+            <p className="mt-2 max-w-3xl text-[15px] text-muted">
+              Answers come only from {course.code}&apos;s syllabus, {course.faculty}&apos;s lesson log, past papers with examiner notes and the college rubrics,
+              and every claim links to its source.
+            </p>
           </div>
-        </div>
+          {form}
+          <p className="text-sm text-muted">
+            Try:{" "}
+            {suggestions(course).map((q, i) => (
+              <span key={q}>
+                {i > 0 && " · "}
+                <button onClick={() => send(q)} className="text-accent underline decoration-dotted underline-offset-2 hover:decoration-solid">
+                  {q}
+                </button>
+              </span>
+            ))}
+          </p>
+          <CourseIndex course={course} pyqs={pyqs} rubrics={rubrics} ask={send} />
+        </>
       )}
 
       {turns.map((t, i) =>
         t.role === "user" ? (
-          <div key={i} className="ml-auto max-w-[85%] rounded-xl bg-accent px-4 py-2.5 text-white dark:text-[#131210]">
+          <p key={i} className="mt-4 font-serif text-xl font-semibold first:mt-0">
             {t.content}
-          </div>
+          </p>
         ) : (
-          <div key={i} className="max-w-full rounded-xl border border-line bg-panel px-5 py-4">
+          <div key={i} className="max-w-full rounded-md border border-line bg-panel px-5 py-4">
             {!!t.steps?.length && (
               <ul className="mb-3 space-y-1 border-b border-line pb-3 text-xs text-muted">
                 {t.steps.map((s, j) => (
@@ -156,27 +182,133 @@ export function Ask({ course }: { course: Course }) {
       )}
       <div ref={endRef} />
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input);
-        }}
-        className="sticky bottom-4 flex gap-2 rounded-xl border border-line bg-panel p-2 shadow-sm"
-      >
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="e.g. Which 10-mark questions repeat most in IA2?"
-          className="min-w-0 flex-1 bg-transparent px-3 py-2 outline-none placeholder:text-muted"
-        />
-        <button
-          type="submit"
-          disabled={busy || !input.trim()}
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:text-[#131210]"
-        >
-          {busy ? "…" : "Ask"}
-        </button>
-      </form>
+      {turns.length > 0 && form}
+    </div>
+  );
+}
+
+/** What can be asked about: the course itself, every row one click from a question. */
+function CourseIndex({ course, pyqs, rubrics, ask }: { course: Course; pyqs: Pyq[]; rubrics: Rubric[]; ask: (q: string) => void }) {
+  const [lessons, setLessons] = useState<Lesson[] | null>(null);
+  useEffect(() => {
+    fetch("/api/lessons")
+      .then((r) => r.json())
+      .then((d: { lessons: Lesson[] }) => setLessons(d.lessons))
+      .catch(() => setLessons([]));
+  }, []);
+  const maxMarks = Math.max(...course.units.map((u) => u.endSemMarks));
+  const upcoming = course.assessments.filter((a) => a.date >= course.today);
+  const recent = [...pyqs].sort((a, b) => b.year - a.year || b.marks - a.marks).slice(0, 7);
+  const row = "group block w-full rounded px-2 py-2 text-left transition hover:bg-sunken";
+  return (
+    <div className="mt-4 grid gap-8 lg:grid-cols-3">
+      <section>
+        <h2 className="font-serif text-lg font-semibold">The syllabus, by marks</h2>
+        <ul className="mt-2 divide-y divide-line border-y border-line">
+          {course.units.map((u) => (
+            <li key={u.id}>
+              <button onClick={() => ask(`What do I need to know from ${u.id} ${u.title} for the exams, and how is it usually asked?`)} className={row}>
+                <span className="flex items-baseline justify-between gap-3 text-sm">
+                  <span>
+                    <span className="font-mono text-xs text-muted">{u.id}</span> {u.title}
+                  </span>
+                  <span className="shrink-0 tabular-nums text-muted">{u.endSemMarks} marks</span>
+                </span>
+                <span className="mt-1.5 block h-1 rounded bg-sunken">
+                  <span className="block h-1 rounded bg-accent" style={{ width: `${(u.endSemMarks / maxMarks) * 100}%` }} />
+                </span>
+                <span className="mt-1 block text-xs text-muted">
+                  {u.topics.length} topics · {u.hours} hours <span className="text-accent opacity-0 group-hover:opacity-100">· ask about it →</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <h2 className="mt-6 font-serif text-lg font-semibold">How answers are marked</h2>
+        <ul className="mt-2 divide-y divide-line border-y border-line">
+          {rubrics.map((r) => (
+            <li key={r.id}>
+              <button onClick={() => ask(`How is a ${r.title.toLowerCase()} marked, and where do students usually lose marks?`)} className={row}>
+                <span className="block text-sm">{r.title}</span>
+                <span className="mt-0.5 block text-xs text-muted">
+                  {r.criteria.map((c) => `${c.name} ${c.max}`).join(" · ")}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="font-serif text-lg font-semibold">Coming up</h2>
+        <ul className="mt-2 divide-y divide-line border-y border-line">
+          {upcoming.map((a) => (
+            <li key={a.id}>
+              <button onClick={() => ask(`What should I focus on for ${a.name}, ranked by marks, given what has been taught so far?`)} className={row}>
+                <span className="flex items-baseline justify-between gap-3 text-sm">
+                  <span className="font-medium">{a.name}</span>
+                  <span className="shrink-0 font-serif tabular-nums text-muted">
+                    {new Date(a.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                  </span>
+                </span>
+                <span className="mt-0.5 block text-xs text-muted">
+                  Units {a.units.join(", ")} · {a.total} marks · {a.pattern.map((p) => `Part ${p.part} ${p.count}×${p.marks}`).join(", ")}
+                </span>
+                <span className="block text-xs text-accent opacity-0 group-hover:opacity-100">What should I focus on? →</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <h2 className="mt-6 font-serif text-lg font-semibold">Recent classes</h2>
+        <ul className="mt-2 divide-y divide-line border-y border-line">
+          {!lessons && (
+            <li className="py-3">
+              <Skeleton lines={5} />
+            </li>
+          )}
+          {lessons
+            ?.slice(-6)
+            .reverse()
+            .map((l) => (
+              <li key={l.id}>
+                <div className={row}>
+                  <span className="flex items-baseline justify-between gap-3 text-xs text-muted">
+                    <Cite id={l.id} />
+                    <span className="font-serif">{new Date(l.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>
+                  </span>
+                  <button
+                    onClick={() => ask(`What did ${course.faculty} stress in the class on ${l.title} (${l.id}), and how will it be marked?`)}
+                    className="mt-1 text-left text-sm hover:text-accent"
+                  >
+                    {l.title}
+                  </button>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="font-serif text-lg font-semibold">Past papers, with examiner notes</h2>
+        <ul className="mt-2 divide-y divide-line border-y border-line">
+          {recent.map((q) => (
+            <li key={q.id}>
+              <div className={row}>
+                <span className="flex items-baseline justify-between gap-3 text-xs text-muted">
+                  <Cite id={q.id} />
+                  <span>
+                    {q.year} {q.exam} · {q.marks}m
+                  </span>
+                </span>
+                <button onClick={() => ask(`How should I answer ${q.id} to get full marks?`)} className="mt-1 line-clamp-2 text-left text-sm hover:text-accent">
+                  {q.question}
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-xs text-muted">{pyqs.length} past questions in all. Click one to ask how to answer it.</p>
+      </section>
     </div>
   );
 }

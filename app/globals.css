@@ -1,37 +1,45 @@
 @import "tailwindcss";
 
+/* The look borrows from the college answer script: warm paper, blue-black
+   ink, ruled lines and the examiner's red pen. */
 :root {
-  --bg: #f6f5f1;
-  --panel: #ffffff;
-  --sunken: #efede7;
-  --ink: #1c1a17;
-  --muted: #6b665d;
-  --line: #e2ded4;
-  --accent: #4f3bc7;
-  --accent-soft: #ece9fb;
-  --good: #1f7a4d;
-  --good-soft: #e3f3ea;
-  --warn: #9a6100;
-  --warn-soft: #fbf0d9;
-  --bad: #b3322d;
-  --bad-soft: #fbe6e4;
+  --bg: #f1ece1;
+  --panel: #fffdf8;
+  --sunken: #ebe4d5;
+  --ink: #1b2233;
+  --muted: #676152;
+  --line: #ddd4c1;
+  --accent: #1d4c9c;
+  --accent-soft: #e2eaf7;
+  --good: #1d6f45;
+  --good-soft: #e0efe4;
+  --warn: #93600a;
+  --warn-soft: #f8edd4;
+  --bad: #c0262d;
+  --bad-soft: #f9e2df;
+  /* Paper stays paper in both themes: it is an object on the desk. */
+  --paper: #fffdf6;
+  --paper-ink: #1b2a4a;
+  --paper-rule: #cddaeb;
+  --paper-margin: #e7a3a3;
+  --red-pen: #c62828;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #131210;
-    --panel: #1c1b18;
-    --sunken: #24221e;
-    --ink: #ecebe6;
-    --muted: #a19c92;
-    --line: #34312b;
-    --accent: #a597ff;
-    --accent-soft: #2a2546;
-    --good: #5fcf94;
+    --bg: #15171b;
+    --panel: #1d2026;
+    --sunken: #262a31;
+    --ink: #e9e6de;
+    --muted: #a39e92;
+    --line: #343842;
+    --accent: #8db0f2;
+    --accent-soft: #1f2b44;
+    --good: #67cf98;
     --good-soft: #17301f;
-    --warn: #e8b55b;
+    --warn: #e5b45b;
     --warn-soft: #362a12;
-    --bad: #f08a83;
+    --bad: #f28b84;
     --bad-soft: #3a1c1a;
   }
 }
@@ -51,20 +59,71 @@
   --color-warn-soft: var(--warn-soft);
   --color-bad: var(--bad);
   --color-bad-soft: var(--bad-soft);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
+  --color-red-pen: var(--red-pen);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  --font-serif: var(--font-serif-4);
+  --font-hand: var(--font-kalam);
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
 }
 
-textarea,
-input,
-select {
-  font: inherit;
+/* In the base layer so utilities like font-hand can override it. */
+@layer base {
+  textarea,
+  input,
+  select {
+    font: inherit;
+  }
+}
+
+/* A sheet of ruled answer paper with a red margin line. */
+.paper {
+  /* Ink on paper keeps light-theme colours, whatever the page theme. */
+  --ink: var(--paper-ink);
+  --muted: #676152;
+  --line: #ddd4c1;
+  --accent: #1d4c9c;
+  --accent-soft: #e2eaf7;
+  --good: #1d6f45;
+  --bad: #c0262d;
+  --bad-soft: #f9e2df;
+  --warn: #93600a;
+  background-color: var(--paper);
+  color: var(--paper-ink);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 8px 24px -12px rgba(30, 25, 10, 0.35);
+}
+.ruled {
+  --rule-gap: 2rem;
+  background-image:
+    linear-gradient(to right, transparent 3.25rem, var(--paper-margin) 3.25rem, var(--paper-margin) calc(3.25rem + 1px), transparent calc(3.25rem + 1px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--rule-gap) - 1px), var(--paper-rule) calc(var(--rule-gap) - 1px), var(--paper-rule) var(--rule-gap));
+  background-color: var(--paper);
+  line-height: var(--rule-gap);
+}
+
+/* The examiner's red pen. */
+.red-pen {
+  color: var(--red-pen);
+  font-family: var(--font-kalam), cursive;
+}
+.pen-underline {
+  text-decoration: underline wavy var(--red-pen);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+}
+.pen-circle {
+  border: 2.5px solid var(--red-pen);
+  border-radius: 50% 46% 52% 48% / 48% 52% 46% 50%;
+  transform: rotate(-4deg);
 }
 
 @keyframes pulse-dot {
@@ -74,3 +133,9 @@ select {
 .dot { animation: pulse-dot 1.2s infinite; }
 .dot:nth-child(2) { animation-delay: 0.15s; }
 .dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes ping-once {
+  0% { box-shadow: 0 0 0 0 var(--accent); }
+  100% { box-shadow: 0 0 0 10px transparent; }
+}
+.ping { animation: ping-once 1.2s ease-out 3; }

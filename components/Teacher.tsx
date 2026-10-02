@@ -162,7 +162,7 @@ export function Teacher({
           </div>
         </Panel>
 
-        <Panel>
+        <Panel className="flex flex-col">
           <div className="mb-3 flex items-center justify-between">
             <Label>Lesson log{lessons && ` (${lessons.length})`}</Label>
             {lessons?.some((l) => l.addedByTeacher) && (
@@ -172,19 +172,22 @@ export function Teacher({
             )}
           </div>
           {!lessons && <Skeleton lines={6} />}
-          <ol className="max-h-[560px] space-y-2 overflow-y-auto pr-1">
+          <ol className="max-h-[560px] divide-y divide-line overflow-y-auto border-y border-line pr-1 lg:h-0 lg:max-h-none lg:min-h-64 lg:grow lg:basis-0">
             {[...(lessons ?? [])].reverse().map((l) => (
-              <li key={l.id} className={`rounded-lg border px-3 py-2 text-sm ${l.addedByTeacher ? "border-accent/40 bg-accent-soft" : "border-line"}`}>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Cite id={l.id} />
-                  <span className="text-xs text-muted">
-                    {l.date} · {l.topicIds.join(", ")}
-                  </span>
-                  {l.excludeFrom?.length ? (
-                    <span className="rounded bg-warn-soft px-1.5 text-xs text-warn">not in {l.excludeFrom.join(", ")}</span>
-                  ) : null}
+              <li key={l.id} className={`grid grid-cols-[4.25rem_minmax(0,1fr)] gap-x-3 py-2.5 text-sm ${l.addedByTeacher ? "-mx-2 bg-accent-soft px-2" : ""}`}>
+                <span className="pt-0.5 font-serif text-sm font-semibold tabular-nums text-muted">
+                  {new Date(l.date).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}
+                </span>
+                <div>
+                  <p>
+                    {l.title}
+                    {l.addedByTeacher && <span className="red-pen ml-2 text-[15px]">today</span>}
+                  </p>
+                  <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-muted">
+                    <Cite id={l.id} /> <span>{l.topicIds.join(", ")}</span>
+                    {l.excludeFrom?.length ? <span className="font-medium text-warn">not in {l.excludeFrom.join(", ")}</span> : null}
+                  </p>
                 </div>
-                <p className="mt-1">{l.title}</p>
               </li>
             ))}
           </ol>

@@ -1,50 +1,50 @@
 [
   {
-    "id": "DRAFT-aarav-1",
-    "name": "Aarav",
-    "student": "Aarav (first attempt)",
+    "id": "DRAFT-keerthana-1",
+    "name": "Keerthana",
+    "student": "Keerthana (first attempt)",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Design thinking has five stages.\n\n1. Empathize - understanding the users and their feelings.\n2. Define - defining the problem clearly.\n3. Ideate - generating ideas through brainstorming.\n4. Prototype - making a model of the solution.\n5. Test - testing the prototype with users.\n\nProblem: The canteen needs a mobile app for ordering food.\n\nSolution: We can make an app so students can order food.\n\n[Diagram of 5 stages drawn]\n\nConclusion: Design thinking is a user-centred approach used to solve problems."
   },
   {
-    "id": "DRAFT-aarav-2",
-    "name": "Aarav",
-    "student": "Aarav (after feedback)",
+    "id": "DRAFT-keerthana-2",
+    "name": "Keerthana",
+    "student": "Keerthana (after feedback)",
     "questionId": "PYQ-25-IA1-B2",
-    "resubmissionOf": "DRAFT-aarav-1",
+    "resubmissionOf": "DRAFT-keerthana-1",
     "text": "Scenario: LICET canteen, 12:30-1:10 lunch break. Users: students with a class at 1:10, and canteen counter staff.\n\nDiagram: [Five stages drawn as a loop: Empathize -> Define -> Ideate -> Prototype -> Test, with arrows from Test back to Define and Ideate labelled 'iterate']\n\n1. Empathize\nObserved the queue on 3 days at 12:30 (about 60 students, average wait 14 min) and interviewed 6 students and 2 staff.\nEmpathy map: [Says: 'I don't have time to eat'; Thinks: 'Will I be marked late?'; Does: sends one friend to order for four, skips lunch; Feels: rushed, anxious]\nInsight: the problem is unpredictability - students don't know if they will make it back in time.\n\n2. Define (POV)\nA student with a 40-minute lunch break needs to get food quickly and predictably because arriving late to class costs attendance.\nHMW: How might we make lunch wait time predictable? How might we spread the 12:30 rush?\n\n3. Ideate\nDiverge: (a) pre-order with pickup time slots, (b) express counter for snacks, (c) live queue display at the block entrance, (d) staggered lunch timings per department, (e) pre-packed combo meals.\nConverge using an impact/feasibility matrix: (a) and (b) are high impact and feasible this semester; (d) needs admin approval. Chosen: pre-order with 10-minute pickup slots plus an express snacks counter.\n\n4. Prototype\nLow-fidelity paper prototype of the red route: menu -> pick combo -> choose pickup slot -> pay via UPI -> pickup token screen.\n\n5. Test\n5 students; task: 'order lunch for a 12:40 pickup'. Measure time to order (target under 1 min) and queue time at pickup (target under 3 min). Two testers could not find the slot picker -> iterate: move slot choice before payment and make it the primary button.\n\nResult: predictable pickup reduces late arrivals; next iteration tests slot capacity with the canteen staff."
   },
   {
-    "id": "DRAFT-priya",
-    "name": "Priya",
-    "student": "Priya",
+    "id": "DRAFT-santhiya",
+    "name": "Santhiya",
+    "student": "Santhiya",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Users: students in the lunch queue and canteen staff.\n\nEmpathize: I watched the queue at lunch and spoke to 5 students. They said they wait 15 minutes and often skip lunch.\nEmpathy map: [Says 'no time'; Thinks 'I'll be late'; Does skips lunch; Feels stressed]\n\nDefine: Students need to get lunch within their short break because otherwise they are late for class.\n\nIdeate: Build a mobile app where students can order and pay before lunch.\n\nPrototype: Make the app in Figma.\n\nTest: Show it to students.\n\n[Diagram: Empathize -> Define -> Ideate -> Prototype -> Test]"
   },
   {
-    "id": "DRAFT-rahul",
-    "name": "Rahul",
-    "student": "Rahul",
+    "id": "DRAFT-ravi",
+    "name": "Ravi",
+    "student": "Ravi",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Scenario: long canteen queues at lunch; students late for class.\n\n[Diagram: five boxes in a straight line, Empathize to Test]\n\nEmpathize: Observe the queue, interview students and staff. Students are stressed about attendance.\n\nDefine: The canteen should have a pre-ordering system.\n\nIdeate: Ideas - pre-order app, more counters, token system, snack counter. Choose the pre-order app because it is the most modern.\n\nPrototype: Wireframes of menu, cart and payment screens.\n\nTest: 5 students try to order lunch; measure how long it takes and fix problems they face."
   },
   {
-    "id": "DRAFT-meera",
-    "name": "Meera",
-    "student": "Meera",
+    "id": "DRAFT-danii",
+    "name": "Danii",
+    "student": "Danii",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Scenario and users: LICET canteen during the 40-minute lunch break. Primary users: students with a post-lunch class; secondary: counter staff handling the rush.\n\nDiagram: [Design thinking loop - Empathize, Define, Ideate, Prototype, Test in a circle, arrows from Test back to Define and Ideate; each stage annotated with the canteen activity below]\n\nEmpathize: Contextual observation 12:25-12:55 for three days (counted queue length every 5 min: peak 55 people at 12:35) and 8 short interviews.\nEmpathy map - Says: 'I just grab chips now'; Thinks: 'If I'm late again my attendance drops'; Does: orders for friends, eats while walking; Feels: anxious, hungry. Pain: unpredictable wait. Gain: knowing exactly when food is ready.\n\nDefine: POV - A student with a fixed 40-minute break needs a predictable lunch wait because being late to the next class affects attendance.\nHMW reduce uncertainty about wait time? HMW reduce the 12:35 peak?\n\nIdeate (diverge): pre-order with pickup slots; express snacks counter; live queue-time display; staggered breaks; combo pre-packs; SMS when order ready.\nConverge (dot voting + impact/effort 2x2): pre-order with slots (high impact, medium effort) and live queue display (medium impact, low effort). Staggered breaks rejected - outside our control.\n\nPrototype: Paper prototype of the red route (menu -> combo -> pickup slot -> UPI -> token), plus a sketch of the queue display.\n\nTest: 5 students, think-aloud, task 'order for 12:40 pickup'. Metrics: task success, time on task, wait at pickup. Finding: slot picker missed by 2 of 5 -> moved before payment. Next iteration: test slot capacity limits with staff."
   },
   {
-    "id": "DRAFT-karthik",
-    "name": "Karthik",
-    "student": "Karthik",
+    "id": "DRAFT-tom",
+    "name": "Tom",
+    "student": "Tom",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Stages: Empathize, Define, Ideate, Prototype, Test.\n\nSolution: canteen app.\n\n[Diagram drawn]"
   },
   {
     "id": "DRAFT-offtopic",
-    "name": "Aarav",
+    "name": "Keerthana",
     "student": "Wrong answer pasted",
     "probe": true,
     "questionId": "PYQ-25-IA1-B2",
