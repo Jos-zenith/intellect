@@ -20,6 +20,12 @@ export const FALLBACK = {
 
 const KEY_HINT = "Add ANTHROPIC_API_KEY to docs/.env.local and restart `npm run dev`.";
 
+// The API's own message, without the status code and JSON envelope.
+function apiMessage(err: InstanceType<typeof Anthropic.APIError>) {
+  const body = err.error as { error?: { message?: string } } | undefined;
+  return body?.error?.message ?? err.message;
+}
+
 export function describeError(err: unknown): { status: number; message: string } {
   if (err instanceof Anthropic.AuthenticationError) {
     return { status: 401, message: `Claude API key is invalid. ${KEY_HINT}` };
@@ -28,10 +34,10 @@ export function describeError(err: unknown): { status: number; message: string }
     return { status: 429, message: "Rate limited by the Claude API - wait a few seconds and try again." };
   }
   if (err instanceof Anthropic.BadRequestError) {
-    return { status: 400, message: `Claude API rejected the request: ${err.message}` };
+    return { status: 400, message: `Claude API rejected the request: ${apiMessage(err)}` };
   }
   if (err instanceof Anthropic.APIError) {
-    return { status: err.status ?? 502, message: `Claude API error ${err.status ?? ""}: ${err.message}` };
+    return { status: err.status ?? 502, message: `Claude API error ${err.status ?? ""}: ${apiMessage(err)}` };
   }
   if (err instanceof Anthropic.AnthropicError) {
     // Client-side SDK error, most often a missing key.

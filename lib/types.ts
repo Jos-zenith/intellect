@@ -84,6 +84,8 @@ export interface Rubric {
   appliesTo: string;
   criteria: RubricCriterion[];
   deductions: string[];
+  /** Where the rubric came from, shown next to every predicted mark. */
+  source?: string;
 }
 
 export interface Note {
@@ -101,6 +103,8 @@ export interface Draft {
   student: string;
   /** Set when this draft is a rewrite of an earlier submission. */
   resubmissionOf?: string;
+  /** A test input (e.g. an off-topic answer), not a class submission. */
+  probe?: boolean;
   questionId: string;
   text: string;
 }

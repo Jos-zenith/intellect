@@ -63,7 +63,7 @@ export function useClassRun(drafts: Draft[]): ClassRun {
   return { status, total: drafts.length, rows, elapsedMs, run, summary };
 }
 
-function summarize(rows: ClassRow[]): ClassSummary | null {
+export function summarize(rows: ClassRow[]): ClassSummary | null {
   const all = rows.filter((r): r is { draft: Draft; result: GradeResult } => Boolean(r.result));
   const graded = all.filter((r) => !r.draft.resubmissionOf);
   if (!graded.length) return null;

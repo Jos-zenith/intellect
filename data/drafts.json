@@ -41,5 +41,13 @@
     "student": "Karthik",
     "questionId": "PYQ-25-IA1-B2",
     "text": "Stages: Empathize, Define, Ideate, Prototype, Test.\n\nSolution: canteen app.\n\n[Diagram drawn]"
+  },
+  {
+    "id": "DRAFT-offtopic",
+    "name": "Aarav",
+    "student": "Wrong answer pasted",
+    "probe": true,
+    "questionId": "PYQ-25-IA1-B2",
+    "text": "Heuristic evaluation of the college fee-payment page using Nielsen's heuristics.\n\n1. Visibility of system status: after clicking 'Pay', the page shows no progress indicator, so students click twice and are charged twice. Fix: show a spinner and disable the button.\n2. Match between system and real world: the page says 'Remit dues' instead of 'Pay fees'. Fix: use the words students use.\n3. Error prevention: the amount field accepts any value. Fix: pre-fill the due amount and lock it.\n4. Recognition rather than recall: students must remember their 12-digit register number. Fix: auto-fill it after login.\n5. Help users recognise and recover from errors: a failed payment shows 'Error 502'. Fix: say whether money was deducted and what to do next.\n\n[Annotated screenshot of the fee page with the five problems marked]\n\nConclusion: fixing these five issues would reduce double payments and help-desk calls."
   }
 ]

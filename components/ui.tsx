@@ -256,3 +256,45 @@ export async function postJson<T>(url: string, body: unknown): Promise<T> {
   if (!res.ok || data.error) throw new Error(data.error ?? `Request failed (${res.status})`);
   return data as T;
 }
+
+export function Skeleton({ lines = 3, className = "" }: { lines?: number; className?: string }) {
+  return (
+    <div className={`animate-pulse space-y-2.5 ${className}`} aria-hidden>
+      {Array.from({ length: lines }, (_, i) => (
+        <div key={i} className="h-3 rounded bg-sunken" style={{ width: `${[92, 78, 85, 64, 88][i % 5]}%` }} />
+      ))}
+    </div>
+  );
+}
+
+/** Where a model result came from: live, cached, recorded, or a hand-written sample. */
+export interface Provenance {
+  cached?: boolean;
+  recorded?: { at: string; origin: "recorded" | "authored"; liveError?: string; stale?: boolean };
+  model?: string;
+  elapsedMs?: number;
+}
+
+export function ProvenanceNote({ of, onRunLive, busy }: { of: Provenance; onRunLive?: () => void; busy?: boolean }) {
+  const r = of.recorded;
+  const date = r && new Date(r.at).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+  const text = r
+    ? r.origin === "authored"
+      ? "Sample result prepared offline to show the format. Not a live model run."
+      : `Recorded run of ${of.model ?? "the model"} on ${date}.`
+    : of.cached
+      ? "Same input as an earlier run, so the stored result is shown."
+      : `Live run${of.elapsedMs ? ` · ${(of.elapsedMs / 1000).toFixed(0)} s` : ""}.`;
+  return (
+    <p className="text-xs text-muted">
+      {text}
+      {r?.stale && " It was made before the latest lesson-log change."}
+      {r?.liveError && <span className="text-warn"> Live run unavailable: {r.liveError}</span>}
+      {onRunLive && (r || of.cached) && (
+        <button onClick={onRunLive} disabled={busy} className="ml-1.5 text-accent hover:underline disabled:opacity-50">
+          {busy ? "Running live…" : "Run it live"}
+        </button>
+      )}
+    </p>
+  );
+}

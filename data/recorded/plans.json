@@ -1,0 +1,1029 @@
+[
+ {
+  "name": "before demo lesson",
+  "key": "5132b075bb4c99ebbea9d315e46dea76",
+  "assessmentId": "IA2",
+  "lessonIds": [
+   "LES-0909",
+   "LES-0911",
+   "LES-0914",
+   "LES-0916",
+   "LES-0918",
+   "LES-0921",
+   "LES-0925",
+   "LES-0928",
+   "LES-0930",
+   "LES-1001"
+  ],
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "assessment": {
+    "id": "IA2",
+    "name": "Internal Assessment 2",
+    "date": "2026-10-23",
+    "units": [
+     "U3",
+     "U4"
+    ],
+    "total": 50,
+    "pattern": [
+     {
+      "part": "A",
+      "count": 5,
+      "marks": 2,
+      "rubricId": "RUB-2M",
+      "note": "Answer all"
+     },
+     {
+      "part": "B",
+      "count": 4,
+      "marks": 10,
+      "rubricId": "RUB-10M-APP",
+      "note": "Either/or choice; at least two scenario-based application questions"
+     }
+    ]
+   },
+   "asOf": "2026-10-02",
+   "daysLeft": 21,
+   "coverage": [
+    {
+     "topicId": "U3.T1",
+     "name": "Introduction to user experience and why it matters (UX honeycomb)",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0909"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-A1"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0909"
+    },
+    {
+     "topicId": "U3.T2",
+     "name": "The UX design process and its methodology (double diamond)",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0911"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Taught in LES-0911"
+    },
+    {
+     "topicId": "U3.T3",
+     "name": "Research in UX design: tools and methods",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0914",
+      "LES-0921"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Taught in LES-0914, LES-0921"
+    },
+    {
+     "topicId": "U3.T4",
+     "name": "User needs and goals",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0916",
+      "LES-0921"
+     ],
+     "pyqIds": [],
+     "pyqMarks": 0,
+     "reason": "Taught in LES-0916, LES-0921"
+    },
+    {
+     "topicId": "U3.T5",
+     "name": "Business goals and aligning them with user goals",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0918",
+      "LES-0921"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-A1",
+      "PYQ-25-IA2-B2"
+     ],
+     "pyqMarks": 12,
+     "reason": "Taught in LES-0918, LES-0921"
+    },
+    {
+     "topicId": "U4.T1",
+     "name": "Sketching principles and red routes",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0925"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-A2"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0925"
+    },
+    {
+     "topicId": "U4.T2",
+     "name": "Responsive design",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0928"
+     ],
+     "pyqIds": [
+      "PYQ-23-IA2-A1"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0928"
+    },
+    {
+     "topicId": "U4.T3",
+     "name": "Wireframing and creating wireflows",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0930"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-A2",
+      "PYQ-25-IA2-B3"
+     ],
+     "pyqMarks": 12,
+     "reason": "Taught in LES-0930"
+    },
+    {
+     "topicId": "U4.T4",
+     "name": "Building prototypes and high-fidelity mockups with tools",
+     "unit": "U4",
+     "status": "excluded",
+     "lessonIds": [
+      "LES-1001"
+     ],
+     "pyqIds": [
+      "PYQ-24-END-B1"
+     ],
+     "pyqMarks": 13,
+     "reason": "Faculty excluded it from IA2 in LES-1001"
+    },
+    {
+     "topicId": "U4.T5",
+     "name": "Conducting usability tests",
+     "unit": "U4",
+     "status": "not-taught",
+     "lessonIds": [],
+     "pyqIds": [
+      "PYQ-24-IA2-B2"
+     ],
+     "pyqMarks": 10,
+     "reason": "Not taught as of 2026-10-02"
+    },
+    {
+     "topicId": "U4.T6",
+     "name": "Other evaluative research methods, synthesising findings and prototype iteration",
+     "unit": "U4",
+     "status": "not-taught",
+     "lessonIds": [],
+     "pyqIds": [
+      "PYQ-23-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Not taught as of 2026-10-02"
+    }
+   ],
+   "lessonIds": [
+    "LES-0909",
+    "LES-0911",
+    "LES-0914",
+    "LES-0916",
+    "LES-0918",
+    "LES-0921",
+    "LES-0925",
+    "LES-0928",
+    "LES-0930",
+    "LES-1001"
+   ],
+   "priorities": [
+    {
+     "topicId": "U3.T3",
+     "topicName": "U3.T3 Research in UX design: tools and methods",
+     "why": "Carried 10 marks in IA2 2025 and Ms. Accelia called it the most likely IA2 10-marker. A list without justification is capped at 4/10.",
+     "sourceIds": [
+      "LES-0914",
+      "PYQ-25-IA2-B1"
+     ]
+    },
+    {
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "why": "12 marks across past IA2 papers and called a 'classic IA2 10-marker'. Unlabelled arrows lose the flow marks.",
+     "sourceIds": [
+      "LES-0930",
+      "PYQ-25-IA2-B3"
+     ]
+    },
+    {
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "why": "12 marks in past papers. Needs one concrete conflict and one resolution with a metric.",
+     "sourceIds": [
+      "LES-0918",
+      "PYQ-25-IA2-B2"
+     ]
+    },
+    {
+     "topicId": "U3.T2",
+     "topicName": "U3.T2 The UX design process and its methodology (double diamond)",
+     "why": "A past 10-marker. Both diamonds must be drawn and labelled.",
+     "sourceIds": [
+      "LES-0911",
+      "PYQ-24-IA2-B1"
+     ]
+    },
+    {
+     "topicId": "U4.T1",
+     "topicName": "U4.T1 Sketching principles and red routes",
+     "why": "Short-answer favourite, and the red route is the first step of every wireflow answer.",
+     "sourceIds": [
+      "LES-0925",
+      "PYQ-25-IA2-A2"
+     ]
+    }
+   ],
+   "studyPlan": [
+    {
+     "session": 1,
+     "focus": "Research methods with justification",
+     "topicIds": [
+      "U3.T3",
+      "U3.T4"
+     ],
+     "tasks": [
+      "Rework PYQ-25-IA2-B1 as a method | why | what it reveals table.",
+      "Write one JTBD goal for the attendance-app user."
+     ],
+     "sourceIds": [
+      "LES-0914",
+      "LES-0921",
+      "LES-0916"
+     ]
+    },
+    {
+     "session": 2,
+     "focus": "Red routes and wireflows",
+     "topicIds": [
+      "U4.T1",
+      "U4.T3"
+     ],
+     "tasks": [
+      "Name the red route of the exam-registration portal before sketching.",
+      "Wireframe 3-4 screens and label every arrow with the user action."
+     ],
+     "sourceIds": [
+      "LES-0925",
+      "LES-0930"
+     ]
+    },
+    {
+     "session": 3,
+     "focus": "Business vs. user goals",
+     "topicIds": [
+      "U3.T5"
+     ],
+     "tasks": [
+      "Write one conflict and one measurable resolution for the food-delivery case.",
+      "Practise PYQ-25-IA2-B2 in 20 minutes."
+     ],
+     "sourceIds": [
+      "LES-0918",
+      "PYQ-25-IA2-B2"
+     ]
+    },
+    {
+     "session": 4,
+     "focus": "Double diamond and responsive design",
+     "topicIds": [
+      "U3.T2",
+      "U4.T2"
+     ],
+     "tasks": [
+      "Draw both diamonds from memory and mark divergence and convergence.",
+      "Sketch one screen at two breakpoints."
+     ],
+     "sourceIds": [
+      "LES-0911",
+      "LES-0928"
+     ]
+    },
+    {
+     "session": 5,
+     "focus": "Timed practice paper",
+     "topicIds": [
+      "U3.T1",
+      "U3.T3",
+      "U4.T3"
+     ],
+     "tasks": [
+      "Sit the practice paper below in 90 minutes.",
+      "Grade each Part B answer here and fix the biggest loss."
+     ],
+     "sourceIds": [
+      "LES-0909",
+      "LES-0930"
+     ]
+    }
+   ],
+   "practiceTest": [
+    {
+     "part": "A",
+     "number": 1,
+     "marks": 2,
+     "topicId": "U3.T1",
+     "topicName": "U3.T1 Introduction to user experience and why it matters (UX honeycomb)",
+     "question": "List any four facets of the UX honeycomb and give a one-line example of one of them from the college ERP portal.",
+     "basedOnLessons": [
+      "LES-0909"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-A1"
+     ],
+     "examinerLooksFor": "Four correct facets plus one concrete example from a real interface.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 2,
+     "marks": 2,
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "question": "Give one example where a business goal of a food-delivery app conflicts with a user goal.",
+     "basedOnLessons": [
+      "LES-0918"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-A1"
+     ],
+     "examinerLooksFor": "A named business goal, a named user goal and the specific point where they clash.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 3,
+     "marks": 2,
+     "topicId": "U4.T1",
+     "topicName": "U4.T1 Sketching principles and red routes",
+     "question": "What is the red route of a hostel mess-feedback app? State it as a sequence of screens.",
+     "basedOnLessons": [
+      "LES-0925"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-A2"
+     ],
+     "examinerLooksFor": "Definition of red route applied to the given app as an ordered screen sequence.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 4,
+     "marks": 2,
+     "topicId": "U4.T2",
+     "topicName": "U4.T2 Responsive design",
+     "question": "How should a course-registration table change between a 1280 px laptop screen and a 360 px phone?",
+     "basedOnLessons": [
+      "LES-0928"
+     ],
+     "similarPyqs": [
+      "PYQ-23-IA2-A1"
+     ],
+     "examinerLooksFor": "What moves, hides or stacks at the smaller breakpoint.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 5,
+     "marks": 2,
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "question": "Differentiate a wireframe and a wireflow with one example each.",
+     "basedOnLessons": [
+      "LES-0930"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-A2"
+     ],
+     "examinerLooksFor": "A correct distinction plus one example of each.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 6,
+     "marks": 10,
+     "topicId": "U3.T3",
+     "topicName": "U3.T3 Research in UX design: tools and methods",
+     "question": "The placement cell wants an app that tells final-year students which companies are visiting and lets them register. Select three UX research methods, justify each by what it reveals, and present your plan as a table (method | why | what it reveals).",
+     "basedOnLessons": [
+      "LES-0914",
+      "LES-0921"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B1"
+     ],
+     "examinerLooksFor": "Three methods, each justified by what it reveals for THIS app, in a table. A list without justification is capped at 4/10.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 7,
+     "marks": 10,
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "question": "A campus print-shop app earns more when students choose colour printing. Explain one concrete conflict between this business goal and student goals, and propose a resolution you can measure.",
+     "basedOnLessons": [
+      "LES-0918",
+      "LES-0921"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B2"
+     ],
+     "examinerLooksFor": "One concrete conflict, one concrete resolution and a metric; generic 'balance both' gets no application marks.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 8,
+     "marks": 10,
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "question": "Identify the red route of a library seat-booking app and draw wireframes of 3-4 screens on that route, connected as a wireflow with labelled arrows.",
+     "basedOnLessons": [
+      "LES-0925",
+      "LES-0930"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B3"
+     ],
+     "examinerLooksFor": "Red route named first, 3-4 labelled wireframes, arrows labelled with the user action.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 9,
+     "marks": 10,
+     "topicId": "U3.T2",
+     "topicName": "U3.T2 The UX design process and its methodology (double diamond)",
+     "question": "Explain the double diamond process with a labelled diagram, using the redesign of the college bus-tracking app as a running example.",
+     "basedOnLessons": [
+      "LES-0911"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-B1"
+     ],
+     "examinerLooksFor": "Both diamonds with all four phases labelled, divergence/convergence marked, and the example carried through each phase.",
+     "problems": []
+    }
+   ],
+   "check": {
+    "questions": 9,
+    "totalMarks": 50,
+    "expectedMarks": 50,
+    "outOfScope": 0
+   },
+   "model": "claude-opus-5-5",
+   "key": "5132b075bb4c99ebbea9d315e46dea76",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "name": "after demo lesson",
+  "key": "c98feb1698f282c85793817018e95ae7",
+  "assessmentId": "IA2",
+  "lessonIds": [
+   "LES-0909",
+   "LES-0911",
+   "LES-0914",
+   "LES-0916",
+   "LES-0918",
+   "LES-0921",
+   "LES-0925",
+   "LES-0928",
+   "LES-0930",
+   "LES-1001",
+   "LES-1002"
+  ],
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "assessment": {
+    "id": "IA2",
+    "name": "Internal Assessment 2",
+    "date": "2026-10-23",
+    "units": [
+     "U3",
+     "U4"
+    ],
+    "total": 50,
+    "pattern": [
+     {
+      "part": "A",
+      "count": 5,
+      "marks": 2,
+      "rubricId": "RUB-2M",
+      "note": "Answer all"
+     },
+     {
+      "part": "B",
+      "count": 4,
+      "marks": 10,
+      "rubricId": "RUB-10M-APP",
+      "note": "Either/or choice; at least two scenario-based application questions"
+     }
+    ]
+   },
+   "asOf": "2026-10-02",
+   "daysLeft": 21,
+   "coverage": [
+    {
+     "topicId": "U3.T1",
+     "name": "Introduction to user experience and why it matters (UX honeycomb)",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0909"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-A1"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0909"
+    },
+    {
+     "topicId": "U3.T2",
+     "name": "The UX design process and its methodology (double diamond)",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0911"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Taught in LES-0911"
+    },
+    {
+     "topicId": "U3.T3",
+     "name": "Research in UX design: tools and methods",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0914",
+      "LES-0921"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Taught in LES-0914, LES-0921"
+    },
+    {
+     "topicId": "U3.T4",
+     "name": "User needs and goals",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0916",
+      "LES-0921"
+     ],
+     "pyqIds": [],
+     "pyqMarks": 0,
+     "reason": "Taught in LES-0916, LES-0921"
+    },
+    {
+     "topicId": "U3.T5",
+     "name": "Business goals and aligning them with user goals",
+     "unit": "U3",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0918",
+      "LES-0921"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-A1",
+      "PYQ-25-IA2-B2"
+     ],
+     "pyqMarks": 12,
+     "reason": "Taught in LES-0918, LES-0921"
+    },
+    {
+     "topicId": "U4.T1",
+     "name": "Sketching principles and red routes",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0925"
+     ],
+     "pyqIds": [
+      "PYQ-25-IA2-A2"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0925"
+    },
+    {
+     "topicId": "U4.T2",
+     "name": "Responsive design",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0928"
+     ],
+     "pyqIds": [
+      "PYQ-23-IA2-A1"
+     ],
+     "pyqMarks": 2,
+     "reason": "Taught in LES-0928"
+    },
+    {
+     "topicId": "U4.T3",
+     "name": "Wireframing and creating wireflows",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-0930"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-A2",
+      "PYQ-25-IA2-B3"
+     ],
+     "pyqMarks": 12,
+     "reason": "Taught in LES-0930"
+    },
+    {
+     "topicId": "U4.T4",
+     "name": "Building prototypes and high-fidelity mockups with tools",
+     "unit": "U4",
+     "status": "excluded",
+     "lessonIds": [
+      "LES-1001"
+     ],
+     "pyqIds": [
+      "PYQ-24-END-B1"
+     ],
+     "pyqMarks": 13,
+     "reason": "Faculty excluded it from IA2 in LES-1001"
+    },
+    {
+     "topicId": "U4.T5",
+     "name": "Conducting usability tests",
+     "unit": "U4",
+     "status": "taught",
+     "lessonIds": [
+      "LES-1002"
+     ],
+     "pyqIds": [
+      "PYQ-24-IA2-B2"
+     ],
+     "pyqMarks": 10,
+     "reason": "Taught in LES-1002"
+    },
+    {
+     "topicId": "U4.T6",
+     "name": "Other evaluative research methods, synthesising findings and prototype iteration",
+     "unit": "U4",
+     "status": "not-taught",
+     "lessonIds": [],
+     "pyqIds": [
+      "PYQ-23-IA2-B1"
+     ],
+     "pyqMarks": 10,
+     "reason": "Not taught as of 2026-10-02"
+    }
+   ],
+   "lessonIds": [
+    "LES-0909",
+    "LES-0911",
+    "LES-0914",
+    "LES-0916",
+    "LES-0918",
+    "LES-0921",
+    "LES-0925",
+    "LES-0928",
+    "LES-0930",
+    "LES-1001",
+    "LES-1002"
+   ],
+   "priorities": [
+    {
+     "topicId": "U4.T5",
+     "topicName": "U4.T5 Conducting usability tests",
+     "why": "New: taught today, and Ms. Accelia said it WILL be in IA2 Part B. It carried 10 marks in IA2 2024.",
+     "sourceIds": [
+      "LES-1002",
+      "PYQ-24-IA2-B2"
+     ]
+    },
+    {
+     "topicId": "U3.T3",
+     "topicName": "U3.T3 Research in UX design: tools and methods",
+     "why": "Carried 10 marks in IA2 2025 and Ms. Accelia called it the most likely IA2 10-marker. A list without justification is capped at 4/10.",
+     "sourceIds": [
+      "LES-0914",
+      "PYQ-25-IA2-B1"
+     ]
+    },
+    {
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "why": "12 marks across past IA2 papers and called a 'classic IA2 10-marker'. Unlabelled arrows lose the flow marks.",
+     "sourceIds": [
+      "LES-0930",
+      "PYQ-25-IA2-B3"
+     ]
+    },
+    {
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "why": "12 marks in past papers. Needs one concrete conflict and one resolution with a metric.",
+     "sourceIds": [
+      "LES-0918",
+      "PYQ-25-IA2-B2"
+     ]
+    },
+    {
+     "topicId": "U3.T2",
+     "topicName": "U3.T2 The UX design process and its methodology (double diamond)",
+     "why": "A past 10-marker. Both diamonds must be drawn and labelled.",
+     "sourceIds": [
+      "LES-0911",
+      "PYQ-24-IA2-B1"
+     ]
+    }
+   ],
+   "studyPlan": [
+    {
+     "session": 1,
+     "focus": "Research methods with justification",
+     "topicIds": [
+      "U3.T3",
+      "U3.T4"
+     ],
+     "tasks": [
+      "Rework PYQ-25-IA2-B1 as a method | why | what it reveals table.",
+      "Write one JTBD goal for the attendance-app user."
+     ],
+     "sourceIds": [
+      "LES-0914",
+      "LES-0921",
+      "LES-0916"
+     ]
+    },
+    {
+     "session": 2,
+     "focus": "Red routes and wireflows",
+     "topicIds": [
+      "U4.T1",
+      "U4.T3"
+     ],
+     "tasks": [
+      "Name the red route of the exam-registration portal before sketching.",
+      "Wireframe 3-4 screens and label every arrow with the user action."
+     ],
+     "sourceIds": [
+      "LES-0925",
+      "LES-0930"
+     ]
+    },
+    {
+     "session": 3,
+     "focus": "Usability testing (new from today's class)",
+     "topicIds": [
+      "U4.T5"
+     ],
+     "tasks": [
+      "Plan a test for the library app: goal, 5 participants, 3 red-route tasks, think-aloud.",
+      "List the metrics (task success, time on task, errors, SUS) and rank findings by severity."
+     ],
+     "sourceIds": [
+      "LES-1002",
+      "PYQ-24-IA2-B2"
+     ]
+    },
+    {
+     "session": 4,
+     "focus": "Business vs. user goals",
+     "topicIds": [
+      "U3.T5"
+     ],
+     "tasks": [
+      "Write one conflict and one measurable resolution for the food-delivery case.",
+      "Practise PYQ-25-IA2-B2 in 20 minutes."
+     ],
+     "sourceIds": [
+      "LES-0918",
+      "PYQ-25-IA2-B2"
+     ]
+    },
+    {
+     "session": 5,
+     "focus": "Double diamond and responsive design",
+     "topicIds": [
+      "U3.T2",
+      "U4.T2"
+     ],
+     "tasks": [
+      "Draw both diamonds from memory and mark divergence and convergence.",
+      "Sketch one screen at two breakpoints."
+     ],
+     "sourceIds": [
+      "LES-0911",
+      "LES-0928"
+     ]
+    },
+    {
+     "session": 6,
+     "focus": "Timed practice paper",
+     "topicIds": [
+      "U3.T3",
+      "U4.T3",
+      "U4.T5"
+     ],
+     "tasks": [
+      "Sit the practice paper below in 90 minutes.",
+      "Grade each Part B answer here and fix the biggest loss."
+     ],
+     "sourceIds": [
+      "LES-0930",
+      "LES-1002"
+     ]
+    }
+   ],
+   "practiceTest": [
+    {
+     "part": "A",
+     "number": 1,
+     "marks": 2,
+     "topicId": "U3.T1",
+     "topicName": "U3.T1 Introduction to user experience and why it matters (UX honeycomb)",
+     "question": "List any four facets of the UX honeycomb and give a one-line example of one of them from the college ERP portal.",
+     "basedOnLessons": [
+      "LES-0909"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-A1"
+     ],
+     "examinerLooksFor": "Four correct facets plus one concrete example from a real interface.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 2,
+     "marks": 2,
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "question": "Give one example where a business goal of a food-delivery app conflicts with a user goal.",
+     "basedOnLessons": [
+      "LES-0918"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-A1"
+     ],
+     "examinerLooksFor": "A named business goal, a named user goal and the specific point where they clash.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 3,
+     "marks": 2,
+     "topicId": "U4.T1",
+     "topicName": "U4.T1 Sketching principles and red routes",
+     "question": "What is the red route of a hostel mess-feedback app? State it as a sequence of screens.",
+     "basedOnLessons": [
+      "LES-0925"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-A2"
+     ],
+     "examinerLooksFor": "Definition of red route applied to the given app as an ordered screen sequence.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 4,
+     "marks": 2,
+     "topicId": "U4.T2",
+     "topicName": "U4.T2 Responsive design",
+     "question": "How should a course-registration table change between a 1280 px laptop screen and a 360 px phone?",
+     "basedOnLessons": [
+      "LES-0928"
+     ],
+     "similarPyqs": [
+      "PYQ-23-IA2-A1"
+     ],
+     "examinerLooksFor": "What moves, hides or stacks at the smaller breakpoint.",
+     "problems": []
+    },
+    {
+     "part": "A",
+     "number": 5,
+     "marks": 2,
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "question": "Differentiate a wireframe and a wireflow with one example each.",
+     "basedOnLessons": [
+      "LES-0930"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-A2"
+     ],
+     "examinerLooksFor": "A correct distinction plus one example of each.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 6,
+     "marks": 10,
+     "topicId": "U3.T3",
+     "topicName": "U3.T3 Research in UX design: tools and methods",
+     "question": "The placement cell wants an app that tells final-year students which companies are visiting and lets them register. Select three UX research methods, justify each by what it reveals, and present your plan as a table (method | why | what it reveals).",
+     "basedOnLessons": [
+      "LES-0914",
+      "LES-0921"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B1"
+     ],
+     "examinerLooksFor": "Three methods, each justified by what it reveals for THIS app, in a table. A list without justification is capped at 4/10.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 7,
+     "marks": 10,
+     "topicId": "U3.T5",
+     "topicName": "U3.T5 Business goals and aligning them with user goals",
+     "question": "A campus print-shop app earns more when students choose colour printing. Explain one concrete conflict between this business goal and student goals, and propose a resolution you can measure.",
+     "basedOnLessons": [
+      "LES-0918",
+      "LES-0921"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B2"
+     ],
+     "examinerLooksFor": "One concrete conflict, one concrete resolution and a metric; generic 'balance both' gets no application marks.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 8,
+     "marks": 10,
+     "topicId": "U4.T3",
+     "topicName": "U4.T3 Wireframing and creating wireflows",
+     "question": "Identify the red route of a library seat-booking app and draw wireframes of 3-4 screens on that route, connected as a wireflow with labelled arrows.",
+     "basedOnLessons": [
+      "LES-0925",
+      "LES-0930"
+     ],
+     "similarPyqs": [
+      "PYQ-25-IA2-B3"
+     ],
+     "examinerLooksFor": "Red route named first, 3-4 labelled wireframes, arrows labelled with the user action.",
+     "problems": []
+    },
+    {
+     "part": "B",
+     "number": 9,
+     "marks": 10,
+     "topicId": "U4.T5",
+     "topicName": "U4.T5 Conducting usability tests",
+     "question": "Plan a usability test for the college canteen's new pre-order app: test goal, five participants, three realistic tasks on the red route, the metrics you will record, and what you would change in the next iteration.",
+     "basedOnLessons": [
+      "LES-1002"
+     ],
+     "similarPyqs": [
+      "PYQ-24-IA2-B2"
+     ],
+     "examinerLooksFor": "Goal, 5 representative participants, 3 red-route tasks, think-aloud, metrics (task success, time on task, errors, SUS) and a severity-ranked next iteration, as stressed in class.",
+     "problems": []
+    }
+   ],
+   "check": {
+    "questions": 9,
+    "totalMarks": 50,
+    "expectedMarks": 50,
+    "outOfScope": 0
+   },
+   "model": "claude-opus-5-5",
+   "key": "c98feb1698f282c85793817018e95ae7",
+   "elapsedMs": 0
+  }
+ }
+]

@@ -1,0 +1,1530 @@
+[
+ {
+  "draftId": "DRAFT-aarav-1",
+  "key": "ea86a6ba52b7b9197114fbabca09bcc4",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "It attempts the canteen question but explains design thinking in general terms."
+   },
+   "score": 3.0,
+   "range": {
+    "low": 2.0,
+    "high": 4.0
+   },
+   "outOf": 10,
+   "percent": 30,
+   "grade": "RA (re-appear)",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 0.5,
+     "low": 0.5,
+     "high": 0.5,
+     "evidence": "Problem: The canteen needs a mobile app for ordering food.",
+     "issue": "Mentions the canteen, but never names the users (students with a class after lunch, counter staff) or the constraint (a short lunch break).",
+     "fix": "Open with one line: the LICET canteen at 12:30, students who must reach a 1:10 class, and the counter staff.",
+     "sourceIds": [
+      "RUB-10M-APP",
+      "LES-0817"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 0.5,
+     "low": 0.5,
+     "high": 1,
+     "evidence": "[Diagram of 5 stages drawn]",
+     "issue": "A bare placeholder: no labels, no canteen content, and nothing shows the loop back from Test.",
+     "fix": "Draw the five stages as a loop with arrows from Test back to Define and Ideate, and write the canteen activity under each stage.",
+     "sourceIds": [
+      "LES-0805",
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1,
+     "high": 1.5,
+     "evidence": "Define - defining the problem clearly.",
+     "issue": "All five stages are named and roughly right, but each gets a one-line textbook gloss. POV and How Might We are never mentioned.",
+     "fix": "Explain Define as a POV statement ([user] needs [need] because [insight]) and Ideate as diverge-then-converge.",
+     "sourceIds": [
+      "NOTE-U1-dt",
+      "NOTE-U1-pov"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 0.5,
+     "low": 0,
+     "high": 1,
+     "evidence": "Solution: We can make an app so students can order food.",
+     "issue": "The stages are never applied to the canteen. The problem is written as a solution ('the canteen needs a mobile app'), which scores 0 for Define, and generic theory caps application at 1.",
+     "fix": "Apply each stage to the canteen: who you observed at 12:30, an empathy map with real entries, a POV such as 'a student with a 40-minute break needs a predictable lunch wait', four or more ideas, a paper prototype, a 5-student test.",
+     "sourceIds": [
+      "LES-0814",
+      "NOTE-U1-pov",
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "No reason is given for choosing the app, and nothing says how it would be tested or improved.",
+     "fix": "Pick one idea with a stated criterion (impact vs. feasibility) and end with a test: 5 students, a task such as 'order lunch for a 12:40 pickup', a metric, and what you would change.",
+     "sourceIds": [
+      "LES-0817",
+      "PYQ-25-IA1-B2"
+     ]
+    }
+   ],
+   "strengths": [
+    "Names all five stages in the right order."
+   ],
+   "nextSteps": [
+    {
+     "action": "Rewrite Define as a user need, not a solution: 'A student with a 40-minute lunch break needs to get food predictably because arriving late costs attendance.'",
+     "why": "A solution written as the problem scores 0 for Define. Ms. Accelia warned about this exact line in the canteen workshop.",
+     "sourceIds": [
+      "LES-0814",
+      "NOTE-U1-pov"
+     ]
+    },
+    {
+     "action": "Apply every stage to the canteen with specific evidence (queue at 12:30, interviews, empathy map entries).",
+     "why": "Answers that only define the five stages are capped at about 4/10. Application is the 3-mark criterion.",
+     "sourceIds": [
+      "LES-0814",
+      "LES-0902"
+     ]
+    },
+    {
+     "action": "Draw the stages as a loop with arrows back from Test, labelled with canteen activities, and end with how you would test and iterate.",
+     "why": "A diagram with no scenario content gets at most half the diagram marks, and the last 2 marks need a test plan.",
+     "sourceIds": [
+      "LES-0805",
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "The diagram is only described as '[Diagram of 5 stages drawn]', so its shape and labels can't be checked."
+   ],
+   "summary": "This explains design thinking in general but never applies it to the canteen, and it writes the problem as a solution. As it stands it falls in the re-appear band; the three fixes below are worth about 5 marks.",
+   "confidence": "medium",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 4,
+     "found": 4
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "ea86a6ba52b7b9197114fbabca09bcc4",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-aarav-2",
+  "key": "ab07854e38f44e5b4e3ee7cc94626ac9",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "Applies all five stages to the canteen lunch rush."
+   },
+   "score": 8.5,
+   "range": {
+    "low": 8.5,
+    "high": 10
+   },
+   "outOf": 10,
+   "percent": 85,
+   "grade": "A+",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 1,
+     "low": 1,
+     "high": 1,
+     "evidence": "Scenario: LICET canteen, 12:30-1:10 lunch break. Users: students with a class at 1:10, and canteen counter staff.",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 2,
+     "evidence": "arrows from Test back to Define and Ideate labelled 'iterate'",
+     "issue": "The loop and iteration arrows are right, and the empathy map is specific, but the loop itself carries no canteen content.",
+     "fix": "Write the canteen activity under each stage of the loop (e.g. 'observe 12:30 queue' under Empathize).",
+     "sourceIds": [
+      "LES-0805",
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 2,
+     "low": 2,
+     "high": 2,
+     "evidence": "A student with a 40-minute lunch break needs to get food quickly and predictably because arriving late to class costs attendance.",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "NOTE-U1-pov",
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 2.5,
+     "low": 2.5,
+     "high": 3,
+     "evidence": "Observed the queue on 3 days at 12:30 (about 60 students, average wait 14 min) and interviewed 6 students and 2 staff.",
+     "issue": "Empathize, Define, Ideate and Test are applied with specific evidence. Prototype is a single line, and the answer doesn't say what the paper prototype was meant to learn.",
+     "fix": "Add one line to Prototype: what the paper prototype tests (can students choose a pickup slot in under a minute?).",
+     "sourceIds": [
+      "LES-0814",
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 2,
+     "evidence": "Converge using an impact/feasibility matrix: (a) and (b) are high impact and feasible this semester; (d) needs admin approval.",
+     "issue": "The idea is chosen with stated criteria and the test has metrics, but none of them measures the original problem: students arriving late.",
+     "fix": "Add a success measure tied to the problem, e.g. the share of testers who would reach a 1:10 class on time.",
+     "sourceIds": [
+      "RUB-10M-APP",
+      "LES-0817"
+     ]
+    }
+   ],
+   "strengths": [
+    "The POV is a user need with an insight, which is exactly the Define format taught in class.",
+    "Ideas are diverged (five options) and then converged with an impact/feasibility matrix.",
+    "The Test stage has participants, a realistic task, metrics with targets and a concrete iteration."
+   ],
+   "nextSteps": [
+    {
+     "action": "Tie one test metric back to the original problem (late arrivals).",
+     "why": "The last 2 marks reward showing the design solves the stated need.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "action": "Annotate the loop diagram with what happens at each stage in the canteen.",
+     "why": "Diagrams need scenario-specific content for full marks.",
+     "sourceIds": [
+      "POLICY-IA",
+      "LES-0805"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "Loop diagram and empathy map are described in brackets; check the drawn version has the labels described."
+   ],
+   "summary": "A well-applied answer: every stage is grounded in the canteen, the Define stage is a real user need, and the idea is chosen with criteria. Two small additions would take it from 8.5 to full marks.",
+   "confidence": "medium",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 5,
+     "found": 5
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "ab07854e38f44e5b4e3ee7cc94626ac9",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-priya",
+  "key": "734e0cc375f4a2376765f17f3d4aaa65",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "Applies the stages to the canteen, with thin later stages."
+   },
+   "score": 5.5,
+   "range": {
+    "low": 4.5,
+    "high": 6.0
+   },
+   "outOf": 10,
+   "percent": 55,
+   "grade": "C",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 1,
+     "low": 1,
+     "high": 1,
+     "evidence": "Users: students in the lunch queue and canteen staff.",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 1,
+     "low": 0.5,
+     "high": 1,
+     "evidence": "[Diagram: Empathize -> Define -> Ideate -> Prototype -> Test]",
+     "issue": "A straight line of five boxes with no iteration and no canteen content.",
+     "fix": "Redraw as a loop with arrows back from Test and add canteen notes to each stage.",
+     "sourceIds": [
+      "LES-0805"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 1.5,
+     "evidence": "Define: Students need to get lunch within their short break because otherwise they are late for class.",
+     "issue": "The stages are used correctly, but How Might We and diverge/converge are never named.",
+     "fix": "Turn the POV into one or two HMW questions and say you diverge before converging.",
+     "sourceIds": [
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 2,
+     "evidence": "I watched the queue at lunch and spoke to 5 students. They said they wait 15 minutes and often skip lunch.",
+     "issue": "Empathize and Define are applied well, but Ideate jumps straight to one idea, and Prototype ('Make the app in Figma') and Test ('Show it to students') are generic.",
+     "fix": "List at least four ideas, say which flow the prototype covers, and give the test a task and a metric.",
+     "sourceIds": [
+      "NOTE-U1-dt",
+      "LES-0814"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 0.5,
+     "low": 0,
+     "high": 0.5,
+     "evidence": "Test: Show it to students.",
+     "issue": "No reason is given for choosing the app, and the test has no task, metric or iteration.",
+     "fix": "Justify the chosen idea against at least one alternative and finish with a 5-student test, a metric and the next iteration.",
+     "sourceIds": [
+      "LES-0817",
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "strengths": [
+    "Clear empathy evidence and a Define stage written as a user need."
+   ],
+   "nextSteps": [
+    {
+     "action": "Diverge before converging in Ideate: four ideas, then pick one with a criterion.",
+     "why": "Ideate with one idea loses both application and justification marks.",
+     "sourceIds": [
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "action": "Give Test a task, a metric and an iteration.",
+     "why": "The last 2 marks need how the design will be tested and improved.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "action": "Draw the stages as a loop.",
+     "why": "A linear diagram loses the iteration mark.",
+     "sourceIds": [
+      "LES-0805"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "The diagram is described in brackets; check the drawn version."
+   ],
+   "summary": "A good start: the empathy work and the Define stage are specific to the canteen. The answer runs out of detail after Define, which costs about 3 marks.",
+   "confidence": "medium",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 5,
+     "found": 5
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "734e0cc375f4a2376765f17f3d4aaa65",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-rahul",
+  "key": "160f62406a8b908b92cb0e3f6b816d89",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "Applies the stages to the canteen, with the Define stage written as a solution."
+   },
+   "score": 4.5,
+   "range": {
+    "low": 4.0,
+    "high": 6.0
+   },
+   "outOf": 10,
+   "percent": 45,
+   "grade": "RA (re-appear)",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 0.5,
+     "low": 0.5,
+     "high": 1,
+     "evidence": "Scenario: long canteen queues at lunch; students late for class.",
+     "issue": "The scenario is restated, but the users and their constraint (a short break before the next class) are only implied.",
+     "fix": "Name the users up front: students with a class right after lunch, and the counter staff.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 0.5,
+     "low": 0.5,
+     "high": 1,
+     "evidence": "[Diagram: five boxes in a straight line, Empathize to Test]",
+     "issue": "A linear five-box diagram with no canteen content.",
+     "fix": "Draw a loop with arrows back from Test and label each stage with the canteen activity.",
+     "sourceIds": [
+      "LES-0805",
+      "PYQ-25-IA1-B2"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 1.5,
+     "evidence": "Ideate: Ideas - pre-order app, more counters, token system, snack counter.",
+     "issue": "The stages are used correctly, but POV and HMW are never named.",
+     "fix": "Write Define as a POV statement and turn it into HMW questions.",
+     "sourceIds": [
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 1,
+     "low": 1,
+     "high": 1.5,
+     "evidence": "Define: The canteen should have a pre-ordering system.",
+     "issue": "Define is written as a solution, which scores 0 for that step. Empathize is generic ('interview students and staff') with no findings.",
+     "fix": "Rewrite Define as a user need with an insight, and give Empathize one or two specific findings.",
+     "sourceIds": [
+      "NOTE-U1-pov",
+      "LES-0814"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 1,
+     "low": 0.5,
+     "high": 1,
+     "evidence": "Choose the pre-order app because it is the most modern.",
+     "issue": "'Most modern' is not a design criterion; the test is a good start but says nothing about what is measured.",
+     "fix": "Choose with impact/feasibility, and name the metric (time to order, queue time at pickup).",
+     "sourceIds": [
+      "LES-0817",
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "strengths": [
+    "Lists four distinct ideas before choosing one.",
+    "Plans a test with 5 students and a realistic task."
+   ],
+   "nextSteps": [
+    {
+     "action": "Rewrite Define as a user need: '[student] needs [predictable lunch] because [late arrival costs attendance]'.",
+     "why": "A solution written as the problem scores 0 for Define.",
+     "sourceIds": [
+      "NOTE-U1-pov",
+      "LES-0814"
+     ]
+    },
+    {
+     "action": "Justify the chosen idea with a real criterion such as impact vs. feasibility.",
+     "why": "'Most modern' earns no justification marks.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "action": "Draw the process as a loop.",
+     "why": "Linear diagrams lose the iteration mark.",
+     "sourceIds": [
+      "LES-0805"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "The diagram is described in brackets; check the drawn version."
+   ],
+   "summary": "The structure is right and the ideas are varied, but Define states a solution and the choice of idea isn't justified. That puts the answer just under the pass line.",
+   "confidence": "medium",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 5,
+     "found": 5
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "160f62406a8b908b92cb0e3f6b816d89",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-meera",
+  "key": "e99c70d4bfd53717a351fb906b5fb4d1",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "Applies all five stages to the canteen with evidence at each step."
+   },
+   "score": 9.5,
+   "range": {
+    "low": 9.0,
+    "high": 10
+   },
+   "outOf": 10,
+   "percent": 95,
+   "grade": "O",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 1,
+     "low": 1,
+     "high": 1,
+     "evidence": "Primary users: students with a post-lunch class; secondary: counter staff handling the rush.",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 2,
+     "low": 1.5,
+     "high": 2,
+     "evidence": "each stage annotated with the canteen activity below",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "LES-0805",
+      "POLICY-IA"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 2,
+     "low": 2,
+     "high": 2,
+     "evidence": "POV - A student with a fixed 40-minute break needs a predictable lunch wait because being late to the next class affects attendance.",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "NOTE-U1-pov"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 3,
+     "low": 3,
+     "high": 3,
+     "evidence": "counted queue length every 5 min: peak 55 people at 12:35",
+     "issue": "",
+     "fix": "",
+     "sourceIds": [
+      "LES-0814",
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 1.5,
+     "low": 1.5,
+     "high": 2,
+     "evidence": "Staggered breaks rejected - outside our control.",
+     "issue": "Strong convergence and test plan, but no metric checks the original problem (late arrivals).",
+     "fix": "Add one measure tied to the need, such as the share of testers who would reach the next class on time.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "strengths": [
+    "Specific, quantified observation.",
+    "A clear POV and two HMW questions.",
+    "Ideas converged with two stated methods, and one rejected with a reason.",
+    "Test with think-aloud, metrics and an iteration."
+   ],
+   "nextSteps": [
+    {
+     "action": "Tie one test metric to late arrivals.",
+     "why": "Shows the design solves the stated need.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "The loop diagram is described in brackets; check the drawn version."
+   ],
+   "summary": "An excellent, fully applied answer. One metric linked back to late arrivals would make it complete.",
+   "confidence": "high",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 5,
+     "found": 5
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "e99c70d4bfd53717a351fb906b5fb4d1",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-karthik",
+  "key": "41a70b5dabf6b3c9052314890a3a9cd4",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "answers-the-question",
+    "reason": "Names the stages and an idea for the canteen, without an answer."
+   },
+   "score": 1.0,
+   "range": {
+    "low": 0.5,
+    "high": 2.0
+   },
+   "outOf": 10,
+   "percent": 10,
+   "grade": "RA (re-appear)",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 0,
+     "low": 0,
+     "high": 0.5,
+     "evidence": "",
+     "issue": "No scenario or users.",
+     "fix": "Restate the canteen scenario and name the users.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 0.5,
+     "low": 0,
+     "high": 1,
+     "evidence": "[Diagram drawn]",
+     "issue": "A bare placeholder with no labels or canteen content.",
+     "fix": "Draw the five stages as a labelled loop with canteen activities.",
+     "sourceIds": [
+      "LES-0805"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 0.5,
+     "low": 0.5,
+     "high": 0.5,
+     "evidence": "Stages: Empathize, Define, Ideate, Prototype, Test.",
+     "issue": "The stages are only listed, not explained.",
+     "fix": "Explain each stage in one or two lines.",
+     "sourceIds": [
+      "NOTE-U1-dt",
+      "POLICY-IA"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "Nothing is applied to the canteen; 'canteen app' is a solution, not a problem.",
+     "fix": "Apply each stage to the canteen with specific evidence.",
+     "sourceIds": [
+      "LES-0814"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "No justification or test.",
+     "fix": "End with a 5-student test, a metric and the next iteration.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "strengths": [],
+   "nextSteps": [
+    {
+     "action": "Write a full answer following the seven-step structure in the faculty note.",
+     "why": "Answers with only headings or keywords earn at most 30% of the marks.",
+     "sourceIds": [
+      "NOTE-U1-dt",
+      "POLICY-IA"
+     ]
+    },
+    {
+     "action": "Apply each stage to the canteen.",
+     "why": "Application is the 3-mark criterion.",
+     "sourceIds": [
+      "LES-0902"
+     ]
+    }
+   ],
+   "cannotVerify": [
+    "The diagram is only described as '[Diagram drawn]'."
+   ],
+   "summary": "This is a list of headings rather than an answer. Following the faculty's seven-step structure would make it a passing answer.",
+   "confidence": "medium",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 2,
+     "found": 2
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "41a70b5dabf6b3c9052314890a3a9cd4",
+   "elapsedMs": 0
+  }
+ },
+ {
+  "draftId": "DRAFT-offtopic",
+  "key": "ed29e43f0f20452f96f4495350492b87",
+  "recordedAt": "2026-10-02T00:00:00.000Z",
+  "origin": "authored",
+  "result": {
+   "question": {
+    "id": "PYQ-25-IA1-B2",
+    "text": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "marks": 10
+   },
+   "rubric": {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "source": "CSE department scheme of valuation for Part B application answers, filed by Ms. Accelia with the IA1 question paper. Mark split matches the examiner note on PYQ-25-IA1-B2. See also POLICY-IA.",
+    "criteria": [
+     {
+      "id": "C1",
+      "name": "Scenario and users",
+      "max": 1,
+      "descriptor": "Restates the given scenario, names the users and their context or constraints."
+     },
+     {
+      "id": "C2",
+      "name": "Diagram or artefact",
+      "max": 2,
+      "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content."
+     },
+     {
+      "id": "C3",
+      "name": "Concepts and method",
+      "max": 2,
+      "descriptor": "The right framework, principles or methods are named and correctly explained."
+     },
+     {
+      "id": "C4",
+      "name": "Application to the scenario",
+      "max": 3,
+      "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory."
+     },
+     {
+      "id": "C5",
+      "name": "Justification and outcome",
+      "max": 2,
+      "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated."
+     }
+    ],
+    "deductions": [
+     "Generic theory never applied to the scenario: application marks capped at 1.",
+     "A problem statement written as a solution: no marks for that step.",
+     "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+   },
+   "relevance": {
+    "verdict": "off-topic",
+    "reason": "It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question."
+   },
+   "score": 0,
+   "range": {
+    "low": 0,
+    "high": 0
+   },
+   "outOf": 10,
+   "percent": 0,
+   "grade": "RA (re-appear)",
+   "criteria": [
+    {
+     "id": "C1",
+     "name": "Scenario and users",
+     "max": 1,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "The draft does not answer this question. It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question.",
+     "fix": "Answer the question asked: apply the five stages of design thinking to the canteen lunch queue.",
+     "sourceIds": [
+      "PYQ-25-IA1-B2"
+     ]
+    },
+    {
+     "id": "C2",
+     "name": "Diagram or artefact",
+     "max": 2,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "The draft does not answer this question. It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question.",
+     "fix": "Draw the five design-thinking stages as a loop with canteen activities.",
+     "sourceIds": [
+      "LES-0805"
+     ]
+    },
+    {
+     "id": "C3",
+     "name": "Concepts and method",
+     "max": 2,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "The draft does not answer this question. It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question.",
+     "fix": "Explain Empathize, Define, Ideate, Prototype and Test.",
+     "sourceIds": [
+      "NOTE-U1-dt"
+     ]
+    },
+    {
+     "id": "C4",
+     "name": "Application to the scenario",
+     "max": 3,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "The draft does not answer this question. It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question.",
+     "fix": "Apply each stage to the canteen scenario.",
+     "sourceIds": [
+      "LES-0814"
+     ]
+    },
+    {
+     "id": "C5",
+     "name": "Justification and outcome",
+     "max": 2,
+     "awarded": 0,
+     "low": 0,
+     "high": 0,
+     "evidence": "",
+     "issue": "The draft does not answer this question. It is a heuristic evaluation of the college fee-payment page, which answers PYQ-23-IA2-B1, not the canteen design-thinking question.",
+     "fix": "Justify the chosen idea and end with a test plan.",
+     "sourceIds": [
+      "RUB-10M-APP"
+     ]
+    }
+   ],
+   "strengths": [],
+   "nextSteps": [
+    {
+     "action": "Check you pasted the right answer: this one is for PYQ-23-IA2-B1 (heuristic evaluation).",
+     "why": "Correct content for a different question earns no marks here.",
+     "sourceIds": [
+      "PYQ-23-IA2-B1",
+      "POLICY-IA"
+     ]
+    }
+   ],
+   "cannotVerify": [],
+   "summary": "This answer is about Nielsen's heuristics on the fee-payment page, not design thinking for the canteen. It would get 0 for this question, however good it is as a heuristic evaluation.",
+   "confidence": "high",
+   "handwritten": false,
+   "grounding": {
+    "sourcesProvided": [
+     {
+      "id": "RUB-10M-APP",
+      "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)"
+     },
+     {
+      "id": "POLICY-IA",
+      "title": "LICET internal assessment marking policy (CSE dept.)"
+     },
+     {
+      "id": "PYQ-25-IA1-B2",
+      "title": "Question (2025 IA1, 10 marks)"
+     },
+     {
+      "id": "LES-0805",
+      "title": "Lesson 2026-08-05: Core stages of design thinking"
+     },
+     {
+      "id": "LES-0814",
+      "title": "Lesson 2026-08-14: Workshop: design thinking on the campus canteen"
+     },
+     {
+      "id": "LES-0817",
+      "title": "Lesson 2026-08-17: Tutorial: writing Unit 1 application answers"
+     },
+     {
+      "id": "LES-0902",
+      "title": "Lesson 2026-09-02: IA1 revision and marking scheme"
+     },
+     {
+      "id": "NOTE-U1-dt",
+      "title": "Faculty note: answering design thinking application questions"
+     },
+     {
+      "id": "NOTE-U1-pov",
+      "title": "Faculty note: problem statements are needs, not solutions"
+     },
+     {
+      "id": "PYQ-23-IA2-B1",
+      "title": "2023 IA2 question (10 marks)"
+     },
+     {
+      "id": "LES-0831",
+      "title": "Lesson 2026-08-31: Critique session: the college fee-payment page"
+     },
+     {
+      "id": "NOTE-U4-testing",
+      "title": "Faculty note: usability testing (to be taught)"
+     }
+    ],
+    "droppedCitations": 0,
+    "quotes": {
+     "checked": 0,
+     "found": 0
+    }
+   },
+   "model": "claude-opus-5-5",
+   "key": "ed29e43f0f20452f96f4495350492b87",
+   "elapsedMs": 0
+  }
+ }
+]

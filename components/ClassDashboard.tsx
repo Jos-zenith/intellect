@@ -203,7 +203,7 @@ export function ClassDashboard({ classRun, questionTitle }: { classRun: ClassRun
     loadCalibration();
   }, [loadCalibration]);
 
-  const allCached = rows.length > 0 && rows.every((r) => r.result?.cached);
+  const allCached = rows.length > 0 && rows.every((r) => r.result?.cached || r.result?.recorded);
 
   const reportsFor = () =>
     rows
@@ -258,7 +258,7 @@ export function ClassDashboard({ classRun, questionTitle }: { classRun: ClassRun
               </p>
               <p className="mt-1 text-2xl font-semibold tabular-nums text-good">{summary.reportsWritten * minutesPerReport} min</p>
               <p className="mt-0.5 text-xs text-muted">
-                {summary.reportsWritten} reports in {allCached ? "under a second (cached)" : `${Math.round(elapsedMs / 1000)} s`} · {minutesPerReport} h for a class of 60
+                {summary.reportsWritten} reports in {allCached ? "under a second (stored results)" : `${Math.round(elapsedMs / 1000)} s`} · {minutesPerReport} h for a class of 60
               </p>
             </div>
           </div>

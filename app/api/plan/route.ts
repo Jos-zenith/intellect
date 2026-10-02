@@ -1,7 +1,9 @@
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import * as z from "zod/v4";
+import { cacheGet, cacheKey, cacheSet } from "@/lib/cache";
 import { claude, describeError, FALLBACK, MODEL } from "@/lib/claude";
 import { course, coverageFor, getAssessment, getLessons, pyqs, topicLabel } from "@/lib/kb";
+import { meta, recordedPlanByKey, recordedPlanFallback } from "@/lib/recorded";
 import type { AssessmentId } from "@/lib/types";
 
 const PlanSchema = z.object({
@@ -40,7 +42,14 @@ Your one non-negotiable rule is logic continuity: students may only be tested an
 Mirror the real paper: follow the given pattern exactly (one question per slot, marks per slot as given). Model new questions on the style, scenarios and traps of the previous year questions and on what the professor emphasised in each lesson, but do not copy a previous year question verbatim. Part B questions should be scenario-based application questions (a concrete product or campus service, its users and a constraint) at the difficulty of the previous papers. Rank priorities by marks at stake: unit weightage, how often the topic has carried marks in previous papers, and how strongly the professor flagged it.`;
 
 export async function POST(req: Request) {
-  const body = (await req.json()) as { assessmentId?: AssessmentId; asOf?: string };
+  const body = (await req.json()) as {
+    assessmentId?: AssessmentId;
+    asOf?: string;
+    /** Skip the cache and recorded results and call the model. */
+    live?: boolean;
+    /** Return the context key and the code-computed parts only, without calling the model. */
+    keyOnly?: boolean;
+  };
   const assessment = getAssessment(body.assessmentId ?? "IA2");
   const asOf = body.asOf ?? course.today;
 
@@ -71,6 +80,16 @@ ${relatedPyqs.map((q) => `[${q.id}] ${q.year} ${q.exam} ${q.marks}m topic ${q.to
 </previous_year_questions>
 
 Produce the priorities, a study plan for the ${daysLeft} days left, and a full practice paper following the pattern. Allowed topic ids: ${taught.map((t) => t.topicId).join(", ")}.`;
+
+  // Same exam, date and lesson log -> same plan. A new lesson changes the key.
+  const key = cacheKey({ MODEL, kind: "plan", prompt });
+  if (body.keyOnly) return Response.json({ key, assessment, asOf, daysLeft, coverage, lessonIds: lessons.map((l) => l.id) });
+  if (!body.live) {
+    const hit = await cacheGet<object>(key);
+    if (hit) return Response.json({ ...hit, cached: true });
+    const rec = recordedPlanByKey(key);
+    if (rec) return Response.json({ ...rec.result, recorded: meta(rec) });
+  }
 
   const started = Date.now();
   try {
@@ -108,7 +127,7 @@ Produce the priorities, a study plan for the ${daysLeft} days left, and a full p
       };
     });
 
-    return Response.json({
+    const result = {
       assessment,
       asOf,
       daysLeft,
@@ -125,10 +144,24 @@ Produce the priorities, a study plan for the ${daysLeft} days left, and a full p
         expectedMarks: assessment.total,
         outOfScope: questions.filter((q) => q.problems.length).length,
       },
+      model: MODEL,
+      key,
       elapsedMs: Date.now() - started,
-    });
+    };
+    await cacheSet(key, result);
+    return Response.json({ ...result, cached: false });
   } catch (err) {
     const { status, message } = describeError(err);
+    // Fall back to the closest recorded plan, labelled, rather than an empty screen.
+    const rec = recordedPlanFallback(assessment.id, lessons.map((l) => l.id));
+    if (rec) {
+      // Coverage is computed in code, so it stays current even when the plan is not.
+      return Response.json({
+        ...rec.result,
+        ...(rec.key !== key && { coverage, lessonIds: lessons.map((l) => l.id) }),
+        recorded: meta(rec, { liveError: message, stale: rec.key !== key }),
+      });
+    }
     return Response.json({ error: message }, { status });
   }
 }

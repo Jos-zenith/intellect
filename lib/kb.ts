@@ -240,7 +240,7 @@ export async function getSources(): Promise<Source[]> {
       title: `Rubric: ${r.title}`,
       text: `${r.title}. Applies to: ${r.appliesTo}. Criteria: ${r.criteria
         .map((c) => `${c.id} ${c.name} (${c.max} marks) - ${c.descriptor}`)
-        .join(" ")} Deductions: ${r.deductions.join(" ")}`,
+        .join(" ")} Deductions: ${r.deductions.join(" ")}${r.source ? `\nSource: ${r.source}` : ""}`,
     })),
     ...calibrations.map<Source>((c) => ({
       id: c.id,

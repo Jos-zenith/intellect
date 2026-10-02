@@ -1,36 +1,45 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import demoLesson from "@/data/demo-lesson.json";
 import type { AssessmentId, Course, Lesson, UnitId } from "@/lib/types";
 import { ClassDashboard } from "./ClassDashboard";
 import type { ClassRun } from "./classRun";
 import { readImage, type UploadImage } from "./images";
-import { Button, Cite, ErrorNote, Label, Panel, postJson, Thinking } from "./ui";
+import { questionKey, type PlanState } from "./planState";
+import { Button, Cite, CiteList, ErrorNote, Label, Panel, postJson, Skeleton, Thinking } from "./ui";
 
-const EMPTY = {
-  date: "2026-10-05",
+const empty = (date: string) => ({
+  date,
   unit: "U3" as UnitId,
   topicIds: [] as string[],
   title: "",
   summary: "",
   emphasis: "",
   excludeFrom: [] as AssessmentId[],
-};
+});
 
-const MONDAY_DEMO = {
-  date: "2026-10-05",
-  unit: "U4" as UnitId,
-  topicIds: ["U4.T5"],
-  title: "Conducting usability tests",
-  summary:
-    "Planned and ran a live usability test of the library app with 5 students: test goal, recruiting representative participants, 3 tasks on the red route, think-aloud protocol, metrics (task success, time on task, errors, SUS score), and ranking findings by severity.",
-  emphasis: "This WILL be in IA2 Part B: plan a usability test for a given app - goal, 5 participants, 3 realistic tasks, metrics, and what you would change in the next iteration.",
-  excludeFrom: [] as AssessmentId[],
-};
+// The same entry scripts/record.mjs records the "after" plan with.
+const DEMO_LESSON = { ...demoLesson, unit: demoLesson.unit as UnitId, excludeFrom: demoLesson.excludeFrom as AssessmentId[] };
 
-export function Teacher({ course, classRun, questionTitle }: { course: Course; classRun: ClassRun; questionTitle: string }) {
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [form, setForm] = useState(EMPTY);
+export function Teacher({
+  course,
+  classRun,
+  questionTitle,
+  plan,
+  onLessonsChanged,
+  goTo,
+}: {
+  course: Course;
+  classRun: ClassRun;
+  questionTitle: string;
+  plan: PlanState;
+  /** Called with the new lesson after it is logged, or null after a reset. */
+  onLessonsChanged: (lesson: Lesson | null) => void;
+  goTo: (tab: "practice") => void;
+}) {
+  const [lessons, setLessons] = useState<Lesson[] | null>(null);
+  const [form, setForm] = useState(() => empty(course.today));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -47,8 +56,9 @@ export function Teacher({ course, classRun, questionTitle }: { course: Course; c
     setSaving(true);
     setError("");
     try {
-      await postJson("/api/lessons", form);
-      setForm(EMPTY);
+      const { lesson } = await postJson<{ lesson: Lesson }>("/api/lessons", form);
+      setForm(empty(course.today));
+      onLessonsChanged(lesson);
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -59,6 +69,7 @@ export function Teacher({ course, classRun, questionTitle }: { course: Course; c
 
   async function reset() {
     await fetch("/api/lessons", { method: "DELETE" });
+    onLessonsChanged(null);
     await load();
   }
 
@@ -74,12 +85,13 @@ export function Teacher({ course, classRun, questionTitle }: { course: Course; c
         <p className="text-lg font-semibold">Lesson log</p>
         <p className="text-sm text-muted">What you log here is what students are planned, tested and graded on. No re-indexing, no extra step.</p>
       </div>
+      <Ripple state={plan} goTo={goTo} />
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Panel>
           <div className="mb-3 flex items-center justify-between gap-2">
             <Label>Log today&apos;s class</Label>
-            <button onClick={() => setForm(MONDAY_DEMO)} className="text-xs text-accent hover:underline">
-              Fill Monday&apos;s class (demo)
+            <button onClick={() => setForm(DEMO_LESSON)} className="text-xs text-accent hover:underline">
+              Fill today&apos;s class (demo)
             </button>
           </div>
           <QuickLog onDraft={(d) => setForm((f) => ({ ...f, ...d }))} />
@@ -146,21 +158,22 @@ export function Teacher({ course, classRun, questionTitle }: { course: Course; c
             <Button onClick={save} disabled={saving || !form.title.trim() || !form.topicIds.length}>
               {saving ? "Saving…" : "Add to lesson log"}
             </Button>
-            <p className="text-xs text-muted">Students&apos; plans, practice tests and answers update from the next request, with no re-indexing.</p>
+            <p className="text-xs text-muted">Students&apos; study plans and practice tests rebuild as soon as you add it.</p>
           </div>
         </Panel>
 
         <Panel>
           <div className="mb-3 flex items-center justify-between">
-            <Label>Lesson log ({lessons.length})</Label>
-            {lessons.some((l) => l.addedByTeacher) && (
+            <Label>Lesson log{lessons && ` (${lessons.length})`}</Label>
+            {lessons?.some((l) => l.addedByTeacher) && (
               <button onClick={reset} className="text-xs text-muted hover:text-bad">
                 Remove classes added in this demo
               </button>
             )}
           </div>
+          {!lessons && <Skeleton lines={6} />}
           <ol className="max-h-[560px] space-y-2 overflow-y-auto pr-1">
-            {[...lessons].reverse().map((l) => (
+            {[...(lessons ?? [])].reverse().map((l) => (
               <li key={l.id} className={`rounded-lg border px-3 py-2 text-sm ${l.addedByTeacher ? "border-accent/40 bg-accent-soft" : "border-line"}`}>
                 <div className="flex flex-wrap items-center gap-2">
                   <Cite id={l.id} />
@@ -181,6 +194,92 @@ export function Teacher({ course, classRun, questionTitle }: { course: Course; c
   );
 }
 
+const STATUS_TEXT = { taught: "Taught", excluded: "Excluded", "not-taught": "Not taught yet", absent: "Not in the syllabus" } as const;
+
+/** One logged class rippling through coverage, the study plan and the practice test. */
+function Ripple({ state, goTo }: { state: PlanState; goTo: (tab: "practice") => void }) {
+  const { trigger, changes, busy, plan, error } = state;
+  if (!trigger) return null;
+  const pending = busy || !changes;
+  const sessions = plan?.studyPlan.filter((s) => changes?.sessions.includes(s.session)) ?? [];
+  const questions = plan?.practiceTest.filter((q) => changes?.questions.includes(questionKey(q))) ?? [];
+  const waiting = (label: string) => (busy ? <Thinking label={label} /> : error ? <span className="text-bad">{error}</span> : null);
+
+  const steps = [
+    {
+      title: "Lesson log",
+      body: (
+        <>
+          <CiteList ids={changes?.newLessons ?? []} /> {trigger.title}
+          <span className="block text-muted">
+            {trigger.date} · {trigger.topicIds.join(", ")}
+          </span>
+        </>
+      ),
+    },
+    {
+      title: "What can be in the exam",
+      body: pending
+        ? waiting("Checking coverage")
+        : changes!.flipped.length
+          ? changes!.flipped.map((f) => (
+              <span key={f.topicId} className="block">
+                {f.topicId}: {STATUS_TEXT[f.from]} → <span className="font-medium text-good">{STATUS_TEXT[f.to]}</span>
+              </span>
+            ))
+          : "No topic changed status.",
+    },
+    {
+      title: "Study plan",
+      body: pending
+        ? waiting("Rebuilding the plan")
+        : sessions.length
+          ? sessions.map((s) => (
+              <span key={s.session} className="block">
+                Session {s.session}: {s.focus}
+              </span>
+            ))
+          : "No session uses it yet.",
+    },
+    {
+      title: "Practice test",
+      body: pending
+        ? waiting("Rewriting the paper")
+        : questions.length
+          ? questions.map((q) => (
+              <span key={questionKey(q)} className="block">
+                Part {q.part} Q{q.number} ({q.marks}m): {q.question.slice(0, 90)}…
+              </span>
+            ))
+          : "No question uses it yet.",
+    },
+  ];
+
+  return (
+    <Panel className="border-accent/40">
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+        <Label>What your class just changed for students</Label>
+        {!pending && (
+          <button onClick={() => goTo("practice")} className="text-sm text-accent hover:underline">
+            See it as a student →
+          </button>
+        )}
+      </div>
+      <ol className="grid gap-2 text-sm md:grid-cols-4">
+        {steps.map((s, i) => (
+          <li key={s.title} className="relative rounded-lg border border-line bg-sunken p-3">
+            <p className="mb-1 text-xs font-medium text-accent">
+              {i + 1}. {s.title}
+            </p>
+            <div className="space-y-1">{s.body}</div>
+            {i < steps.length - 1 && <span className="absolute -right-2 top-1/2 z-10 hidden -translate-y-1/2 text-muted md:block">→</span>}
+          </li>
+        ))}
+      </ol>
+    </Panel>
+  );
+}
+
 interface LessonDraft {
   unit: UnitId | null;
   topicIds: string[];
@@ -191,7 +290,7 @@ interface LessonDraft {
 }
 
 /** Rough notes or a whiteboard photo in, a lesson-log entry out, for the teacher to confirm. */
-function QuickLog({ onDraft }: { onDraft: (d: Partial<typeof MONDAY_DEMO>) => void }) {
+function QuickLog({ onDraft }: { onDraft: (d: Partial<typeof DEMO_LESSON>) => void }) {
   const [text, setText] = useState("");
   const [images, setImages] = useState<UploadImage[]>([]);
   const [busy, setBusy] = useState(false);

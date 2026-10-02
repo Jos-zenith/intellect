@@ -1,13 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { parseRubricText, rubricTextProblem } from "@/lib/rubricText";
 import type { CalibrationStats, Draft, Pyq, Rubric } from "@/lib/types";
 import { Handwriting, type HandwritingMeta } from "./Handwriting";
-import { Button, CiteList, ErrorNote, Label, Panel, postJson, Thinking } from "./ui";
+import { Button, CiteList, ErrorNote, Label, Panel, postJson, ProvenanceNote, Skeleton, type Provenance } from "./ui";
 
-export interface GradeResult {
+export interface GradeResult extends Provenance {
   question: { id: string | null; text: string; marks: number };
-  rubric: { id: string; title: string };
+  rubric: {
+    id: string;
+    title: string;
+    source?: string | null;
+    criteria?: { id: string; name: string; max: number; descriptor: string }[];
+    deductions?: string[];
+  };
+  relevance?: { verdict: "answers-the-question" | "partly" | "off-topic"; reason: string };
   score: number;
   /** Lowest and highest total a fair examiner could give. */
   range: { low: number; high: number };
@@ -31,24 +39,37 @@ export interface GradeResult {
   cannotVerify: string[];
   summary: string;
   confidence: "high" | "medium" | "low";
-  grounding: { sourcesProvided: { id: string; title: string }[]; droppedCitations: number };
+  grounding: {
+    sourcesProvided: { id: string; title: string }[];
+    droppedCitations: number;
+    /** Evidence quotes the grader gave, and how many were found word for word in the draft. */
+    quotes?: { checked: number; found: number };
+  };
   elapsedMs: number;
   handwritten?: boolean;
   calibration?: CalibrationStats | null;
-  cached?: boolean;
 }
 
 export interface GradeRequest {
   questionId?: string;
   questionText?: string;
   rubricId?: string;
+  /** A pasted rubric, one "Criterion (marks): descriptor" per line. */
+  rubricText?: string;
   draft: string;
   handwriting?: { legibility: string; uncertain: string[] };
+  /** Skip stored results and call the model. */
+  live?: boolean;
 }
 
 export const gradeDraft = (req: GradeRequest) => postJson<GradeResult>("/api/grade", req);
 
 const CUSTOM = "__custom";
+const PASTE = "__paste";
+const PASTE_EXAMPLE = `Problem framing (2): users and context named, need stated with evidence
+Research (3): methods fit the question and findings are synthesised
+Design decisions (3): each decision traced to a finding
+Testing (2): tasks, metric and one iteration`;
 
 /** One graded draft. Kept by the page so every tab sees the same history. */
 export interface Attempt {
@@ -86,6 +107,7 @@ export function Grade({
   const [questionId, setQuestionId] = useState("PYQ-25-IA1-B2");
   const [customText, setCustomText] = useState("");
   const [customRubric, setCustomRubric] = useState("RUB-10M-APP");
+  const [rubricText, setRubricText] = useState("");
   const [draft, setDraft] = useState("");
   const [handwriting, setHandwriting] = useState<HandwritingMeta | null>(null);
   const [busy, setBusy] = useState(false);
@@ -112,11 +134,15 @@ export function Grade({
   const history = attempts.filter((a) => a.key === questionKey);
   const latest = history.at(-1)?.result;
 
-  async function grade() {
+  const pasted = !pyq && customRubric === PASTE ? parseRubricText(rubricText) : null;
+  const pasteProblem = pasted && rubricText.trim() ? rubricTextProblem(pasted) : null;
+
+  async function grade(live = false) {
     setBusy(true);
     setError("");
     try {
-      const base: GradeRequest = pyq ? { questionId: pyq.id, draft } : { questionText: customText, rubricId: customRubric, draft };
+      const rubric = customRubric === PASTE ? { rubricText } : { rubricId: customRubric };
+      const base: GradeRequest = pyq ? { questionId: pyq.id, draft, live } : { questionText: customText, ...rubric, draft, live };
       const req: GradeRequest = handwriting ? { ...base, handwriting: { legibility: handwriting.legibility, uncertain: handwriting.uncertain } } : base;
       const result = await gradeDraft(req);
       onGraded({ key: questionKey, label: attemptLabel(drafts, draft, history.length), draft, result });
@@ -171,7 +197,31 @@ export function Grade({
                     {r.title}
                   </option>
                 ))}
+                <option value={PASTE}>Paste your own rubric…</option>
               </select>
+              {customRubric === PASTE && (
+                <div>
+                  <textarea
+                    value={rubricText}
+                    onChange={(e) => setRubricText(e.target.value)}
+                    rows={5}
+                    placeholder={`One criterion per line, with its marks in brackets:\n${PASTE_EXAMPLE}`}
+                    className="w-full rounded-lg border border-line bg-panel px-3 py-2 font-mono text-xs leading-relaxed outline-none focus:border-accent"
+                  />
+                  <p className={`mt-1 text-xs ${pasteProblem ? "text-bad" : "text-muted"}`}>
+                    {!rubricText.trim() ? (
+                      <button onClick={() => setRubricText(PASTE_EXAMPLE)} className="text-accent hover:underline">
+                        Fill an example
+                      </button>
+                    ) : (
+                      pasteProblem ??
+                      `${pasted!.criteria.length} criteria, ${pasted!.total} marks. Each one is scored separately.${
+                        pasted!.skipped.length ? ` Ignored ${pasted!.skipped.length} line(s) without marks.` : ""
+                      }`
+                    )}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </Panel>
@@ -213,10 +263,10 @@ export function Grade({
             }}
           />
           <div className="mt-3 flex items-center gap-3">
-            <Button onClick={grade} disabled={busy || !draft.trim() || (!pyq && !customText.trim())}>
+            <Button onClick={() => grade()} disabled={busy || !draft.trim() || (!pyq && !customText.trim()) || Boolean(pasteProblem) || Boolean(pasted && !rubricText.trim())}>
               {busy ? "Grading…" : "Predict my marks"}
             </Button>
-            <span className="text-xs text-muted">Graded against the college rubric, answer key and lesson emphasis</span>
+            <span className="text-xs text-muted">Marked criterion by criterion against the rubric, answer key and what was stressed in class</span>
           </div>
         </Panel>
 
@@ -243,17 +293,19 @@ export function Grade({
       <div className="flex flex-col gap-4">
         {busy && (
           <Panel>
-            <Thinking label="Checking each rubric criterion against the answer key and the lesson log…" />
+            <p className="mb-4 text-sm text-muted">Marking each criterion against the answer key and the lesson log…</p>
+            <Skeleton lines={8} />
           </Panel>
         )}
         {error && <ErrorNote message={error} />}
-        {latest && !busy && <GradeReport result={latest} />}
+        {latest && !busy && <GradeReport result={latest} onRunLive={() => grade(true)} />}
         {!latest && !busy && !error && (
           <Panel className="text-sm text-muted">
-            <p className="font-medium text-ink">Rubric rigor: a mark for every criterion, and the reason behind it.</p>
+            <p className="font-medium text-ink">See where you would lose marks before you hand it in.</p>
             <p className="mt-2">
-              Try the two sample drafts from Aarav: his first attempt, then his rewrite after reading the feedback. The grader quotes the exact line that lost
-              marks, the rule it broke, and the class where the professor warned about it.
+              Try Aarav&apos;s first attempt, then his rewrite after reading the feedback. You get a mark for every rubric criterion, the exact line that lost
+              it, the rule it broke, and the class where the professor warned about it. Try &ldquo;Wrong answer pasted&rdquo; to see what happens to an
+              answer to a different question.
             </p>
           </Panel>
         )}
@@ -262,10 +314,19 @@ export function Grade({
   );
 }
 
-export function GradeReport({ result }: { result: GradeResult }) {
+export function GradeReport({ result, onRunLive }: { result: GradeResult; onRunLive?: () => void }) {
   const tone = result.percent >= 70 ? "text-good" : result.percent >= 50 ? "text-warn" : "text-bad";
+  const offTopic = result.relevance?.verdict === "off-topic";
   return (
     <>
+      {result.relevance && result.relevance.verdict !== "answers-the-question" && (
+        <div className={`rounded-xl border px-5 py-3 text-sm ${offTopic ? "border-bad/40 bg-bad-soft" : "border-warn/40 bg-warn-soft"}`}>
+          <p className={`font-medium ${offTopic ? "text-bad" : "text-warn"}`}>
+            {offTopic ? "This doesn't answer the question, so it scores 0." : "Only part of this answers the question."}
+          </p>
+          <p className="mt-0.5">{result.relevance.reason}</p>
+        </div>
+      )}
       <Panel>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -292,8 +353,7 @@ export function GradeReport({ result }: { result: GradeResult }) {
               Grade band <span className="font-semibold">{result.grade}</span> · {result.percent}%
             </p>
             <p className="text-xs text-muted">
-              {result.rubric.id} · {result.confidence} certainty{result.handwritten ? " · from handwriting" : ""} ·{" "}
-              {(result.elapsedMs / 1000).toFixed(0)} s
+              {result.rubric.id} · {result.confidence} certainty{result.handwritten ? " · from handwriting" : ""}
             </p>
           </div>
         </div>
@@ -306,6 +366,9 @@ export function GradeReport({ result }: { result: GradeResult }) {
               }.`
             : "No teacher-marked papers yet to check its accuracy against."}
         </p>
+        <div className="mt-1.5">
+          <ProvenanceNote of={result} onRunLive={onRunLive} />
+        </div>
       </Panel>
 
       <Panel>
@@ -394,10 +457,70 @@ export function GradeReport({ result }: { result: GradeResult }) {
         </Panel>
       )}
 
+      <HowMarked result={result} />
+
       <p className="px-1 text-xs text-muted">
         Grounded in {result.grounding.sourcesProvided.length} sources: <CiteList ids={result.grounding.sourcesProvided.map((s) => s.id)} />
         {result.grounding.droppedCitations > 0 && ` · ${result.grounding.droppedCitations} unsupported citation(s) removed`}
       </p>
     </>
+  );
+}
+
+/** The answer to "where did this mark come from?", in four checkable steps. */
+function HowMarked({ result }: { result: GradeResult }) {
+  const q = result.grounding.quotes;
+  const rubric = result.rubric;
+  return (
+    <details className="group rounded-xl border border-line bg-panel px-5 py-4 text-sm">
+      <summary className="cursor-pointer list-none font-medium">
+        How this mark was made <span className="text-xs font-normal text-muted group-open:hidden">(rubric, evidence checks, accuracy)</span>
+      </summary>
+      <ol className="mt-3 space-y-3">
+        <li>
+          <p className="font-medium">1. The rubric: {rubric.title}</p>
+          <p className="text-muted">{rubric.source ?? "From the college rubric store."}</p>
+          {rubric.criteria && (
+            <table className="mt-2 w-full text-left text-xs">
+              <tbody className="divide-y divide-line">
+                {rubric.criteria.map((c) => (
+                  <tr key={c.id}>
+                    <td className="py-1 pr-2 font-mono text-muted">{c.id}</td>
+                    <td className="py-1 pr-2">{c.name}</td>
+                    <td className="py-1 pr-2 tabular-nums">{c.max}</td>
+                    <td className="py-1 text-muted">{c.descriptor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {rubric.deductions && rubric.deductions.length > 0 && <p className="mt-1 text-xs text-muted">Deductions: {rubric.deductions.join(" ")}</p>}
+        </li>
+        <li>
+          <p className="font-medium">2. Each criterion is marked on its own, with a quote from your answer</p>
+          <p className="text-muted">
+            {q
+              ? `${q.found} of ${q.checked} quotes were found word for word in your draft. A quote that can't be found is thrown out, and its mark is flagged for a human check.`
+              : "Every mark must point to a line in your draft."}{" "}
+            {result.relevance && "The grader first decides whether the draft answers this question at all; an answer to a different question scores 0."}
+          </p>
+        </li>
+        <li>
+          <p className="font-medium">3. The total is added up in code, not by the model</p>
+          <p className="text-muted">
+            Criterion marks are capped at their maximum, rounded to half marks and summed. The likely range comes from each criterion&apos;s low and high
+            marks, and the certainty from how wide that range is.
+          </p>
+        </li>
+        <li>
+          <p className="font-medium">4. Checked against the teacher&apos;s real marks</p>
+          <p className="text-muted">
+            {result.calibration
+              ? `${result.calibration.count} marked paper(s) so far: off by ${result.calibration.meanErrorPercent}% of the marks on average, ${result.calibration.withinTenPercent}% within one mark in ten. The teacher's corrections are fed into future grading.`
+              : "After valuation, the teacher enters the mark they gave. That measures accuracy and teaches the grader their standards. No papers have been entered yet, so no accuracy is claimed."}
+          </p>
+        </li>
+      </ol>
+    </details>
   );
 }
