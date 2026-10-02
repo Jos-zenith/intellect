@@ -1,0 +1,140 @@
+[
+  {
+    "id": "PYQ-25-IA1-A1", "year": 2025, "exam": "IA1", "unit": "U1", "topicId": "U1.T1", "marks": 2, "rubricId": "RUB-2M",
+    "question": "Differentiate UI design and UX design.",
+    "answerKey": "UI: the visual and interactive surface - layout, typography, colour, controls. UX: the overall experience of achieving a goal with the product, including flow, usefulness and satisfaction. Example: an attractive app with a 9-step checkout has good UI but poor UX."
+  },
+  {
+    "id": "PYQ-24-IA1-A2", "year": 2024, "exam": "IA1", "unit": "U1", "topicId": "U1.T3", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is divergent thinking?",
+    "answerKey": "Generating many varied options without judging them, to widen the solution space; followed by convergent thinking, which selects using criteria."
+  },
+  {
+    "id": "PYQ-25-IA1-A2", "year": 2025, "exam": "IA1", "unit": "U1", "topicId": "U1.T5", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is an empathy map? Name its quadrants.",
+    "answerKey": "A collaborative tool that captures what a user Says, Thinks, Does and Feels (often with Pains and Gains) to build shared understanding of the user."
+  },
+  {
+    "id": "PYQ-24-IA1-A3", "year": 2024, "exam": "IA1", "unit": "U1", "topicId": "U1.T4", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is gamestorming? Give one example.",
+    "answerKey": "Structured, game-like activities that help teams open, explore and close on ideas, e.g. Crazy 8s, dot voting, 2x2 impact/effort matrix."
+  },
+  {
+    "id": "PYQ-25-IA1-B2", "year": 2025, "exam": "IA1", "unit": "U1", "topicId": "U1.T2", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "The college canteen has long queues during the lunch break and students often reach their next class late. Apply the five stages of design thinking to propose a solution. Illustrate with a suitable diagram.",
+    "answerKey": "Empathize: observe the queue at 12:30, interview students and canteen staff, build an empathy map (Says 'no time to eat'; Thinks 'will I be marked late?'; Does orders for friends, skips meals; Feels anxious, rushed). Define: POV as a user need, e.g. 'A student with a 40-minute lunch break needs to get food quickly and predictably because arriving late to class costs attendance' - not a solution. Ideate: HMW questions; diverge (pre-order with pickup slots, express counter for snacks, staggered breaks, token display) then converge with stated criteria such as an impact/feasibility matrix. Prototype: low-fidelity paper prototype of pre-order and pickup-slot flow. Test: 5 students, tasks such as 'order lunch for 12:40 pickup', measure time-to-order and queue time, iterate. Diagram: the five stages as a non-linear loop showing iteration back from Test.",
+    "examinerNote": "Marks: scenario and users 1, diagram 2, stages explained 2, application of each stage to the canteen 3, justification and next iteration 2. Most students wrote textbook definitions of the five stages without applying them to the canteen (capped at about 4/10). Many wrote the Define stage as a solution ('the canteen needs an app') instead of a user need. Linear five-box diagrams lost the iteration mark."
+  },
+  {
+    "id": "PYQ-24-IA1-B1", "year": 2024, "exam": "IA1", "unit": "U1", "topicId": "U1.T4", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Differentiate brainstorming and gamestorming. Design a 45-minute gamestorming session for a team ideating features for a hostel complaint-tracking app.",
+    "answerKey": "Brainstorming: free idea generation with rules (defer judgement, quantity). Gamestorming: structured games across open/explore/close phases. Session: 5 min empathy map warm-up (open), 15 min Crazy 8s (explore), 10 min affinity clustering, 10 min dot voting and impact/effort 2x2 (close), 5 min next steps.",
+    "examinerNote": "Sessions without timings or without a closing activity lost 3 marks."
+  },
+  {
+    "id": "PYQ-23-END-B1", "year": 2023, "exam": "END", "unit": "U1", "topicId": "U1.T5", "marks": 13, "rubricId": "RUB-10M-APP",
+    "question": "Explain observational empathy. Describe how you would conduct an observation study for the college library's book-issue process.",
+    "examinerNote": "Answers needed what to observe, where, when, how to record (field notes, photos with consent) and how findings feed an empathy map."
+  },
+  {
+    "id": "PYQ-25-IA1-A3", "year": 2025, "exam": "IA1", "unit": "U2", "topicId": "U2.T3", "marks": 2, "rubricId": "RUB-2M",
+    "question": "State Fitts's law and give one design implication.",
+    "answerKey": "The time to acquire a target depends on its distance and size; make primary actions large and close to where the pointer or thumb already is."
+  },
+  {
+    "id": "PYQ-24-IA1-A1", "year": 2024, "exam": "IA1", "unit": "U2", "topicId": "U2.T5", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is a style guide?",
+    "answerKey": "A document defining a product's visual and verbal standards - colour roles, typography scale, spacing, components with states, icons and voice - to keep the UI consistent."
+  },
+  {
+    "id": "PYQ-25-IA1-A4", "year": 2025, "exam": "IA1", "unit": "U2", "topicId": "U2.T3", "marks": 2, "rubricId": "RUB-2M",
+    "question": "Define affordance with an example.",
+    "answerKey": "A property of an object that suggests how it can be used, e.g. a raised button suggests pressing; signifiers make affordances visible."
+  },
+  {
+    "id": "PYQ-25-IA1-B1", "year": 2025, "exam": "IA1", "unit": "U2", "topicId": "U2.T1", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Explain any five visual design principles with examples from a mobile banking app's home screen.",
+    "answerKey": "e.g. hierarchy (balance in largest type), contrast (single filled 'Transfer' button), proximity (account actions grouped), alignment (left-aligned card content on a grid), white space (separates balance from offers), Gestalt similarity (all transaction rows styled the same).",
+    "examinerNote": "Principles without a specific on-screen example earned half marks."
+  },
+  {
+    "id": "PYQ-24-IA1-B2", "year": 2024, "exam": "IA1", "unit": "U2", "topicId": "U2.T5", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Create a style guide for the college cultural fest website covering colour, typography, components and voice.",
+    "answerKey": "Colour palette with roles (primary, secondary, surface, error) and contrast check; type scale (e.g. 32/24/18/16/14 with weights); spacing on an 8 px grid; components with states (button default/hover/disabled, input default/focus/error, card); iconography style; voice and tone (energetic, inclusive) with sample microcopy.",
+    "examinerNote": "Colour lists without roles and components without states were the most common deductions."
+  },
+  {
+    "id": "PYQ-23-END-B2", "year": 2023, "exam": "END", "unit": "U2", "topicId": "U2.T3", "marks": 13, "rubricId": "RUB-10M-APP",
+    "question": "Explain interaction behaviours and principles - affordance, feedback, Fitts's law and Hick's law - with examples from an online exam portal."
+  },
+  {
+    "id": "PYQ-25-IA2-A1", "year": 2025, "exam": "IA2", "unit": "U3", "topicId": "U3.T1", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is the UX honeycomb?",
+    "answerKey": "Morville's model of seven facets of user experience: useful, usable, desirable, findable, accessible, credible, valuable."
+  },
+  {
+    "id": "PYQ-24-IA2-A1", "year": 2024, "exam": "IA2", "unit": "U3", "topicId": "U3.T5", "marks": 2, "rubricId": "RUB-2M",
+    "question": "Differentiate user goals and business goals.",
+    "answerKey": "User goals: what the user wants to achieve (e.g. pay fees quickly). Business goals: what the organisation wants (e.g. fewer support calls, on-time fee collection), usually tracked as KPIs."
+  },
+  {
+    "id": "PYQ-25-IA2-B1", "year": 2025, "exam": "IA2", "unit": "U3", "topicId": "U3.T3", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "The college plans a mobile app for faculty to mark attendance. Select suitable UX research methods, justify each choice, and explain how you would conduct them.",
+    "answerKey": "Contextual inquiry in classrooms (behavioural, reveals real constraints like poor network and time pressure); semi-structured interviews with 6-8 faculty (attitudinal, needs and frustrations); short survey to all faculty (quantitative, device and frequency); analysis of the current paper/ERP process (pain points). Present as method | why | what it reveals; plan participants, guide, recording, affinity mapping to synthesise.",
+    "examinerNote": "Lists of methods without justification were capped at 4/10. A method-why-reveals table earned the artefact marks."
+  },
+  {
+    "id": "PYQ-24-IA2-B1", "year": 2024, "exam": "IA2", "unit": "U3", "topicId": "U3.T2", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Explain the double diamond UX design process with a neat diagram and a worked example.",
+    "answerKey": "Discover (diverge: research), Define (converge: problem statement), Develop (diverge: ideas and prototypes), Deliver (converge: test and ship). Worked example applied to one product across all four phases.",
+    "examinerNote": "Diagrams without divergence/convergence marked lost 1 mark; examples that stopped after Define lost application marks."
+  },
+  {
+    "id": "PYQ-25-IA2-B2", "year": 2025, "exam": "IA2", "unit": "U3", "topicId": "U3.T5", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "With an example from a food-delivery app, explain how business goals can conflict with user goals and how a designer can resolve the conflict.",
+    "answerKey": "Conflict: business wants higher order value, pushes add-ons and hides delivery fee until checkout; user wants a fast, transparent order. Resolution: show total cost early, offer relevant add-ons once, measure both conversion and repeat orders / complaint rate.",
+    "examinerNote": "Answers that said 'balance both' without a concrete conflict and metric got no application marks."
+  },
+  {
+    "id": "PYQ-25-IA2-A2", "year": 2025, "exam": "IA2", "unit": "U4", "topicId": "U4.T1", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What are red routes?",
+    "answerKey": "The critical, frequently used paths users must complete in a product (e.g. paying fees); they are designed and tested first."
+  },
+  {
+    "id": "PYQ-24-IA2-A2", "year": 2024, "exam": "IA2", "unit": "U4", "topicId": "U4.T3", "marks": 2, "rubricId": "RUB-2M",
+    "question": "Differentiate a wireframe and a prototype.",
+    "answerKey": "A wireframe is a static low-fidelity layout showing structure and content priority; a prototype is interactive and simulates behaviour so it can be tested."
+  },
+  {
+    "id": "PYQ-23-IA2-A1", "year": 2023, "exam": "IA2", "unit": "U4", "topicId": "U4.T2", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is mobile-first responsive design?",
+    "answerKey": "Designing for the smallest screen first and progressively enhancing layout at larger breakpoints, which forces content prioritisation."
+  },
+  {
+    "id": "PYQ-25-IA2-B3", "year": 2025, "exam": "IA2", "unit": "U4", "topicId": "U4.T3", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Identify the red route of an online semester-exam registration portal and create wireframes and a wireflow for it.",
+    "answerKey": "Red route: log in -> select eligible subjects -> review fee -> pay -> download confirmation. Wireframes for 4 screens with content priority (eligible subjects with checkboxes, fee summary, pay CTA, confirmation with download). Wireflow arrows labelled with the triggering action (tap 'Continue', payment success, payment failure path).",
+    "examinerNote": "Unlabelled arrows and missing error paths (payment failure) were the most common deductions."
+  },
+  {
+    "id": "PYQ-24-IA2-B2", "year": 2024, "exam": "IA2", "unit": "U4", "topicId": "U4.T5", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Plan a usability test for the college library's mobile app: goals, participants, tasks, metrics and how you will analyse the findings."
+  },
+  {
+    "id": "PYQ-23-IA2-B1", "year": 2023, "exam": "IA2", "unit": "U4", "topicId": "U4.T6", "marks": 10, "rubricId": "RUB-10M-APP",
+    "question": "Conduct a heuristic evaluation of the college fee-payment page using any five of Nielsen's heuristics and suggest fixes."
+  },
+  {
+    "id": "PYQ-24-END-B1", "year": 2024, "exam": "END", "unit": "U4", "topicId": "U4.T4", "marks": 13, "rubricId": "RUB-10M-APP",
+    "question": "Explain the process of building a high-fidelity prototype from wireframes using a design tool, with components and interactions."
+  },
+  {
+    "id": "PYQ-25-END-B5", "year": 2025, "exam": "END", "unit": "U5", "topicId": "U5.T2", "marks": 13, "rubricId": "RUB-10M-APP",
+    "question": "Create a persona, two user stories and a scenario for a placement-preparation app for final-year students."
+  },
+  {
+    "id": "PYQ-24-END-A9", "year": 2024, "exam": "END", "unit": "U5", "topicId": "U5.T5", "marks": 2, "rubricId": "RUB-2M",
+    "question": "What is card sorting?",
+    "answerKey": "A research method where users group content items into categories (open or closed) to inform information architecture and navigation labels."
+  }
+]

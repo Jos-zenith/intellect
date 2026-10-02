@@ -1,0 +1,122 @@
+{
+  "college": "Loyola ICAM College of Engineering and Technology",
+  "department": "Computer Science and Engineering",
+  "code": "CCS370",
+  "title": "UI and UX Design",
+  "semester": 5,
+  "faculty": "Ms. Accelia",
+  "today": "2026-10-02",
+  "assessments": [
+    {
+      "id": "IA1",
+      "name": "Internal Assessment 1",
+      "date": "2026-09-08",
+      "units": ["U1", "U2"],
+      "total": 50,
+      "pattern": [
+        { "part": "A", "count": 5, "marks": 2, "rubricId": "RUB-2M", "note": "Answer all" },
+        { "part": "B", "count": 4, "marks": 10, "rubricId": "RUB-10M-APP", "note": "Either/or choice; at least two scenario-based application questions" }
+      ]
+    },
+    {
+      "id": "IA2",
+      "name": "Internal Assessment 2",
+      "date": "2026-10-23",
+      "units": ["U3", "U4"],
+      "total": 50,
+      "pattern": [
+        { "part": "A", "count": 5, "marks": 2, "rubricId": "RUB-2M", "note": "Answer all" },
+        { "part": "B", "count": 4, "marks": 10, "rubricId": "RUB-10M-APP", "note": "Either/or choice; at least two scenario-based application questions" }
+      ]
+    },
+    {
+      "id": "END",
+      "name": "End Semester Examination",
+      "date": "2026-12-04",
+      "units": ["U1", "U2", "U3", "U4", "U5"],
+      "total": 100,
+      "pattern": [
+        { "part": "A", "count": 10, "marks": 2, "rubricId": "RUB-2M", "note": "Two per unit" },
+        { "part": "B", "count": 5, "marks": 13, "rubricId": "RUB-10M-APP", "note": "One per unit, either/or" },
+        { "part": "C", "count": 1, "marks": 15, "rubricId": "RUB-10M-APP", "note": "Design case study" }
+      ]
+    }
+  ],
+  "gradeBands": [
+    { "min": 91, "grade": "O" },
+    { "min": 81, "grade": "A+" },
+    { "min": 71, "grade": "A" },
+    { "min": 61, "grade": "B+" },
+    { "min": 56, "grade": "B" },
+    { "min": 50, "grade": "C" },
+    { "min": 0, "grade": "RA (re-appear)" }
+  ],
+  "units": [
+    {
+      "id": "U1",
+      "title": "Foundations of Design",
+      "hours": 9,
+      "endSemMarks": 20,
+      "topics": [
+        { "id": "U1.T1", "name": "UI vs UX design" },
+        { "id": "U1.T2", "name": "Core stages of design thinking (empathize, define, ideate, prototype, test)" },
+        { "id": "U1.T3", "name": "Divergent and convergent thinking" },
+        { "id": "U1.T4", "name": "Brainstorming and gamestorming" },
+        { "id": "U1.T5", "name": "Observational empathy and empathy maps" }
+      ]
+    },
+    {
+      "id": "U2",
+      "title": "Foundations of UI Design",
+      "hours": 9,
+      "endSemMarks": 20,
+      "topics": [
+        { "id": "U2.T1", "name": "Visual and UI principles (hierarchy, contrast, alignment, proximity, Gestalt)" },
+        { "id": "U2.T2", "name": "UI elements and patterns" },
+        { "id": "U2.T3", "name": "Interaction behaviours and principles (affordance, feedback, Fitts's and Hick's law)" },
+        { "id": "U2.T4", "name": "Branding" },
+        { "id": "U2.T5", "name": "Style guides and design systems" }
+      ]
+    },
+    {
+      "id": "U3",
+      "title": "Foundations of UX Design",
+      "hours": 9,
+      "endSemMarks": 20,
+      "topics": [
+        { "id": "U3.T1", "name": "Introduction to user experience and why it matters (UX honeycomb)" },
+        { "id": "U3.T2", "name": "The UX design process and its methodology (double diamond)" },
+        { "id": "U3.T3", "name": "Research in UX design: tools and methods" },
+        { "id": "U3.T4", "name": "User needs and goals" },
+        { "id": "U3.T5", "name": "Business goals and aligning them with user goals" }
+      ]
+    },
+    {
+      "id": "U4",
+      "title": "Wireframing, Prototyping and Testing",
+      "hours": 9,
+      "endSemMarks": 20,
+      "topics": [
+        { "id": "U4.T1", "name": "Sketching principles and red routes" },
+        { "id": "U4.T2", "name": "Responsive design" },
+        { "id": "U4.T3", "name": "Wireframing and creating wireflows" },
+        { "id": "U4.T4", "name": "Building prototypes and high-fidelity mockups with tools" },
+        { "id": "U4.T5", "name": "Conducting usability tests" },
+        { "id": "U4.T6", "name": "Other evaluative research methods, synthesising findings and prototype iteration" }
+      ]
+    },
+    {
+      "id": "U5",
+      "title": "Research, Designing, Ideating and Information Architecture",
+      "hours": 9,
+      "endSemMarks": 20,
+      "topics": [
+        { "id": "U5.T1", "name": "Writing problem statements and choosing research methods" },
+        { "id": "U5.T2", "name": "Creating personas" },
+        { "id": "U5.T3", "name": "Solution ideation, user stories and scenarios" },
+        { "id": "U5.T4", "name": "Flow diagrams and flow mapping" },
+        { "id": "U5.T5", "name": "Information architecture" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+[
+  {
+    "id": "LES-0803",
+    "date": "2026-08-03",
+    "unit": "U1",
+    "topicIds": ["U1.T1"],
+    "title": "UI vs UX design",
+    "summary": "UI is the visual and interactive surface (layout, type, colour, controls); UX is the whole experience of reaching a goal with a product, before, during and after the screen. A product can have a polished UI and a poor UX. Roles: UI designer, UX researcher, interaction designer.",
+    "emphasis": "For the 2-mark difference question, give one line each plus one concrete example (e.g. a beautiful app whose checkout takes 9 taps). Definitions alone get 1 mark."
+  },
+  {
+    "id": "LES-0805",
+    "date": "2026-08-05",
+    "unit": "U1",
+    "topicIds": ["U1.T2"],
+    "title": "Core stages of design thinking",
+    "summary": "Empathize (understand users through observation and interviews), Define (frame the problem as a user need), Ideate (generate many solutions), Prototype (cheap, testable artefacts), Test (learn from users and iterate). The process is non-linear: testing loops back to define and ideate.",
+    "emphasis": "Draw the five stages as a loop with arrows going back - a straight line of five boxes loses the diagram mark for iteration."
+  },
+  {
+    "id": "LES-0807",
+    "date": "2026-08-07",
+    "unit": "U1",
+    "topicIds": ["U1.T3"],
+    "title": "Divergent and convergent thinking",
+    "summary": "Divergent thinking widens the option space (quantity, no judgement); convergent thinking narrows it using criteria (impact, feasibility, cost). The double-diamond shape alternates the two. Tools for converging: dot voting, impact/effort matrix.",
+    "emphasis": "In any ideation answer, show BOTH: list several ideas, then state the criteria you used to pick one. Picking an idea with no criteria loses the justification marks."
+  },
+  {
+    "id": "LES-0810",
+    "date": "2026-08-10",
+    "unit": "U1",
+    "topicIds": ["U1.T4"],
+    "title": "Brainstorming and gamestorming",
+    "summary": "Brainstorming rules: defer judgement, go for quantity, build on others' ideas, one conversation at a time. Gamestorming: structured games for opening, exploring and closing (e.g. Crazy 8s, empathy map game, dot voting, 2x2 matrix).",
+    "emphasis": "Name the specific game and say what phase it serves (open, explore, close)."
+  },
+  {
+    "id": "LES-0812",
+    "date": "2026-08-12",
+    "unit": "U1",
+    "topicIds": ["U1.T5"],
+    "title": "Observational empathy and empathy maps",
+    "summary": "Observe users in context without leading them: what they do, workarounds, pain points. Empathy map quadrants: Says, Thinks, Does, Feels, plus Pains and Gains. Observation reveals what users do, interviews reveal what they say - the gap is the insight.",
+    "emphasis": "An empathy map must be filled with scenario-specific entries in all four quadrants. An empty template diagram earns nothing."
+  },
+  {
+    "id": "LES-0814",
+    "date": "2026-08-14",
+    "unit": "U1",
+    "topicIds": ["U1.T2", "U1.T5"],
+    "title": "Workshop: design thinking on the campus canteen",
+    "summary": "Applied all five stages to the LICET canteen lunch rush. Observed the queue, built an empathy map, wrote a POV statement, ran HMW questions, sketched a paper prototype of a pre-order and pickup-slot flow, and planned a 5-student test. POV format: [user] needs [need] because [insight].",
+    "emphasis": "The Define stage must state a USER NEED, not a solution. 'The canteen needs an app' is a solution and gets 0 for Define. Answers that only define the five stages without applying them to the scenario are capped at about 4/10."
+  },
+  {
+    "id": "LES-0817",
+    "date": "2026-08-17",
+    "unit": "U1",
+    "topicIds": ["U1.T2", "U1.T3", "U1.T4", "U1.T5"],
+    "title": "Tutorial: writing Unit 1 application answers",
+    "summary": "Practised 10-mark answers: restate the scenario and users, draw the process, apply each stage with specific evidence, justify the chosen idea, end with how you would test and iterate.",
+    "emphasis": "Last batch lost an average of 3 marks per application question by writing textbook theory and never mentioning the scenario again."
+  },
+  {
+    "id": "LES-0819",
+    "date": "2026-08-19",
+    "unit": "U2",
+    "topicIds": ["U2.T1"],
+    "title": "Visual and UI principles",
+    "summary": "Visual hierarchy (size, weight, colour, position), contrast, alignment, proximity, repetition, white space, and the Gestalt principles (proximity, similarity, closure, continuity, figure-ground).",
+    "emphasis": "Each principle needs a named on-screen example ('the Pay button is the only filled button, so it leads the hierarchy'). Principles listed without examples get half marks."
+  },
+  {
+    "id": "LES-0821",
+    "date": "2026-08-21",
+    "unit": "U2",
+    "topicIds": ["U2.T2"],
+    "title": "UI elements and patterns",
+    "summary": "Input controls, navigational components (tab bar, hamburger, breadcrumbs), informational components (toasts, badges, progress), containers (cards, modals). Patterns as reusable solutions: onboarding, empty states, search with filters.",
+    "emphasis": "Say WHEN to use a pattern, not just what it is - e.g. tab bar for 3-5 top-level destinations on mobile."
+  },
+  {
+    "id": "LES-0824",
+    "date": "2026-08-24",
+    "unit": "U2",
+    "topicIds": ["U2.T3"],
+    "title": "Interaction behaviours and principles",
+    "summary": "Affordance and signifiers, feedback, consistency, constraints, mapping. Fitts's law: time to reach a target depends on distance and size - make primary targets big and close. Hick's law: decision time grows with the number of choices - reduce and group options.",
+    "emphasis": "State the law, then apply it to a screen. Fitts's law with no design consequence gets 1 of 2 marks."
+  },
+  {
+    "id": "LES-0826",
+    "date": "2026-08-26",
+    "unit": "U2",
+    "topicIds": ["U2.T4"],
+    "title": "Branding in UI",
+    "summary": "Brand attributes translated into colour, typography, imagery, iconography, voice and tone. Consistency across touchpoints builds recognition and trust.",
+    "emphasis": "Connect each visual choice to a brand attribute ('rounded type for a friendly fest brand')."
+  },
+  {
+    "id": "LES-0828",
+    "date": "2026-08-28",
+    "unit": "U2",
+    "topicIds": ["U2.T5"],
+    "title": "Style guides and design systems",
+    "summary": "A style guide documents colour palette with roles, type scale, spacing grid, components with states (default, hover, disabled, error), iconography, and voice. A design system adds coded components and usage rules.",
+    "emphasis": "Components must be shown with their states. A colour list without roles (primary, error, surface) loses marks."
+  },
+  {
+    "id": "LES-0831",
+    "date": "2026-08-31",
+    "unit": "U2",
+    "topicIds": ["U2.T1", "U2.T3"],
+    "title": "Critique session: the college fee-payment page",
+    "summary": "Critiqued the fee-payment page using visual principles and interaction laws: weak hierarchy, three equally loud buttons, tiny tap targets, no feedback after payment.",
+    "emphasis": "Critique format: observation -> principle violated -> impact on the user -> fix. Use this four-part structure in the exam."
+  },
+  {
+    "id": "LES-0902",
+    "date": "2026-09-02",
+    "unit": "U2",
+    "topicIds": ["U1.T2", "U2.T1", "U2.T5"],
+    "title": "IA1 revision and marking scheme",
+    "summary": "Shared the IA1 marking scheme for 10-mark application questions: scenario and users 1, diagram or visual artefact 2, concepts named and explained 2, application to the scenario 3, justification and next step 2.",
+    "emphasis": "The application criterion (3 marks) is where most marks are lost. Every concept you name must be tied to the given scenario."
+  },
+  {
+    "id": "LES-0909",
+    "date": "2026-09-09",
+    "unit": "U3",
+    "topicIds": ["U3.T1"],
+    "title": "Introduction to UX; the UX honeycomb",
+    "summary": "Why UX matters: adoption, retention, support cost, accessibility. Morville's UX honeycomb: useful, usable, desirable, findable, accessible, credible, valuable.",
+    "emphasis": "The honeycomb is a sure 2-mark question. For 10 marks, evaluate a real product against all seven facets."
+  },
+  {
+    "id": "LES-0911",
+    "date": "2026-09-11",
+    "unit": "U3",
+    "topicIds": ["U3.T2"],
+    "title": "The UX design process: double diamond",
+    "summary": "Discover (research), Define (synthesise into a problem), Develop (ideate and prototype), Deliver (test, refine, ship). Each diamond diverges then converges. Mapped to design thinking stages.",
+    "emphasis": "Draw both diamonds with labels on all four phases and mark where divergence and convergence happen."
+  },
+  {
+    "id": "LES-0914",
+    "date": "2026-09-14",
+    "unit": "U3",
+    "topicIds": ["U3.T3"],
+    "title": "UX research methods and tools",
+    "summary": "Qualitative vs quantitative; attitudinal vs behavioural. Interviews, surveys, contextual inquiry, diary studies, analytics, competitive analysis. Tools: interview guides, screeners, affinity mapping, survey forms.",
+    "emphasis": "Most likely IA2 10-marker: pick methods for a given product AND justify each choice by what it reveals. A list of methods without justification gets at most 4/10."
+  },
+  {
+    "id": "LES-0916",
+    "date": "2026-09-16",
+    "unit": "U3",
+    "topicIds": ["U3.T4"],
+    "title": "User needs and goals",
+    "summary": "Needs vs wants; goals at three levels (experience, end, life goals). Jobs to be done: 'When [situation], I want to [motivation], so I can [outcome]'.",
+    "emphasis": "Write at least one goal in the JTBD format for the given user."
+  },
+  {
+    "id": "LES-0918",
+    "date": "2026-09-18",
+    "unit": "U3",
+    "topicIds": ["U3.T5"],
+    "title": "Business goals and user goals",
+    "summary": "Business goals (revenue, retention, cost reduction) expressed as KPIs. Conflicts with user goals (dark patterns, forced sign-up). Resolution: find overlap, measure both, choose designs that serve the user and the metric.",
+    "emphasis": "Give one concrete conflict and one concrete resolution with a metric. Generic 'balance both' gets no application marks."
+  },
+  {
+    "id": "LES-0921",
+    "date": "2026-09-21",
+    "unit": "U3",
+    "topicIds": ["U3.T3", "U3.T4", "U3.T5"],
+    "title": "Case study: a food-delivery app",
+    "summary": "Walked through research planning for a food-delivery app: interviews with hostel students, analytics on cart abandonment, survey on delivery-time expectations; mapped user goals against the business goal of order frequency.",
+    "emphasis": "Use a table in the exam: method | why | what it reveals. Tables earn the visual artefact marks for research questions."
+  },
+  {
+    "id": "LES-0925",
+    "date": "2026-09-25",
+    "unit": "U4",
+    "topicIds": ["U4.T1"],
+    "title": "Sketching principles and red routes",
+    "summary": "Sketch fast and rough; quantity over polish; annotate. Red routes: the critical, frequent paths users must complete (e.g. pay fees, download hall ticket) - design and test these first.",
+    "emphasis": "Identify the red route of the given product before sketching anything."
+  },
+  {
+    "id": "LES-0928",
+    "date": "2026-09-28",
+    "unit": "U4",
+    "topicIds": ["U4.T2"],
+    "title": "Responsive design",
+    "summary": "Fluid grids, flexible images, breakpoints, mobile-first. Content priority changes across sizes; navigation collapses; touch targets of at least 44-48 px.",
+    "emphasis": "Show the same screen at two breakpoints and say what moves, hides or stacks."
+  },
+  {
+    "id": "LES-0930",
+    "date": "2026-09-30",
+    "unit": "U4",
+    "topicIds": ["U4.T3"],
+    "title": "Wireframing and wireflows",
+    "summary": "Low-fidelity wireframes show structure and content priority, not visual style. Wireflows combine wireframes with arrows showing the interaction that moves the user between screens.",
+    "emphasis": "Classic IA2 10-marker: wireframe 3-4 screens of a red route and connect them with labelled arrows. Unlabelled arrows lose the flow marks."
+  },
+  {
+    "id": "LES-1001",
+    "date": "2026-10-01",
+    "unit": "U4",
+    "topicIds": ["U4.T4"],
+    "title": "Lab: high-fidelity prototyping in Figma",
+    "summary": "Built a clickable high-fidelity prototype in Figma using components, auto layout and prototype links.",
+    "emphasis": "Figma prototyping is assessed in the lab record only - it will NOT be asked in the IA2 written paper.",
+    "excludeFrom": ["IA2"]
+  }
+]

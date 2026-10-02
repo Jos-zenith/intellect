@@ -1,0 +1,72 @@
+[
+  {
+    "id": "POLICY-IA",
+    "unit": null,
+    "topicIds": [],
+    "title": "LICET internal assessment marking policy (CSE dept.)",
+    "text": "Internal assessments are valued within 7 days and returned with marks per question. For application questions, concept marks are awarded when a framework or principle is named and explained correctly; application marks are awarded only when it is applied to the given scenario with specific evidence. Diagrams and design artefacts must be labelled and contain scenario-specific content. A question answered with only headings or keywords earns at most 30 % of its marks. Valid alternative approaches are accepted when they are justified."
+  },
+  {
+    "id": "NOTE-U1-dt",
+    "unit": "U1",
+    "topicIds": ["U1.T2", "U1.T3", "U1.T5"],
+    "title": "Faculty note: answering design thinking application questions",
+    "text": "1. Restate the scenario and name the users. 2. Draw the five stages as a loop with arrows back from Test. 3. Empathize: say how you will observe and whom you will interview, and fill an empathy map with scenario-specific entries. 4. Define: one POV statement - [user] needs [need] because [insight]. 5. Ideate: at least four ideas (diverge), then pick one with stated criteria (converge). 6. Prototype: what fidelity and which flow. 7. Test: participants, tasks, metric, and what you would iterate."
+  },
+  {
+    "id": "NOTE-U1-pov",
+    "unit": "U1",
+    "topicIds": ["U1.T2", "U5.T1"],
+    "title": "Faculty note: problem statements are needs, not solutions",
+    "text": "A problem statement describes the user's need and the insight behind it. 'The canteen needs an app' or 'build a pre-order system' are solutions and score zero for Define. Good: 'A student with a 40-minute lunch break needs to get food predictably because arriving late to class costs attendance.' Then turn it into How Might We questions."
+  },
+  {
+    "id": "NOTE-U2-principles",
+    "unit": "U2",
+    "topicIds": ["U2.T1", "U2.T2"],
+    "title": "Faculty note: visual principles with examples",
+    "text": "For every principle: name it, define it in one line, point to one element on the given screen, and say what the user gains. Hierarchy, contrast, alignment, proximity, repetition, white space, and Gestalt (proximity, similarity, closure, continuity, figure-ground)."
+  },
+  {
+    "id": "NOTE-U2-interaction",
+    "unit": "U2",
+    "topicIds": ["U2.T3", "U2.T5"],
+    "title": "Faculty note: interaction laws and critique format",
+    "text": "Fitts's law: bigger, closer targets are faster - primary actions large and in the thumb zone. Hick's law: more choices, slower decisions - reduce, group, use progressive disclosure. Feedback: every action gets a visible response. Critique format: observation -> principle violated -> impact on the user -> fix."
+  },
+  {
+    "id": "NOTE-U3-research",
+    "unit": "U3",
+    "topicIds": ["U3.T2", "U3.T3"],
+    "title": "Faculty note: choosing research methods",
+    "text": "Choose by question: what people DO (behavioural - contextual inquiry, analytics, usability tests) vs what they SAY (attitudinal - interviews, surveys); WHY (qualitative) vs HOW MANY (quantitative). Present as a table: method | why this method | what it reveals | participants. Synthesise with affinity mapping."
+  },
+  {
+    "id": "NOTE-U3-goals",
+    "unit": "U3",
+    "topicIds": ["U3.T4", "U3.T5"],
+    "title": "Faculty note: user goals vs business goals",
+    "text": "Write user goals as jobs to be done: 'When [situation], I want to [motivation], so I can [outcome]'. Write business goals as KPIs (conversion, retention, support tickets). For conflicts, give the concrete conflict, the design that resolves it, and the metric that proves both sides win."
+  },
+  {
+    "id": "NOTE-U4-wireframe",
+    "unit": "U4",
+    "topicIds": ["U4.T1", "U4.T2", "U4.T3"],
+    "title": "Faculty note: wireframes and wireflows",
+    "text": "Start from the red route. Wireframe each screen with real content priority (no lorem ipsum for key labels). In a wireflow, label every arrow with the user action or system event, and include at least one error path. For responsive questions, show the same screen at mobile and desktop and say what stacks, hides or moves."
+  },
+  {
+    "id": "NOTE-U4-testing",
+    "unit": "U4",
+    "topicIds": ["U4.T5", "U4.T6"],
+    "title": "Faculty note: usability testing (to be taught)",
+    "text": "Plan: goal, 5 representative participants, 3-5 realistic tasks on the red route, think-aloud, metrics (task success, time on task, errors, SUS score), synthesis by severity, and the change you will make in the next iteration. Heuristic evaluation uses Nielsen's 10 heuristics with severity ratings."
+  },
+  {
+    "id": "NOTE-U5-persona",
+    "unit": "U5",
+    "topicIds": ["U5.T2", "U5.T3", "U5.T4", "U5.T5"],
+    "title": "Faculty note: personas, stories and IA (to be taught)",
+    "text": "Persona: name, context, goals, frustrations, behaviours, a quote - grounded in research, not demographics alone. User story: 'As a [user], I want [action] so that [benefit]'. Flow diagrams show decisions and paths; information architecture is tested with card sorting and tree testing."
+  }
+]

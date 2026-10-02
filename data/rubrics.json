@@ -1,0 +1,45 @@
+[
+  {
+    "id": "RUB-2M",
+    "title": "Part A short answer (2 marks)",
+    "appliesTo": "Definitions, differences, laws, short examples",
+    "criteria": [
+      { "id": "C1", "name": "Core statement", "max": 1, "descriptor": "Definition, difference or principle is correct and complete." },
+      { "id": "C2", "name": "Supporting detail", "max": 1, "descriptor": "A concrete example from a real or given interface, or a labelled sketch." }
+    ],
+    "deductions": [
+      "Half mark off for a definition with no example where one is asked.",
+      "No marks for an unlabelled sketch."
+    ]
+  },
+  {
+    "id": "RUB-10M-APP",
+    "title": "Part B application / case question (10 marks; scaled for 13 and 15 marks)",
+    "appliesTo": "Scenario-based design questions, critiques, research plans, wireframing, process explanations",
+    "criteria": [
+      { "id": "C1", "name": "Scenario and users", "max": 1, "descriptor": "Restates the given scenario, names the users and their context or constraints." },
+      { "id": "C2", "name": "Diagram or artefact", "max": 2, "descriptor": "A labelled diagram or design artefact that fits the question: process loop, empathy map, wireframe, wireflow, research table, style tiles. Must contain scenario-specific content." },
+      { "id": "C3", "name": "Concepts and method", "max": 2, "descriptor": "The right framework, principles or methods are named and correctly explained." },
+      { "id": "C4", "name": "Application to the scenario", "max": 3, "descriptor": "Each concept is applied concretely to the given scenario with specific evidence, not restated as theory." },
+      { "id": "C5", "name": "Justification and outcome", "max": 2, "descriptor": "Decisions are justified with criteria; the answer ends with how the design will be tested, measured or iterated." }
+    ],
+    "deductions": [
+      "Generic theory never applied to the scenario: application marks capped at 1.",
+      "A problem statement written as a solution: no marks for that step.",
+      "Diagram present but with no scenario-specific content: at most half the diagram marks."
+    ]
+  },
+  {
+    "id": "RUB-PROJECT",
+    "title": "Design project / case-study report (10 marks)",
+    "appliesTo": "Course projects, e.g. 'redesign a campus service and test it with five students'",
+    "criteria": [
+      { "id": "C1", "name": "Problem framing", "max": 2, "descriptor": "Real users and context identified; problem stated as a user need with evidence." },
+      { "id": "C2", "name": "Research evidence", "max": 2, "descriptor": "Appropriate methods used; findings synthesised (affinity map, personas, journey)." },
+      { "id": "C3", "name": "Design rationale", "max": 2, "descriptor": "Design decisions traced to research findings and UI/UX principles." },
+      { "id": "C4", "name": "Prototype and usability evidence", "max": 3, "descriptor": "Prototype matches the red route; usability test run with tasks, metrics and findings; at least one iteration shown." },
+      { "id": "C5", "name": "Reflection", "max": 1, "descriptor": "Limitations, accessibility considerations, what would change next." }
+    ],
+    "deductions": ["Screens copied from existing apps without attribution: maximum 6/10."]
+  }
+]
